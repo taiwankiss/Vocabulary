@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // 提早套用已儲存的主題，避免翻轉/換頁時畫面閃一下
+        (function () {
+            try {
+                var t = localStorage.getItem('srs_theme');
+                if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="apple-touch-icon" href="https://weilee01.com/wp-content/uploads/2026/08/icon.png">
+    <link rel="icon" href="https://weilee01.com/wp-content/uploads/2026/08/icon.png" type="image/png">
+    <meta name="apple-mobile-web-app-title" content="單字測驗">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRS 單字學習卡 (Cloud Sync)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f4f5f7;
+            --text-dark: #1e293b; 
+            --text-light: #f8fafc;
+            --card-front-bg: #ffffff;
+            --card-back-bg: #1e293b;
+            
+            --color-again: #ff4d4f;
+            --color-hard: #faad14;
+            --color-good: #52c41a;
+            --color-easy: #1890ff;
+            --progress-bg: #e2e8f0;
+            --progress-fill: #6366f1;
+
+            --card-shadow: rgba(0,0,0,0.08);
+            --message-bg: #ffffff;
+            --stat-box-bg: #f8fafc;
+            --muted-text: #64748b;
+            --muted-text-2: #94a3b8;
+            --icon-bg: #ffffff;
+            --icon-border: #e2e8f0;
+            --icon-color: #64748b;
+            --icon-hover-bg: #f1f5f9;
+            --kbd-bg: #f1f5f9;
+            --kbd-border: #cbd5e1;
+            --outline-hover-bg: #e0e7ff;
+
+            --title-color: #0f172a;
+            --title-stroke: transparent;
+            --title-shadow: none;
+        }
+
+        /* 跟隨系統設定（尚未手動選擇時） */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-body: #0f172a;
+                --text-dark: #e2e8f0;
+                --card-front-bg: #1e293b;
+                --progress-bg: #334155;
+                --card-shadow: rgba(0,0,0,0.5);
+                --message-bg: #1e293b;
+                --stat-box-bg: #0f172a;
+                --muted-text: #94a3b8;
+                --muted-text-2: #94a3b8;
+                --icon-bg: #1e293b;
+                --icon-border: #334155;
+                --icon-color: #94a3b8;
+                --icon-hover-bg: #334155;
+                --kbd-bg: #334155;
+                --kbd-border: #475569;
+                --outline-hover-bg: #312e81;
+
+                --title-color: #ffffff;
+                --title-stroke: rgba(0,0,0,0.55);
+                --title-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.6);
+            }
+        }
+
+        /* 手動切換（蓋過系統設定） */
+        :root[data-theme="dark"] {
+            --bg-body: #0f172a;
+            --text-dark: #e2e8f0;
+            --card-front-bg: #1e293b;
+            --progress-bg: #334155;
+            --card-shadow: rgba(0,0,0,0.5);
+            --message-bg: #1e293b;
+            --stat-box-bg: #0f172a;
+            --muted-text: #94a3b8;
+            --muted-text-2: #94a3b8;
+            --icon-bg: #1e293b;
+            --icon-border: #334155;
+            --icon-color: #94a3b8;
+            --icon-hover-bg: #334155;
+            --kbd-bg: #334155;
+            --kbd-border: #475569;
+            --outline-hover-bg: #312e81;
+
+            --title-color: #ffffff;
+            --title-stroke: rgba(0,0,0,0.55);
+            --title-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.6);
+        }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        body { margin: 0; background: var(--bg-body); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: var(--text-dark); overflow: hidden; transition: background 0.2s, color 0.2s; }
+        
+        #app-container {
+            width: 100%; max-width: 600px; height: 100vh; max-height: 900px;
+            display: flex; flex-direction: column; padding: 20px;
+        }
+
+        /* App title：淺色模式用深色模式的背景色、無陰影；深色模式維持白字加描邊 */
+        .app-title {
+            font-family: 'Gravitas One', serif; font-weight: 400; color: var(--title-color); text-align: center;
+            font-size: 26px; letter-spacing: 1px; margin: 0 0 16px;
+            -webkit-text-stroke: 1px var(--title-stroke);
+            text-shadow: var(--title-shadow);
+            paint-order: stroke fill;
+        }
+
+        /* Header */
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 14px; font-weight: 500; gap: 8px; }
+        .stat-counts { display: flex; align-items: center; flex-wrap: nowrap; white-space: nowrap; }
+        .stat-counts span { margin: 0 4px; font-weight: 600; }
+        .stat-again { color: var(--color-again); }
+        .stat-hard { color: var(--color-hard); }
+        .stat-good { color: var(--color-good); }
+        .stat-easy { color: var(--color-easy); }
+
+        /* Bottom progress (moved out of header, below the card) */
+        .bottom-progress { display: flex; justify-content: center; margin-top: 16px; flex-shrink: 0; }
+        .round-progress-row { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 340px; }
+        #round-progress-text { font-size: 14px; font-weight: 700; color: var(--text-dark); flex-shrink: 0; white-space: nowrap; }
+        .round-progress-row .progress-bar { flex-grow: 1; height: 6px; background: var(--progress-bg); border-radius: 3px; overflow: hidden; position: relative; }
+        .round-progress-row .progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--progress-fill); transition: width 0.3s; }
+
+        .info-btn-wrap { position: relative; flex-shrink: 0; }
+        .info-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--icon-border); background: var(--icon-bg); color: var(--icon-color); font-size: 12px; font-weight: 700; font-style: italic; font-family: Georgia, 'Times New Roman', serif; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+        .info-btn:hover { background: var(--icon-hover-bg); color: var(--text-dark); }
+        .total-progress-popover { position: absolute; bottom: 30px; right: 0; background: var(--card-front-bg); border: 1px solid var(--icon-border); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--muted-text); white-space: nowrap; box-shadow: 0 6px 16px var(--card-shadow); z-index: 10; }
+
+        .header-actions { display: flex; position: relative; flex-shrink: 0; }
+        .icon-btn { cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border: 1px solid var(--icon-border); border-radius: 50%; width: 32px; height: 32px; color: var(--icon-color); transition: 0.2s; position: relative; }
+        .icon-btn:hover { background: var(--icon-hover-bg); color: var(--text-dark); }
+        .icon-btn svg { width: 16px; height: 16px; }
+
+        /* Hamburger dropdown menu */
+        .dropdown-menu { position: absolute; top: 40px; right: 0; background: var(--card-front-bg); border: 1px solid var(--icon-border); border-radius: 12px; box-shadow: 0 10px 30px var(--card-shadow); padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 200px; z-index: 30; }
+        .dropdown-menu.hidden { display: none; }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: none; background: transparent; color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; text-align: left; width: 100%; }
+        .dropdown-item:hover { background: var(--icon-hover-bg); }
+        .dropdown-item svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--icon-color); }
+        .dropdown-item .item-status { margin-left: auto; font-size: 12px; color: var(--muted-text-2); }
+
+        /* Main View State toggles */
+        .view-section { display: none; flex-grow: 1; position: relative; }
+        .view-section.active { display: flex; flex-direction: column; }
+
+        /* Card Area */
+        #card-container { flex-grow: 1; position: relative; perspective: 1000px; width: 100%; }
+        
+        .card {
+            border-radius: 20px; box-shadow: 0 10px 30px var(--card-shadow);
+            display: flex; flex-direction: column; position: absolute; 
+            top: 0; left: 0; right: 0; 
+            min-height: 350px; max-height: calc(100vh - 100px);
+            backface-visibility: hidden; transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .card-front {
+            background: var(--card-front-bg); align-items: center; justify-content: center; z-index: 2;
+            cursor: pointer;
+        }
+        .card-front.flipped { transform: rotateY(180deg); pointer-events: none; z-index: 0; }
+        
+        .card-back {
+            background: var(--card-back-bg); color: var(--text-light); transform: rotateY(-180deg);
+            z-index: 1; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .card-back.flipped { transform: rotateY(0deg); z-index: 3; }
+
+        /* Front specific */
+        .front-word-group { display: flex; align-items: center; gap: 16px; font-size: 48px; font-weight: bold; }
+        .speaker-icon { width: 28px; height: 28px; color: #6366f1; cursor: pointer; }
+        .speaker-icon:hover { opacity: 0.8; }
+        .front-hint { position: absolute; bottom: 30px; font-size: 14px; color: var(--muted-text-2); display: flex; align-items: center; gap: 8px; }
+        .front-hint kbd { background: var(--kbd-bg); border: 1px solid var(--kbd-border); padding: 2px 6px; border-radius: 4px; font-family: inherit; font-size: 12px; }
+
+        /* Back specific */
+        .card-image { width: 100%; height: 160px; background-size: cover; background-position: center; border-radius: 20px 20px 0 0; background-color: #334155; flex-shrink: 0; }
+        .card-content { padding: 16px 20px; flex-grow: 1; overflow-y: auto; font-size: 15px; line-height: 1.5; }
+        .back-translation { font-weight: bold; margin-bottom: 8px; font-size: 17px; }
+        .back-forms, .back-collocations { color: var(--muted-text-2); margin-bottom: 8px; }
+        .back-example-box { background: #0f172a; padding: 12px 16px; border-radius: 12px; margin-top: 12px; display: flex; gap: 12px; }
+        .back-example-box .speaker-icon { flex-shrink: 0; margin-top: 2px; color: #818cf8; width: 20px; height: 20px; }
+        
+        /* SRS Buttons */
+        .srs-buttons { display: flex; gap: 8px; padding: 12px 16px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; border-radius: 0 0 20px 20px;}
+        .btn-srs { flex: 1; padding: 12px 0; border: none; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; background: #334155; color: #f8fafc; transition: 0.2s; }
+        .btn-srs:hover { filter: brightness(1.2); }
+        .btn-again { color: var(--color-again); }
+        .btn-hard { color: var(--color-hard); }
+        .btn-good { color: var(--color-good); }
+        .btn-easy { color: var(--color-easy); }
+        
+        /* Empty / End state */
+        .message-state { align-items: center; justify-content: center; height: 100%; background: var(--message-bg); border-radius: 20px; text-align: center; padding: 40px; box-shadow: 0 10px 30px var(--card-shadow); flex-direction: column; }
+        .message-state h2 { margin-bottom: 8px; color: var(--text-dark); }
+        .message-state p { color: var(--muted-text); margin-bottom: 24px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; width: 100%; max-width: 300px; }
+        .stat-box { padding: 16px; border-radius: 12px; background: var(--stat-box-bg); font-size: 24px; font-weight: bold; }
+        .stat-box span { display: block; font-size: 14px; font-weight: normal; margin-top: 4px; color: var(--muted-text); }
+        .stat-box.again-bg { color: var(--color-again); border: 1px solid #ffccc7; }
+        .stat-box.hard-bg { color: var(--color-hard); border: 1px solid #ffe58f; }
+        .stat-box.good-bg { color: var(--color-good); border: 1px solid #b7eb8f; }
+        .stat-box.easy-bg { color: var(--color-easy); border: 1px solid #91caff; }
+
+        .btn-primary { background: #6366f1; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 8px; transition: 0.2s; width: 200px;}
+        .btn-primary:hover { background: #4f46e5; }
+        .btn-outline { background: transparent; color: #6366f1; border: 2px solid #6366f1; padding: 10px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 8px; transition: 0.2s; width: 200px;}
+        .btn-outline:hover { background: var(--outline-hover-bg); }
+        
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            .btn-srs { font-size: 13px; padding: 10px 0; }
+            .front-word-group { font-size: 36px; }
+            .card-image { height: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <h1 class="app-title">Wei's Vocabulary</h1>
+        <!-- Header -->
+        <header>
+            <div class="stat-counts">
+                <span class="stat-again" id="stat-again">0</span>
+                <span class="stat-hard" id="stat-hard">0</span>
+                <span class="stat-good" id="stat-good">0</span>
+                <span class="stat-easy" id="stat-easy">0</span>
+            </div>
+            <div class="header-actions">
+                <div class="icon-btn" id="btn-menu" title="選單">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </div>
+                <div class="dropdown-menu hidden" id="dropdown-menu">
+                    <button class="dropdown-item" id="btn-cloud" title="雲端同步">
+                        <svg id="icon-cloud-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                        <svg id="icon-cloud-on" class="hidden" viewBox="0 0 24 24" fill="none" stroke="#52c41a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="9 15 11 17 15 11"/></svg>
+                        <span>雲端同步</span>
+                    </button>
+                    <button class="dropdown-item" id="btn-shuffle" title="打亂剩下卡片的順序">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                        <span>打亂順序</span>
+                    </button>
+                    <button class="dropdown-item" id="btn-upload" title="匯入 CSV">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>匯入 CSV</span>
+                    </button>
+                    <button class="dropdown-item" id="btn-info" title="使用說明">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span>使用說明</span>
+                    </button>
+                    <button class="dropdown-item" id="btn-theme" title="切換深色/淺色模式">
+                        <svg id="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg id="icon-theme-light" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <span>深色/淺色模式</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- View: Main Card -->
+        <div id="view-card" class="view-section">
+            <div id="card-container">
+                <!-- Front -->
+                <div class="card card-front" id="card-front">
+                    <div class="front-word-group">
+                        <span id="front-word"></span>
+                        <div class="speaker-icon" id="btn-speak-front">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        </div>
+                    </div>
+                    <div class="front-hint">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        點擊卡片 或按 <kbd>SPACE</kbd> 顯示答案
+                    </div>
+                </div>
+                <!-- Back -->
+                <div class="card card-back" id="card-back">
+                    <div class="card-image" id="back-image"></div>
+                    <div class="card-content">
+                        <div class="back-translation" id="back-translation"></div>
+                        <div class="back-forms" id="back-forms"></div>
+                        <div class="back-collocations" id="back-collocations"></div>
+                        <div class="back-example-box" id="back-example-box">
+                            <div class="speaker-icon" id="btn-speak-back">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            </div>
+                            <div id="back-example-text"></div>
+                        </div>
+                    </div>
+                    <div class="srs-buttons">
+                        <button class="btn-srs btn-again" data-action="again">Again</button>
+                        <button class="btn-srs btn-hard" data-action="hard">Hard</button>
+                        <button class="btn-srs btn-good" data-action="good">Good</button>
+                        <button class="btn-srs btn-easy" data-action="easy">Easy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-progress">
+                <div class="round-progress-row">
+                    <span id="round-progress-text">0 / 20</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="round-progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="info-btn-wrap">
+                        <button class="info-btn" id="btn-total-info" title="顯示總進度">i</button>
+                        <div class="total-progress-popover hidden" id="header-progress-text">總進度 0 / 0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: End / Empty State -->
+        <div id="view-message" class="view-section message-state">
+            <h2 id="msg-title">準備開始學習！</h2>
+            <p id="msg-desc">請匯入單字卡 CSV 檔案</p>
+            
+            <div id="msg-stats" class="stats-grid hidden">
+                <div class="stat-box again-bg" id="end-stat-again">0 <span>Again</span></div>
+                <div class="stat-box hard-bg" id="end-stat-hard">0 <span>Hard</span></div>
+                <div class="stat-box good-bg" id="end-stat-good">0 <span>Good</span></div>
+                <div class="stat-box easy-bg" id="end-stat-easy">0 <span>Easy</span></div>
+            </div>
+            
+            <button class="btn-primary hidden" id="btn-restart">重新開始 (隨機打亂)</button>
+            <button class="btn-outline" id="btn-import-large">匯入新檔</button>
+        </div>
+        
+        <input type="file" id="csv-upload" accept=".csv" style="display: none;">
+    </div>
+
+    <!-- Firebase JS SDKs (ES Modules) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUoksOXY-M4WTxMTj61lYfTlVpwXyGhLY",
+            authDomain: "toeicflashcards.firebaseapp.com",
+            projectId: "toeicflashcards",
+            storageBucket: "toeicflashcards.firebasestorage.app",
+            messagingSenderId: "848429691433",
+            appId: "1:848429691433:web:8fefa788bf54fb990de238"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        let syncId = localStorage.getItem('srs_sync_id') || null;
+
+        /* === State & IndexedDB (Local Fallback) === */
+        const DB_NAME = "FlashcardDB";
+        const DB_VERSION = 1;
+        const STORE_NAME = "srs_state";
+
+        // 一輪最多累積幾個「非 easy」單字才會暫停引入新單字，只重複練習這些字
+        const ROUND_CAP = 20;
+        // 保留在 queue 最前面待學的新單字緩衝數量（讓卡片圖片可以預先載入）
+        const PRELOAD_BUFFER = 5;
+
+        let appState = {
+            cards: [],
+            queue: [],      // 目前正在輪替的卡片 id（新字 + 需要重複練習的字混在一起）
+            pending: [],    // 尚未被引入 queue 的卡片 id
+            reviewIds: [],  // 目前「累積中」的非 easy 單字 id（本輪還沒被標記 easy 的字）
+            roundLocked: false, // reviewIds 累積滿 ROUND_CAP 後鎖住，暫停引入新字，直到全部變 easy
+            stats: { again: 0, hard: 0, good: 0, easy: 0 },
+            totalImported: 0,
+            side: 'front' // 'front' or 'back'
+        };
+
+        // 舊版存檔可能沒有這些欄位，做相容性修補
+        function migrateBatchState(state) {
+            if (!state) return state;
+            if (!Array.isArray(state.pending)) state.pending = [];
+            if (!Array.isArray(state.reviewIds)) state.reviewIds = [];
+            if (typeof state.roundLocked !== 'boolean') state.roundLocked = state.reviewIds.length >= ROUND_CAP;
+            return state;
+        }
+
+        // 只要沒鎖住、pending 還有字，就把新字補進 queue（維持一點預讀緩衝）
+        function topUpQueue() {
+            if (appState.roundLocked) return;
+            while (appState.queue.length < PRELOAD_BUFFER && appState.pending.length > 0) {
+                appState.queue.push(appState.pending.shift());
+            }
+        }
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function saveStateLocal(state) {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, "readwrite");
+                tx.objectStore(STORE_NAME).put(state, "appState");
+                return new Promise(r => tx.oncomplete = r);
+            } catch (e) {
+                localStorage.setItem('srs_state', JSON.stringify(state));
+            }
+        }
+
+        async function loadStateLocal() {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, "readonly");
+                const req = tx.objectStore(STORE_NAME).get("appState");
+                return new Promise(resolve => {
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => resolve(null);
+                });
+            } catch (e) {
+                const data = localStorage.getItem('srs_state');
+                return data ? JSON.parse(data) : null;
+            }
+        }
+
+        /* === Utilities === */
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        /* === Cloud Sync Logic === */
+        async function saveToCloud() {
+            if (!syncId) return;
+            try {
+                await setDoc(doc(db, "flashcards_sync", syncId), {
+                    queue: appState.queue,
+                    pending: appState.pending,
+                    reviewIds: appState.reviewIds,
+                    roundLocked: appState.roundLocked,
+                    stats: appState.stats,
+                    totalImported: appState.totalImported,
+                    updatedAt: Date.now()
+                });
+            } catch(e) {
+                console.error("Cloud save failed", e);
+            }
+        }
+
+        async function loadFromCloud(id) {
+            try {
+                const docSnap = await getDoc(doc(db, "flashcards_sync", id));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    appState.queue = data.queue || [];
+                    appState.pending = data.pending || [];
+                    appState.reviewIds = data.reviewIds || [];
+                    appState.roundLocked = !!data.roundLocked;
+                    appState.stats = data.stats || { again: 0, hard: 0, good: 0, easy: 0 };
+                    appState.totalImported = data.totalImported || appState.totalImported;
+                    migrateBatchState(appState);
+                    await saveStateLocal(appState);
+                    return true;
+                }
+                return false;
+            } catch(e) {
+                console.error("Cloud load failed", e);
+                return false;
+            }
+        }
+        
+        async function updateState() {
+            await saveStateLocal(appState);
+            if (syncId) {
+                saveToCloud(); // fire and forget
+            }
+        }
+
+        /* === CSV Parsing === */
+        function parseCSV(str) {
+            var arr = [];
+            var quote = false;
+            var row = 0, col = 0;
+            for (var c = 0; c < str.length; c++) {
+                var cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || [];
+                arr[row][col] = arr[row][col] || '';
+                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc == '"') { quote = !quote; continue; }
+                if (cc == ',' && !quote) { ++col; continue; }
+                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr.filter(r => r.length >= 2 && r[0].trim() !== '');
+        }
+
+        function parseCardText(text) {
+            let translation = [];
+            let wordForms = [];
+            let collocations = [];
+            let example = [];
+            
+            let currentBlock = "translation";
+            const lines = text.split('\n');
+            for (let line of lines) {
+                let tLine = line.trim();
+                if(!tLine) continue;
+                
+                if (tLine.includes("【詞性變化】") || tLine.includes("衍生字")) { currentBlock = "forms"; continue; }
+                if (tLine.includes("【搭配詞】") || tLine.includes("【考試重點")) { currentBlock = "collocations"; continue; }
+                if (tLine.includes("【例句】")) { currentBlock = "example"; continue; }
+
+                if (currentBlock === "translation") translation.push(tLine);
+                else if (currentBlock === "forms") wordForms.push(tLine);
+                else if (currentBlock === "collocations") collocations.push(tLine);
+                else if (currentBlock === "example") example.push(tLine);
+            }
+            
+            let exampleEng = "";
+            if (example.length > 0) {
+                let exText = example.join('<br>');
+                let pIndex = exText.indexOf('(');
+                if (pIndex === -1) pIndex = exText.indexOf('（');
+                if (pIndex !== -1) {
+                    exampleEng = exText.substring(0, pIndex).trim();
+                } else {
+                    exampleEng = exText; 
+                }
+            }
+
+            return {
+                translation: translation.join('<br>'),
+                wordForms: wordForms.join('<br>'),
+                collocations: collocations.join('<br>'),
+                example: example.join('<br>'),
+                exampleEng: exampleEng.replace(/<br>/g, ' ')
+            };
+        }
+
+        /* === Core Logic === */
+        const viewCard = document.getElementById('view-card');
+        const viewMessage = document.getElementById('view-message');
+        const elFront = document.getElementById('card-front');
+        const elBack = document.getElementById('card-back');
+
+        function updateViews(showCard) {
+            if (showCard) {
+                viewCard.classList.add('active');
+                viewMessage.classList.remove('active');
+            } else {
+                viewCard.classList.remove('active');
+                viewMessage.classList.add('active');
+            }
+        }
+
+        function renderHeader() {
+            // 進度條：累積中的非 easy 單字數（點 Again/Hard/Good 才會累積，點 Easy 代表學會了、離開累積池）
+            let roundCount = appState.reviewIds.length;
+            document.getElementById('round-progress-text').textContent = `${roundCount} / ${ROUND_CAP}`;
+            document.getElementById('round-progress-fill').style.width = `${Math.min(roundCount / ROUND_CAP, 1) * 100}%`;
+
+            // 總進度（點右邊的 i 才會顯示）
+            let remaining = appState.queue.length + appState.pending.length;
+            let completed = appState.totalImported - remaining;
+            let currentDisplay = appState.totalImported === 0 ? 0 : Math.min(completed + 1, appState.totalImported);
+            document.getElementById('header-progress-text').textContent = `總進度 ${currentDisplay} / ${appState.totalImported}`;
+
+            document.getElementById('stat-again').textContent = appState.stats.again;
+            document.getElementById('stat-hard').textContent = appState.stats.hard;
+            document.getElementById('stat-good').textContent = appState.stats.good;
+            document.getElementById('stat-easy').textContent = appState.stats.easy;
+        }
+        
+        function preloadImages() {
+            for (let i = 1; i <= 2; i++) {
+                if (appState.queue.length > i) {
+                    const nextCard = appState.cards[appState.queue[i]];
+                    const img = new Image();
+                    img.src = `https://loremflickr.com/600/300/${encodeURIComponent(nextCard.word)}`;
+                }
+            }
+        }
+
+        function renderCard() {
+            if (appState.queue.length === 0) return;
+            const card = appState.cards[appState.queue[0]];
+            
+            if (appState.side === 'front') {
+                elFront.classList.remove('flipped');
+                elBack.classList.remove('flipped');
+                document.getElementById('front-word').textContent = card.word;
+                playAudio(card.word);
+            } else {
+                elFront.classList.add('flipped');
+                elBack.classList.add('flipped');
+                
+                // Back content
+                document.getElementById('back-image').style.backgroundImage = `url('https://loremflickr.com/600/300/${encodeURIComponent(card.word)}')`;
+                document.getElementById('back-translation').innerHTML = card.parsed.translation;
+                
+                const elForms = document.getElementById('back-forms');
+                if (card.parsed.wordForms) { elForms.innerHTML = card.parsed.wordForms; elForms.classList.remove('hidden'); }
+                else elForms.classList.add('hidden');
+                
+                const elColloc = document.getElementById('back-collocations');
+                if (card.parsed.collocations) { elColloc.innerHTML = card.parsed.collocations; elColloc.classList.remove('hidden'); }
+                else elColloc.classList.add('hidden');
+                
+                const elExBox = document.getElementById('back-example-box');
+                if (card.parsed.example) {
+                    document.getElementById('back-example-text').innerHTML = card.parsed.example;
+                    elExBox.classList.remove('hidden');
+                    playAudio(card.parsed.exampleEng);
+                } else {
+                    elExBox.classList.add('hidden');
+                }
+            }
+            
+            preloadImages();
+        }
+
+        function flipCard() {
+            if (appState.queue.length === 0) return;
+            appState.side = 'back';
+            renderCard();
+            updateState();
+        }
+
+        function handleSRS(action) {
+            if (appState.queue.length === 0) return;
+            const currentId = appState.queue.shift();
+
+            appState.stats[action]++;
+
+            const reviewIdx = appState.reviewIds.indexOf(currentId);
+            const wasInReview = reviewIdx !== -1;
+
+            if (action === 'easy') {
+                // 學會了：完全移出輪替。如果它原本在累積池中，把它清掉（離開累積）
+                if (wasInReview) {
+                    appState.reviewIds.splice(reviewIdx, 1);
+                    // 鎖住的這一輪，等累積池全部清空才解鎖、換下一輪
+                    if (appState.roundLocked && appState.reviewIds.length === 0) {
+                        appState.roundLocked = false;
+                    }
+                }
+            } else {
+                // Again / Hard / Good：這個字還不算學會，留在輪替中重複練習
+                if (!wasInReview) {
+                    appState.reviewIds.push(currentId);
+                    if (appState.reviewIds.length >= ROUND_CAP) {
+                        appState.roundLocked = true; // 累積滿了，暫停引入新字
+                    }
+                }
+
+                if (action === 'again') {
+                    if (appState.queue.length === 0) appState.queue.push(currentId);
+                    else appState.queue.splice(1, 0, currentId);
+                } else if (action === 'hard') {
+                    if (appState.queue.length === 0) appState.queue.push(currentId);
+                    else appState.queue.splice(Math.ceil(appState.queue.length / 2), 0, currentId);
+                } else if (action === 'good') {
+                    appState.queue.push(currentId);
+                }
+            }
+
+            // 沒鎖住的話，把新字補進 queue 維持預讀緩衝
+            topUpQueue();
+
+            appState.side = 'front';
+            updateState();
+
+            if (appState.queue.length === 0 && appState.pending.length === 0) {
+                showEndScreen();
+            } else {
+                renderHeader();
+                renderCard();
+            }
+        }
+
+        function showEndScreen() {
+            updateViews(false);
+            renderHeader();
+            
+            document.getElementById('msg-title').textContent = "學習完成！";
+            document.getElementById('msg-desc').textContent = "這是您本次的學習統計：";
+            
+            document.getElementById('msg-stats').classList.remove('hidden');
+            document.getElementById('end-stat-again').innerHTML = `${appState.stats.again} <br><span>Again</span>`;
+            document.getElementById('end-stat-hard').innerHTML = `${appState.stats.hard} <br><span>Hard</span>`;
+            document.getElementById('end-stat-good').innerHTML = `${appState.stats.good} <br><span>Good</span>`;
+            document.getElementById('end-stat-easy').innerHTML = `${appState.stats.easy} <br><span>Easy</span>`;
+            
+            document.getElementById('btn-restart').classList.remove('hidden');
+        }
+        
+        function showEmptyScreen() {
+            updateViews(false);
+            document.getElementById('msg-title').textContent = "準備開始學習！";
+            document.getElementById('msg-desc').textContent = "請匯入單字卡 CSV 檔案";
+            document.getElementById('msg-stats').classList.add('hidden');
+            document.getElementById('btn-restart').classList.add('hidden');
+        }
+
+        function restartQueue() {
+            appState.queue = [];
+            appState.pending = shuffleArray(appState.cards.map(c => c.id));
+            appState.reviewIds = [];
+            appState.roundLocked = false;
+            appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
+            appState.side = 'front';
+            topUpQueue();
+            updateState();
+            updateViews(true);
+            renderHeader();
+            renderCard();
+        }
+
+        /* === Audio === */
+        function playAudio(text) {
+            if (!window.speechSynthesis || !text) return;
+            window.speechSynthesis.cancel();
+            let u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US';
+            window.speechSynthesis.speak(u);
+        }
+
+        /* === Event Listeners === */
+
+        /* 漢堡選單開合 */
+        const btnMenu = document.getElementById('btn-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        function closeMenu() { dropdownMenu.classList.add('hidden'); }
+        function toggleMenu() { dropdownMenu.classList.toggle('hidden'); }
+
+        btnMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // 點選單內任一項目後自動收合選單
+        dropdownMenu.addEventListener('click', (e) => {
+            if (e.target.closest('.dropdown-item')) closeMenu();
+        });
+
+        // 點選單以外的地方收合選單
+        document.addEventListener('click', (e) => {
+            if (!dropdownMenu.classList.contains('hidden') && !dropdownMenu.contains(e.target) && !btnMenu.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        /* 總進度：點圓圈 i 才顯示 */
+        const btnTotalInfo = document.getElementById('btn-total-info');
+        const totalProgressPopover = document.getElementById('header-progress-text');
+
+        btnTotalInfo.addEventListener('click', (e) => {
+            e.stopPropagation();
+            totalProgressPopover.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!totalProgressPopover.classList.contains('hidden') && !totalProgressPopover.contains(e.target) && !btnTotalInfo.contains(e.target)) {
+                totalProgressPopover.classList.add('hidden');
+            }
+        });
+
+        elFront.addEventListener('click', flipCard);
+        
+        document.querySelectorAll('.btn-srs').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleSRS(e.target.dataset.action);
+            });
+        });
+
+        document.getElementById('btn-speak-front').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (appState.queue.length > 0) playAudio(appState.cards[appState.queue[0]].word);
+        });
+
+        document.getElementById('btn-speak-back').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (appState.queue.length > 0) playAudio(appState.cards[appState.queue[0]].parsed.exampleEng);
+        });
+
+        /* 手動洗牌按鈕 */
+        document.getElementById('btn-shuffle').addEventListener('click', () => {
+            if (appState.queue.length > 1) {
+                appState.queue = shuffleArray(appState.queue);
+                appState.side = 'front';
+                updateState();
+                renderCard();
+                alert('🔀 已將目前剩餘的卡片順序隨機打亂！');
+            } else {
+                alert('剩餘卡片太少，不需要洗牌喔！');
+            }
+        });
+
+        const fileInput = document.getElementById('csv-upload');
+        const triggerUpload = () => fileInput.click();
+        document.getElementById('btn-upload').addEventListener('click', triggerUpload);
+        document.getElementById('btn-import-large').addEventListener('click', triggerUpload);
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                const text = ev.target.result;
+                const rows = parseCSV(text);
+                
+                if (rows.length === 0) {
+                    alert('CSV 內容空白或格式錯誤，請重新上傳！');
+                    return;
+                }
+                
+                let newCards = rows.map((r, i) => {
+                    return {
+                        id: i,
+                        word: r[0].trim(),
+                        rawText: r[1] ? r[1].trim() : "",
+                        parsed: parseCardText(r[1] ? r[1].trim() : "")
+                    };
+                });
+                
+                appState.cards = newCards;
+                // If cloud sync is active, try to merge progress instead of overwriting entirely
+                if (syncId) {
+                    let loaded = await loadFromCloud(syncId);
+                    if (!loaded) {
+                        // First time sync for this CSV
+                        appState.queue = [];
+                        appState.pending = shuffleArray(newCards.map(c => c.id));
+                        appState.reviewIds = [];
+                        appState.roundLocked = false;
+                        appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
+                        appState.totalImported = newCards.length;
+                    }
+                } else {
+                    appState.queue = [];
+                    appState.pending = shuffleArray(newCards.map(c => c.id));
+                    appState.reviewIds = [];
+                    appState.roundLocked = false;
+                    appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
+                    appState.totalImported = newCards.length;
+                }
+                appState.side = 'front';
+                topUpQueue();
+
+                updateState();
+                fileInput.value = '';
+
+                if (appState.queue.length === 0 && appState.pending.length === 0) {
+                    showEndScreen();
+                } else {
+                    updateViews(true);
+                    renderHeader();
+                    renderCard();
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        document.getElementById('btn-restart').addEventListener('click', restartQueue);
+        
+        /* === Dark / Light Mode Toggle === */
+        function applyThemeIcon(theme) {
+            document.getElementById('icon-theme-dark').classList.toggle('hidden', theme === 'dark');
+            document.getElementById('icon-theme-light').classList.toggle('hidden', theme !== 'dark');
+        }
+
+        function getCurrentTheme() {
+            const attr = document.documentElement.getAttribute('data-theme');
+            if (attr === 'dark' || attr === 'light') return attr;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('srs_theme', theme); } catch (e) {}
+            applyThemeIcon(theme);
+        }
+
+        document.getElementById('btn-theme').addEventListener('click', () => {
+            setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+        });
+
+        applyThemeIcon(getCurrentTheme());
+
+        document.getElementById('btn-info').addEventListener('click', () => {
+            alert("快捷鍵說明：\n[Space] 顯示答案\n[Enter] 發音朗讀\n[1] Again\n[2] Hard\n[3] Good\n[4] Easy\n\n【雲端同步說明】\n由於單字庫龐大，請在每台設備「手動匯入同一個CSV檔」一次。之後點擊上方雲朵圖示輸入同步碼，您的『學習進度』就會在設備間自動同步！");
+        });
+
+        /* Cloud Sync Button Logic */
+        document.getElementById('btn-cloud').addEventListener('click', async () => {
+            let input = prompt("【雲端同步】\n請設定/輸入您的專屬同步碼（中英文皆可）：\n(在手機和電腦輸入相同的同步碼，即可互相接續進度)", syncId || "");
+            if (input !== null) {
+                input = input.trim();
+                if (input === "") {
+                    syncId = null;
+                    localStorage.removeItem('srs_sync_id');
+                    document.getElementById('icon-cloud-on').classList.add('hidden');
+                    document.getElementById('icon-cloud-off').classList.remove('hidden');
+                    alert("已關閉雲端同步。之後的進度僅會儲存於此設備。");
+                } else {
+                    syncId = input;
+                    localStorage.setItem('srs_sync_id', syncId);
+                    
+                    let loaded = await loadFromCloud(syncId);
+                    if (loaded) {
+                        alert(`成功與雲端同步碼「${syncId}」連線，並載入最新進度！`);
+                        if (appState.cards.length === 0) {
+                            alert("⚠️ 發現雲端進度，但您尚未在此設備匯入 CSV！請點擊選單中的「匯入 CSV」以載入單字內容。");
+                        } else {
+                            if (appState.queue.length === 0 && appState.pending.length === 0) showEndScreen();
+                            else { updateViews(true); renderHeader(); renderCard(); }
+                        }
+                    } else {
+                        if (appState.cards.length > 0) {
+                            await saveToCloud();
+                            alert(`已為您建立雲端同步碼「${syncId}」！您的進度已上傳。`);
+                        } else {
+                            alert(`已綁定同步碼「${syncId}」！請先匯入 CSV，我們就會自動幫您同步進度。`);
+                        }
+                    }
+                    document.getElementById('icon-cloud-off').classList.add('hidden');
+                    document.getElementById('icon-cloud-on').classList.remove('hidden');
+                }
+            }
+        });
+
+        document.addEventListener('keydown', e => {
+            if (document.activeElement.tagName === 'INPUT') return;
+            if (appState.queue.length === 0) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (appState.side === 'front') flipCard();
+            }
+            if (e.code === 'Enter') {
+                e.preventDefault();
+                const card = appState.cards[appState.queue[0]];
+                if (appState.side === 'front') playAudio(card.word);
+                else playAudio(card.parsed.exampleEng);
+            }
+            if (appState.side === 'back') {
+                if (e.key === '1') handleSRS('again');
+                if (e.key === '2') handleSRS('hard');
+                if (e.key === '3') handleSRS('good');
+                if (e.key === '4') handleSRS('easy');
+            }
+        });
+
+        /* === Init === */
+        window.addEventListener('DOMContentLoaded', async () => {
+            let saved = await loadStateLocal();
+            if (saved && saved.cards && saved.cards.length > 0) {
+                appState = migrateBatchState(saved);
+                topUpQueue();
+            }
+
+            if (syncId) {
+                document.getElementById('icon-cloud-off').classList.add('hidden');
+                document.getElementById('icon-cloud-on').classList.remove('hidden');
+                // Try fetching latest cloud progress on boot
+                await loadFromCloud(syncId);
+            }
+
+            if (appState.cards.length > 0) {
+                renderHeader();
+                if (appState.queue.length === 0 && appState.pending.length === 0) {
+                    showEndScreen();
+                } else {
+                    updateViews(true);
+                    renderCard();
+                }
+            } else {
+                showEmptyScreen();
+                renderHeader();
+            }
+        });
+    </script>
+</body>
+</html>
