@@ -370,8 +370,9 @@
 
         // 一輪最多累積幾個「非 easy」單字才會暫停引入新單字，只重複練習這些字
         const ROUND_CAP = 20;
-        // 保留在 queue 最前面待學的新單字緩衝數量（讓卡片圖片可以預先載入）
-        const PRELOAD_BUFFER = 5;
+        // queue 裡要保留幾個「還沒判過的新字」當預讀緩衝（只影響圖片預先載入，不是 queue 的總上限——
+        // 累積中的 reviewIds 單字本來就會一直留在 queue 裡重複練習，不能算進這個緩衝數）
+        const PRELOAD_LOOKAHEAD = 3;
 
         let appState = {
             cards: [],
@@ -393,12 +394,37 @@
             return state;
         }
 
-        // 只要沒鎖住、pending 還有字，就把新字補進 queue（維持一點預讀緩衝）
+        // 只要沒鎖住、pending 還有字，就把新字補進 queue，維持「還沒判過的新字」有 PRELOAD_LOOKAHEAD 個緩衝
+        // 注意：不能用 queue.length 本身當上限，否則累積中的 reviewIds 單字會把緩衝空間卡死，
+        // 導致 queue 永遠長不大、reviewIds 實際上根本到不了 ROUND_CAP（這就是先前回報的 bug 成因）
+        //
+        // 新字要插進「靠近隊伍前面」而不是排到最後面：Again/Hard 會把字重新插回中前段位置，
+        // 如果新字永遠排在尾巴，遇到大量 Again/Hard 時會被卡住、永遠輪不到，導致 reviewIds
+        // 實際上根本長不大（這也是先前回報 bug 的一部分成因）。
         function topUpQueue() {
             if (appState.roundLocked) return;
-            while (appState.queue.length < PRELOAD_BUFFER && appState.pending.length > 0) {
-                appState.queue.push(appState.pending.shift());
+            let freshCount = 0;
+            for (const id of appState.queue) {
+                if (!appState.reviewIds.includes(id)) freshCount++;
             }
+            while (freshCount < PRELOAD_LOOKAHEAD && appState.pending.length > 0) {
+                const insertAt = Math.min(2, appState.queue.length);
+                appState.queue.splice(insertAt, 0, appState.pending.shift());
+                freshCount++;
+            }
+        }
+
+        // 累積池剛好滿 ROUND_CAP 時呼叫：鎖住之外，還要把 queue 裡「預讀緩衝」中
+        // 那些還沒被判過的新字收回 pending，否則使用者會繼續看到它們、把累積數推超過上限
+        function lockRound() {
+            appState.roundLocked = true;
+            const stillNew = [];
+            appState.queue = appState.queue.filter(id => {
+                if (appState.reviewIds.includes(id)) return true;
+                stillNew.push(id);
+                return false;
+            });
+            appState.pending = stillNew.concat(appState.pending);
         }
 
         function openDB() {
@@ -669,14 +695,7 @@
                     }
                 }
             } else {
-                // Again / Hard / Good：這個字還不算學會，留在輪替中重複練習
-                if (!wasInReview) {
-                    appState.reviewIds.push(currentId);
-                    if (appState.reviewIds.length >= ROUND_CAP) {
-                        appState.roundLocked = true; // 累積滿了，暫停引入新字
-                    }
-                }
-
+                // Again / Hard / Good：這個字還不算學會，先放回 queue 繼續輪替
                 if (action === 'again') {
                     if (appState.queue.length === 0) appState.queue.push(currentId);
                     else appState.queue.splice(1, 0, currentId);
@@ -685,6 +704,14 @@
                     else appState.queue.splice(Math.ceil(appState.queue.length / 2), 0, currentId);
                 } else if (action === 'good') {
                     appState.queue.push(currentId);
+                }
+
+                // 累積池：只有這個字「第一次」變成非 easy 才會累加，滿了就鎖住並清掉緩衝區裡還沒判過的新字
+                if (!wasInReview) {
+                    appState.reviewIds.push(currentId);
+                    if (appState.reviewIds.length >= ROUND_CAP && !appState.roundLocked) {
+                        lockRound();
+                    }
                 }
             }
 
