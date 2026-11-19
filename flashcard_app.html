@@ -1,287 +1,348 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <script>
-        // 提早套用已儲存的主題，避免翻轉/換頁時畫面閃一下
-        (function () {
-            try {
-                var t = localStorage.getItem('srs_theme');
-                if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-            } catch (e) {}
-        })();
-    </script>
-    <link rel="apple-touch-icon" href="https://weilee01.com/wp-content/uploads/2026/08/icon.png">
-    <link rel="icon" href="https://weilee01.com/wp-content/uploads/2026/08/icon.png" type="image/png">
-    <meta name="apple-mobile-web-app-title" content="單字測驗">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="apple-mobile-web-app-title" content="VC">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRS 單字學習卡 (Cloud Sync)</title>
+    <title>VC</title>
+    <meta name="theme-color" content="#43257A">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* === 復古像素遊戲風格（PICO-8 16 色盤） === */
+        @font-face {
+            /* 俐方體 11 號：繁體中文像素字型（SIL OFL），固定在特定版本 */
+            font-family: 'Cubic 11';
+            src: url('https://cdn.jsdelivr.net/gh/ACh-K/Cubic-11@4c566f7d6cc5c05ee360fe9cff56b5da1fcafd4d/fonts/web/Cubic_11.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+
         :root {
-            --bg-body: #f4f5f7;
-            --text-dark: #1e293b; 
-            --text-light: #f8fafc;
-            --card-front-bg: #ffffff;
-            --card-back-bg: #1e293b;
-            
-            --color-again: #ff4d4f;
-            --color-hard: #faad14;
-            --color-good: #52c41a;
-            --color-easy: #1890ff;
-            --progress-bg: #e2e8f0;
-            --progress-fill: #6366f1;
+            --font-pixel: 'Press Start 2P', 'Cubic 11', ui-monospace, monospace;   /* 標題、按鈕、數字 */
+            --font-word: 'Pixelify Sans', 'Cubic 11', sans-serif;                  /* 卡片正面的大單字 */
+            --font-body: 'Cubic 11', 'Pixelify Sans', "PingFang TC", "Microsoft JhengHei", sans-serif;
 
-            --card-shadow: rgba(0,0,0,0.08);
-            --message-bg: #ffffff;
-            --stat-box-bg: #f8fafc;
-            --muted-text: #64748b;
-            --muted-text-2: #94a3b8;
-            --icon-bg: #ffffff;
-            --icon-border: #e2e8f0;
-            --icon-color: #64748b;
-            --icon-hover-bg: #f1f5f9;
-            --kbd-bg: #f1f5f9;
-            --kbd-border: #cbd5e1;
-            --outline-hover-bg: #e0e7ff;
+            --navy: #43257A; --black: #000000; --cream: #FFF1E8; --gray: #C2C3C7; --lav: #83769C;
+            --plum: #7E2553; --red: #FF004D; --orange: #FFA300; --yellow: #FFEC27;
+            --green: #00E436; --dgreen: #008751; --blue: #29ADFF; --pink: #FF77A8;
 
-            --title-color: #0f172a;
-            --title-stroke: transparent;
-            --title-shadow: none;
+            /* 語意色（OK 綠 / 兩次 黃 / NO 與三次以上 紅），以 "r, g, b" 存放 */
+            --ok-rgb: 0, 228, 54;
+            --warn-rgb: 255, 236, 39;
+            --no-rgb: 255, 0, 77;
+
+            --text: var(--cream);
+            --text-mute: var(--gray);
+            --text-dim: var(--lav);
+            --deco-rgb: 131, 118, 156;
+            --deco-alpha: 0.55;
+            --panel: rgba(0, 0, 0, 0.86);   /* 卡片的黑底，微微透出背景 */
         }
 
-        /* 跟隨系統設定（尚未手動選擇時） */
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --bg-body: #0f172a;
-                --text-dark: #e2e8f0;
-                --card-front-bg: #1e293b;
-                --progress-bg: #334155;
-                --card-shadow: rgba(0,0,0,0.5);
-                --message-bg: #1e293b;
-                --stat-box-bg: #0f172a;
-                --muted-text: #94a3b8;
-                --muted-text-2: #94a3b8;
-                --icon-bg: #1e293b;
-                --icon-border: #334155;
-                --icon-color: #94a3b8;
-                --icon-hover-bg: #334155;
-                --kbd-bg: #334155;
-                --kbd-border: #475569;
-                --outline-hover-bg: #312e81;
-
-                --title-color: #ffffff;
-                --title-stroke: rgba(0,0,0,0.55);
-                --title-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.6);
-            }
+        * { box-sizing: border-box; }
+        button { font-family: inherit; }
+        body {
+            margin: 0; background: var(--navy); color: var(--text); font-family: var(--font-body);
+            display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; overflow: hidden;
         }
-
-        /* 手動切換（蓋過系統設定） */
-        :root[data-theme="dark"] {
-            --bg-body: #0f172a;
-            --text-dark: #e2e8f0;
-            --card-front-bg: #1e293b;
-            --progress-bg: #334155;
-            --card-shadow: rgba(0,0,0,0.5);
-            --message-bg: #1e293b;
-            --stat-box-bg: #0f172a;
-            --muted-text: #94a3b8;
-            --muted-text-2: #94a3b8;
-            --icon-bg: #1e293b;
-            --icon-border: #334155;
-            --icon-color: #94a3b8;
-            --icon-hover-bg: #334155;
-            --kbd-bg: #334155;
-            --kbd-border: #475569;
-            --outline-hover-bg: #312e81;
-
-            --title-color: #ffffff;
-            --title-stroke: rgba(0,0,0,0.55);
-            --title-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 0 1px rgba(0,0,0,0.6);
+        /* 背景：像素風遊戲主視覺（低解析度 canvas 放大，保持一格一格的邊緣） */
+        #scene { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 0; pointer-events: none; image-rendering: pixelated; image-rendering: crisp-edges; image-rendering: pixelated; }
+        /* 映像管掃描線 */
+        body::after {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200; pointer-events: none;
+            background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0, 0, 0, 0.10) 2px, rgba(0, 0, 0, 0.10) 4px);
         }
+        :focus-visible { outline: 3px solid var(--yellow); outline-offset: 6px; }
 
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-        body { margin: 0; background: var(--bg-body); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: var(--text-dark); overflow: hidden; transition: background 0.2s, color 0.2s; }
-        
+        /* 背景星空：方形像素一格一格往上移 */
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        #particles span { position: absolute; bottom: -10px; animation: rise steps(60) infinite; will-change: transform; }
+        @keyframes rise { from { transform: translate(0, 0); } to { transform: translate(var(--dx), -110vh); } }
+
+        /* 卡片兩側：轉 90 度、裁掉一半、只有外圈輪廓的單字裝飾（canvas 畫出文字外框） */
+        .deco-word {
+            position: fixed; top: 50%; z-index: 0; pointer-events: none; user-select: none;
+            opacity: var(--deco-alpha);
+            display: none;   /* 背景換成主視覺後先收起來，免得壓在城堡和月亮上；拿掉這行就會回來 */
+        }
+        .deco-left { left: 0; transform: translate(-50%, -50%) rotate(-90deg); }
+        .deco-right { left: 100%; transform: translate(-50%, -50%) rotate(90deg); }
+        .deco-in { animation: decoIn 0.4s steps(4) both; }
+        @keyframes decoIn { from { opacity: 0; } to { opacity: var(--deco-alpha); } }
+
         #app-container {
-            width: 100%; max-width: 600px; height: 100vh; max-height: 900px;
-            display: flex; flex-direction: column; padding: 20px;
+            position: relative; z-index: 1;
+            width: 100%; max-width: 600px; height: 100vh; height: 100dvh; max-height: 900px;
+            display: flex; flex-direction: column; padding: 14px 20px 20px;
         }
 
-        /* App title：淺色模式用深色模式的背景色、無陰影；深色模式維持白字加描邊 */
+        /* 像素外框：用 box-shadow 疊出缺角的方框（上下左右各一條）＋右下的硬陰影＋內側斜角
+           --p 一格的大小、--bd 外框色、--sh 陰影色、--bevel 內側斜角色 */
+        .card, .stat-chip, .icon-btn, .dropdown-menu, .btn-srs, .capsule-list, .list-empty, .capsule, .link-btn,
+        .message-state, .stat-box, .btn-primary, .btn-outline, .modal-panel, .back-example-box, .xp-bar {
+            --p: 4px; --bd: var(--cream); --sh: rgba(0, 0, 0, 0.5); --bevel: transparent;
+            border: 0; border-radius: 0;
+            box-shadow:
+                inset calc(var(--p) * -1) calc(var(--p) * -1) 0 0 var(--bevel),
+                0 calc(var(--p) * -1) 0 0 var(--bd), 0 var(--p) 0 0 var(--bd),
+                calc(var(--p) * -1) 0 0 0 var(--bd), var(--p) 0 0 0 var(--bd),
+                var(--p) calc(var(--p) * 2) 0 0 var(--sh), calc(var(--p) * 2) var(--p) 0 0 var(--sh);
+        }
+
         .app-title {
-            font-family: 'Gravitas One', serif; font-weight: 400; color: var(--title-color); text-align: center;
-            font-size: 26px; letter-spacing: 1px; margin: 0 0 16px;
-            -webkit-text-stroke: 1px var(--title-stroke);
-            text-shadow: var(--title-shadow);
-            paint-order: stroke fill;
+            flex: 1 1 auto; min-width: 0; margin: 0; text-align: center;
+            font-family: var(--font-pixel); font-weight: 400;
+            font-size: 15px; letter-spacing: 0; line-height: 1.3; white-space: nowrap;
+            cursor: pointer; user-select: none; -webkit-user-select: none;
+            color: var(--yellow); text-shadow: 2px 2px 0 var(--red);
         }
+        .app-title .t-short { display: none; }
 
-        /* Header */
-        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 14px; font-weight: 500; gap: 8px; }
-        .stat-counts { display: flex; align-items: center; flex-wrap: nowrap; white-space: nowrap; }
-        .stat-counts span { margin: 0 4px; font-weight: 600; }
-        .stat-again { color: var(--color-again); }
-        .stat-hard { color: var(--color-hard); }
-        .stat-good { color: var(--color-good); }
-        .stat-easy { color: var(--color-easy); }
+        /* Header：左上 OK / NO 累積數字 */
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; gap: 12px; padding: 4px 4px 0; }
+        .stat-counts { display: flex; align-items: center; gap: 14px; }
+        .stat-chip {
+            --c: var(--ok-rgb); --p: 3px; --bd: rgb(var(--c));
+            appearance: none; -webkit-appearance: none; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; padding: 5px 5px 5px 9px;
+            background: var(--black); color: var(--text);
+            font-family: var(--font-pixel); font-size: 11px; line-height: 1;
+        }
+        .stat-chip.stat-no { --c: var(--no-rgb); }
+        .stat-chip .chip-num {
+            min-width: 26px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+            background: rgb(var(--c)); color: var(--black); font-size: 11px;
+        }
+        .stat-chip:hover, .stat-chip.active { background: rgb(var(--c)); color: var(--black); }
+        .stat-chip:hover .chip-num, .stat-chip.active .chip-num { background: var(--black); color: rgb(var(--c)); }
+        .stat-chip:active { transform: translate(3px, 3px); --sh: transparent; }
 
-        /* Bottom progress (moved out of header, below the card) */
-        .bottom-progress { display: flex; justify-content: center; margin-top: 16px; flex-shrink: 0; }
-        .round-progress-row { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 340px; }
-        #round-progress-text { font-size: 14px; font-weight: 700; color: var(--text-dark); flex-shrink: 0; white-space: nowrap; }
-        .round-progress-row .progress-bar { flex-grow: 1; height: 6px; background: var(--progress-bg); border-radius: 3px; overflow: hidden; position: relative; }
-        .round-progress-row .progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--progress-fill); transition: width 0.3s; }
-
-        .info-btn-wrap { position: relative; flex-shrink: 0; }
-        .info-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--icon-border); background: var(--icon-bg); color: var(--icon-color); font-size: 12px; font-weight: 700; font-style: italic; font-family: Georgia, 'Times New Roman', serif; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
-        .info-btn:hover { background: var(--icon-hover-bg); color: var(--text-dark); }
-        .total-progress-popover { position: absolute; bottom: 30px; right: 0; background: var(--card-front-bg); border: 1px solid var(--icon-border); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--muted-text); white-space: nowrap; box-shadow: 0 6px 16px var(--card-shadow); z-index: 10; }
-
-        .header-actions { display: flex; position: relative; flex-shrink: 0; }
-        .icon-btn { cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border: 1px solid var(--icon-border); border-radius: 50%; width: 32px; height: 32px; color: var(--icon-color); transition: 0.2s; position: relative; }
-        .icon-btn:hover { background: var(--icon-hover-bg); color: var(--text-dark); }
-        .icon-btn svg { width: 16px; height: 16px; }
+        .header-actions { display: flex; align-items: center; gap: 14px; position: relative; flex-shrink: 0; }
+        .icon-btn { --p: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--black); width: 32px; height: 32px; color: var(--text); position: relative; }
+        .icon-btn:hover { background: var(--blue); color: var(--black); }
+        .icon-btn:active { transform: translate(3px, 3px); --sh: transparent; }
+        .icon-btn svg { width: 18px; height: 18px; }
+        /* 線條 icon 改成直角、不做平滑，看起來才像像素 */
+        svg { shape-rendering: crispEdges; }
+        svg, svg * { stroke-linecap: square; stroke-linejoin: miter; }
 
         /* Hamburger dropdown menu */
-        .dropdown-menu { position: absolute; top: 40px; right: 0; background: var(--card-front-bg); border: 1px solid var(--icon-border); border-radius: 12px; box-shadow: 0 10px 30px var(--card-shadow); padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 200px; z-index: 30; }
+        .dropdown-menu { position: absolute; top: 46px; right: 0; background: var(--black); padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 220px; z-index: 30; }
         .dropdown-menu.hidden { display: none; }
-        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: none; background: transparent; color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; text-align: left; width: 100%; }
-        .dropdown-item:hover { background: var(--icon-hover-bg); }
-        .dropdown-item svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--icon-color); }
-        .dropdown-item .item-status { margin-left: auto; font-size: 12px; color: var(--muted-text-2); }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 11px 10px; border: none; border-radius: 0; background: transparent; color: var(--text); font-size: 16px; cursor: pointer; text-align: left; width: 100%; }
+        .dropdown-item::before { content: '▶'; font-size: 10px; color: var(--yellow); visibility: hidden; }
+        .dropdown-item:hover { background: var(--navy); }
+        .dropdown-item:hover::before { visibility: visible; }
+        .dropdown-item svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--blue); }
 
         /* Main View State toggles */
-        .view-section { display: none; flex-grow: 1; position: relative; }
+        .view-section { display: none; flex: 1; min-height: 0; position: relative; }
         .view-section.active { display: flex; flex-direction: column; }
 
-        /* Card Area */
-        #card-container { flex-grow: 1; position: relative; perspective: 1000px; width: 100%; }
-        
+        /* Card Area（正反面同樣撐滿容器高度，翻轉前後等高） */
+        #card-container { flex: 1; min-height: 0; position: relative; perspective: 1400px; width: 100%; }
+
         .card {
-            border-radius: 20px; box-shadow: 0 10px 30px var(--card-shadow);
-            display: flex; flex-direction: column; position: absolute; 
-            top: 0; left: 0; right: 0; 
-            min-height: 350px; max-height: calc(100vh - 100px);
-            backface-visibility: hidden; transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+            display: flex; flex-direction: column; position: absolute;
+            top: 4px; left: 4px; right: 8px; bottom: 8px; min-height: 320px;
+            background: var(--panel);
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            transition: transform 0.4s steps(6);
         }
 
-        .card-front {
-            background: var(--card-front-bg); align-items: center; justify-content: center; z-index: 2;
-            cursor: pointer;
+        .card-front { align-items: center; justify-content: center; z-index: 2; cursor: pointer; }
+        /* RPG 對話框的內框線 */
+        .card-front::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; z-index: -1; pointer-events: none;
+            border: 2px solid var(--navy);
         }
         .card-front.flipped { transform: rotateY(180deg); pointer-events: none; z-index: 0; }
-        
-        .card-back {
-            background: var(--card-back-bg); color: var(--text-light); transform: rotateY(-180deg);
-            z-index: 1; display: flex; flex-direction: column; overflow: hidden;
-        }
+
+        .card-back { color: var(--text); transform: rotateY(-180deg); z-index: 1; overflow: hidden; }
         .card-back.flipped { transform: rotateY(0deg); z-index: 3; }
 
-        /* Front specific */
-        .front-word-group { display: flex; align-items: center; gap: 16px; font-size: 48px; font-weight: bold; }
-        .speaker-icon { width: 28px; height: 28px; color: #6366f1; cursor: pointer; }
-        .speaker-icon:hover { opacity: 0.8; }
-        .front-hint { position: absolute; bottom: 30px; font-size: 14px; color: var(--muted-text-2); display: flex; align-items: center; gap: 8px; }
-        .front-hint kbd { background: var(--kbd-bg); border: 1px solid var(--kbd-border); padding: 2px 6px; border-radius: 4px; font-family: inherit; font-size: 12px; }
+        .loading-note { display: none; flex-direction: column; align-items: center; gap: 20px; color: var(--text-mute); font-size: 16px; }
+        .card-front.loading .loading-note { display: flex; }
+        .card-front.loading .front-word-group, .card-front.loading .front-hint { display: none; }
+        .spinner { width: 22px; height: 22px; background: var(--yellow); animation: spin 0.8s steps(8) infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Back specific */
-        .card-image { width: 100%; height: 160px; background-size: cover; background-position: center; border-radius: 20px 20px 0 0; background-color: #334155; flex-shrink: 0; }
-        .card-content { padding: 16px 20px; flex-grow: 1; overflow-y: auto; font-size: 15px; line-height: 1.5; }
-        .back-translation { font-weight: bold; margin-bottom: 8px; font-size: 17px; }
-        .back-forms, .back-collocations { color: var(--muted-text-2); margin-bottom: 8px; }
-        .back-example-box { background: #0f172a; padding: 12px 16px; border-radius: 12px; margin-top: 12px; display: flex; gap: 12px; }
-        .back-example-box .speaker-icon { flex-shrink: 0; margin-top: 2px; color: #818cf8; width: 20px; height: 20px; }
-        
-        /* SRS Buttons */
-        .srs-buttons { display: flex; gap: 8px; padding: 12px 16px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; border-radius: 0 0 20px 20px;}
-        .btn-srs { flex: 1; padding: 12px 0; border: none; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; background: #334155; color: #f8fafc; transition: 0.2s; }
-        .btn-srs:hover { filter: brightness(1.2); }
-        .btn-again { color: var(--color-again); }
-        .btn-hard { color: var(--color-hard); }
-        .btn-good { color: var(--color-good); }
-        .btn-easy { color: var(--color-easy); }
-        
+        /* Front：英文單字放大 */
+        .front-word-group {
+            position: absolute; left: 50%; top: 46%; width: max-content; padding: 0 24px;
+            transform: translate(-50%, calc(-50% - var(--dy, 0px)));
+            font-family: var(--font-word); font-size: clamp(44px, 12vw, 72px); font-weight: 700;
+            letter-spacing: 0; line-height: 1.05; text-align: center;
+        }
+        #front-word { color: var(--text); text-shadow: 4px 4px 0 var(--plum); cursor: pointer; display: block; }
+        #front-word .w { display: inline-block; white-space: nowrap; }
+        /* 打字機效果：字母一個一個出現 */
+        #front-word .l { display: inline-block; animation: letterIn 0.01s step-start both; animation-delay: calc(var(--i) * 0.045s); }
+        @keyframes letterIn { from { opacity: 0; } to { opacity: 1; } }
+        .speaker-icon { width: 34px; height: 34px; flex-shrink: 0; color: var(--blue); cursor: pointer; transform: translateY(var(--dy, 0px)); }
+        .speaker-icon:hover { color: var(--yellow); }
+        .front-hint { position: absolute; bottom: 30px; font-size: 14px; color: var(--text-dim); display: flex; align-items: center; gap: 8px; animation: blink 1.2s steps(1) infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+        .front-hint kbd { background: var(--cream); color: var(--black); padding: 4px 6px 3px; font-family: var(--font-pixel); font-size: 9px; line-height: 1; }
+
+        /* Back */
+        .card-content { padding: 28px 26px 18px; flex-grow: 1; overflow-y: auto; font-size: 17px; line-height: 1.7; }
+        .back-translation { color: var(--yellow); font-size: 23px; line-height: 1.4; margin-bottom: 16px; }
+        .back-forms, .back-collocations { color: var(--text-mute); font-size: 16px; margin-bottom: 12px; }
+        .back-example-box { --p: 3px; --bd: var(--blue); --sh: transparent; background: var(--navy); padding: 14px 16px; margin: 20px 3px 6px; display: flex; gap: 12px; }
+        .back-example-box .speaker-icon { margin-top: 3px; width: 22px; height: 22px; color: var(--yellow); }
+        .back-example-box .speaker-icon:hover { color: var(--cream); }
+
+        /* 像素捲軸 */
+        .card-content, .capsule-list { scrollbar-width: thin; scrollbar-color: var(--lav) var(--black); }
+        .card-content::-webkit-scrollbar, .capsule-list::-webkit-scrollbar { width: 10px; }
+        .card-content::-webkit-scrollbar-track, .capsule-list::-webkit-scrollbar-track { background: var(--black); }
+        .card-content::-webkit-scrollbar-thumb, .capsule-list::-webkit-scrollbar-thumb { background: var(--lav); border: 2px solid var(--black); }
+
+        /* OK / NO 按鈕 */
+        .srs-buttons { display: flex; gap: 22px; padding: 20px 22px 22px; background: transparent; border-top: 4px solid var(--cream); flex-shrink: 0; }
+        .btn-srs {
+            --sh: transparent; --bevel: rgba(0, 0, 0, 0.28);
+            flex: 1; height: 52px; font-family: var(--font-pixel); font-size: 18px; line-height: 1; cursor: pointer;
+            position: relative; overflow: visible;
+        }
+        .btn-ok { background: var(--green); color: var(--black); }
+        .btn-no { background: var(--red); color: var(--cream); }
+        .burst { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; background: var(--yellow); pointer-events: none; animation: burst 0.6s steps(6) forwards; }
+        @keyframes burst { from { transform: translate(0, 0); opacity: 1; } to { transform: translate(var(--bx), var(--by)); opacity: 0; } }
+        .btn-srs:hover { filter: brightness(1.12); }
+        .btn-srs:active { transform: translate(2px, 2px); --bevel: transparent; }
+
+        /* OK 單字列表 */
+        .list-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin: 0 4px 16px; flex-shrink: 0; }
+        .list-title { margin: 0; font-weight: 400; font-size: 22px; color: var(--yellow); text-shadow: 2px 2px 0 var(--red); }
+        .legend { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text-mute); }
+        .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+        .dot { width: 10px; height: 10px; display: inline-block; }
+        .dot-green { background: rgb(var(--ok-rgb)); }
+        .dot-yellow { background: rgb(var(--warn-rgb)); }
+        .dot-red { background: rgb(var(--no-rgb)); }
+        .capsule-list {
+            flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 14px;
+            padding: 18px; margin: 4px 8px 8px 4px; background: var(--panel);
+        }
+        .list-empty { flex: 1; align-items: center; justify-content: center; display: flex; text-align: center; color: var(--text-mute); padding: 20px; margin: 4px 8px 8px 4px; background: var(--panel); }
+        .list-empty.hidden { display: none; }
+        .capsule {
+            --c: var(--ok-rgb); --p: 2px; --bd: rgb(var(--c)); --sh: transparent;
+            appearance: none; -webkit-appearance: none; cursor: pointer; padding: 6px 12px;
+            background: var(--black); color: var(--text);
+            font-family: var(--font-word); font-weight: 600; font-size: 17px; line-height: 1.2;
+            max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .capsule.cap-yellow { --c: var(--warn-rgb); }
+        .capsule.cap-red { --c: var(--no-rgb); }
+        .capsule:hover { background: rgb(var(--c)); color: var(--black); }
+
+        /* 底部列：模式提示 + 進度條 */
+        .bottom-bar { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-top: 16px; min-height: 28px; flex-shrink: 0; }
+        .bottom-bar.hidden { display: none; }
+        .mode-label { font-size: 14px; color: var(--text-mute); }
+        /* 經驗值條：背過的新單字比例 */
+        .xp-bar { --p: 2px; --sh: transparent; width: 100%; max-width: 300px; height: 12px; background: var(--black); padding: 2px; }
+        .xp-bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 8px, var(--black) 8px, var(--black) 10px); }
+        .link-btn { --p: 3px; cursor: pointer; height: 30px; padding: 0 12px; display: inline-flex; align-items: center; background: var(--black); color: var(--text); font-size: 14px; }
+        .link-btn:hover { background: var(--cream); color: var(--black); }
+        .link-btn:active { transform: translate(3px, 3px); --sh: transparent; }
+
         /* Empty / End state */
-        .message-state { align-items: center; justify-content: center; height: 100%; background: var(--message-bg); border-radius: 20px; text-align: center; padding: 40px; box-shadow: 0 10px 30px var(--card-shadow); flex-direction: column; }
-        .message-state h2 { margin-bottom: 8px; color: var(--text-dark); }
-        .message-state p { color: var(--muted-text); margin-bottom: 24px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; width: 100%; max-width: 300px; }
-        .stat-box { padding: 16px; border-radius: 12px; background: var(--stat-box-bg); font-size: 24px; font-weight: bold; }
-        .stat-box span { display: block; font-size: 14px; font-weight: normal; margin-top: 4px; color: var(--muted-text); }
-        .stat-box.again-bg { color: var(--color-again); border: 1px solid #ffccc7; }
-        .stat-box.hard-bg { color: var(--color-hard); border: 1px solid #ffe58f; }
-        .stat-box.good-bg { color: var(--color-good); border: 1px solid #b7eb8f; }
-        .stat-box.easy-bg { color: var(--color-easy); border: 1px solid #91caff; }
+        .message-state { align-items: center; justify-content: center; background: var(--panel); text-align: center; padding: 40px 28px; margin: 4px 8px 8px 4px; flex-direction: column; }
+        .message-state h2 { font-weight: 400; font-size: 30px; margin: 0 0 12px; color: var(--yellow); text-shadow: 3px 3px 0 var(--red); }
+        .message-state p { color: var(--text-mute); margin: 0 0 26px; line-height: 1.7; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 34px; width: 100%; max-width: 300px; }
+        .stat-box { --c: var(--ok-rgb); --p: 3px; --bd: rgb(var(--c)); --sh: transparent; padding: 20px 12px 16px; background: var(--black); color: rgb(var(--c)); font-family: var(--font-pixel); font-size: 26px; line-height: 1.1; }
+        .stat-box.no-bg { --c: var(--no-rgb); }
+        .stat-box span { display: block; font-size: 11px; margin-top: 12px; color: var(--text-mute); }
 
-        .btn-primary { background: #6366f1; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 8px; transition: 0.2s; width: 200px;}
-        .btn-primary:hover { background: #4f46e5; }
-        .btn-outline { background: transparent; color: #6366f1; border: 2px solid #6366f1; padding: 10px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 8px; transition: 0.2s; width: 200px;}
-        .btn-outline:hover { background: var(--outline-hover-bg); }
-        
+        .btn-primary { --sh: transparent; --bevel: rgba(0, 0, 0, 0.25); background: var(--yellow); color: var(--black); padding: 14px 20px; font-size: 17px; cursor: pointer; margin: 10px; width: 250px; }
+        .btn-primary:hover { filter: brightness(1.1); }
+        .btn-outline { --sh: transparent; background: var(--black); color: var(--text); padding: 14px 20px; font-size: 17px; cursor: pointer; margin: 10px; width: 250px; }
+        .btn-outline:hover { background: var(--cream); color: var(--black); }
+        .btn-primary:active, .btn-outline:active { transform: translate(2px, 2px); --bevel: transparent; }
+
+        /* 對話框 */
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0, 0, 0, 0.72); }
+        .modal-panel { width: 100%; max-width: 340px; text-align: center; padding: 30px 26px 28px; background: var(--black); animation: modalPop 0.2s steps(4); }
+        .modal-icon { font-size: 42px; line-height: 1; margin-bottom: 14px; }
+        .modal-panel h3 { margin: 0 0 10px; font-weight: 400; font-size: 24px; color: var(--yellow); text-shadow: 2px 2px 0 var(--red); }
+        .modal-panel p { margin: 0 0 26px; color: var(--text-mute); line-height: 1.7; }
+        .modal-panel .btn-primary { width: calc(100% - 8px); margin: 0 4px; }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
+
         .hidden { display: none !important; }
 
+        @media (prefers-reduced-motion: reduce) {
+            #particles span, .front-hint, .spinner, #front-word .l, .modal-panel, .deco-in { animation: none; }
+            .card { transition: none; }
+        }
+
         @media (max-width: 480px) {
-            .btn-srs { font-size: 13px; padding: 10px 0; }
-            .front-word-group { font-size: 36px; }
-            .card-image { height: 120px; }
+            #app-container { padding: 12px 16px 16px; }
+            .app-title { font-size: 12px; }
+            .app-title .t-full { display: none; }
+            .app-title .t-short { display: inline; }
+            header.has-back .app-title { display: none; }
+            .btn-srs { font-size: 16px; height: 50px; }
+            .srs-buttons { gap: 18px; padding: 18px 18px 20px; }
+            .card-content { padding: 22px 20px 14px; }
+            .back-translation { font-size: 21px; }
+            .legend { gap: 10px; }
         }
     </style>
 </head>
 <body>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div id="particles" aria-hidden="true"></div>
+    <canvas class="deco-word deco-left" id="deco-left" aria-hidden="true"></canvas>
+    <canvas class="deco-word deco-right" id="deco-right" aria-hidden="true"></canvas>
+
     <div id="app-container">
-        <h1 class="app-title">Wei's Vocabulary</h1>
-        <!-- Header -->
+        <!-- Header：左上 OK / NO 累積數字（點 NO 進入 NO 單字庫複習、點 OK 看已背完的單字） -->
         <header>
             <div class="stat-counts">
-                <span class="stat-again" id="stat-again">0</span>
-                <span class="stat-hard" id="stat-hard">0</span>
-                <span class="stat-good" id="stat-good">0</span>
-                <span class="stat-easy" id="stat-easy">0</span>
+                <button class="stat-chip stat-ok" id="stat-ok-btn" title="已背完的 OK 單字"><span>OK</span><span class="chip-num" id="stat-ok">0</span></button>
+                <button class="stat-chip stat-no" id="stat-no-btn" title="複習 NO 單字庫"><span>NO</span><span class="chip-num" id="stat-no">0</span></button>
             </div>
+            <h1 class="app-title" id="app-title" title="回到新單字" aria-label="Toeic Flashcard"><span>Toeic</span> <span class="t-full">Flashcard</span><span class="t-short">FC</span></h1>
             <div class="header-actions">
+                <button class="link-btn hidden" id="btn-back">‹ 返回</button>
                 <div class="icon-btn" id="btn-menu" title="選單">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </div>
                 <div class="dropdown-menu hidden" id="dropdown-menu">
                     <button class="dropdown-item" id="btn-cloud" title="雲端同步">
                         <svg id="icon-cloud-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                        <svg id="icon-cloud-on" class="hidden" viewBox="0 0 24 24" fill="none" stroke="#52c41a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="9 15 11 17 15 11"/></svg>
+                        <svg id="icon-cloud-on" class="hidden" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="9 15 11 17 15 11"/></svg>
                         <span>雲端同步</span>
                     </button>
                     <button class="dropdown-item" id="btn-shuffle" title="打亂剩下卡片的順序">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                         <span>打亂順序</span>
                     </button>
-                    <button class="dropdown-item" id="btn-upload" title="匯入 CSV">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span>匯入 CSV</span>
-                    </button>
                     <button class="dropdown-item" id="btn-info" title="使用說明">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <span>使用說明</span>
                     </button>
-                    <button class="dropdown-item" id="btn-theme" title="切換深色/淺色模式">
-                        <svg id="icon-theme-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                        <svg id="icon-theme-light" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                        <span>深色/淺色模式</span>
-                    </button>
                 </div>
             </div>
         </header>
-        
+
         <!-- View: Main Card -->
-        <div id="view-card" class="view-section">
+        <div id="view-card" class="view-section active">
             <div id="card-container">
                 <!-- Front -->
-                <div class="card card-front" id="card-front">
-                    <div class="front-word-group">
+                <div class="card card-front loading" id="card-front">
+                    <div class="loading-note"><span class="spinner"></span><span>正在載入單字庫…</span></div>
+                    <div class="front-word-group" id="front-word-group">
                         <span id="front-word"></span>
-                        <div class="speaker-icon" id="btn-speak-front">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                        </div>
                     </div>
                     <div class="front-hint">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
@@ -290,7 +351,6 @@
                 </div>
                 <!-- Back -->
                 <div class="card card-back" id="card-back">
-                    <div class="card-image" id="back-image"></div>
                     <div class="card-content">
                         <div class="back-translation" id="back-translation"></div>
                         <div class="back-forms" id="back-forms"></div>
@@ -303,44 +363,59 @@
                         </div>
                     </div>
                     <div class="srs-buttons">
-                        <button class="btn-srs btn-again" data-action="again">Again</button>
-                        <button class="btn-srs btn-hard" data-action="hard">Hard</button>
-                        <button class="btn-srs btn-good" data-action="good">Good</button>
-                        <button class="btn-srs btn-easy" data-action="easy">Easy</button>
-                    </div>
-                </div>
-            </div>
-            <div class="bottom-progress">
-                <div class="round-progress-row">
-                    <span id="round-progress-text">0 / 20</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="round-progress-fill" style="width: 0%;"></div>
-                    </div>
-                    <div class="info-btn-wrap">
-                        <button class="info-btn" id="btn-total-info" title="顯示總進度">i</button>
-                        <div class="total-progress-popover hidden" id="header-progress-text">總進度 0 / 0</div>
+                        <button class="btn-srs btn-ok" data-action="ok">OK</button>
+                        <button class="btn-srs btn-no" data-action="no">NO</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- View: OK 單字列表 -->
+        <div id="view-ok" class="view-section">
+            <div class="list-head">
+                <h2 class="list-title">OK 單字</h2>
+                <div class="legend">
+                    <span class="legend-item"><i class="dot dot-green"></i>一次</span>
+                    <span class="legend-item"><i class="dot dot-yellow"></i>兩次</span>
+                    <span class="legend-item"><i class="dot dot-red"></i>三次以上</span>
+                </div>
+            </div>
+            <div id="ok-empty" class="list-empty hidden">還沒有 OK 的單字，先去背幾個吧！</div>
+            <div id="ok-list" class="capsule-list"></div>
+        </div>
+
         <!-- View: End / Empty State -->
         <div id="view-message" class="view-section message-state">
             <h2 id="msg-title">準備開始學習！</h2>
-            <p id="msg-desc">請匯入單字卡 CSV 檔案</p>
-            
+            <p id="msg-desc">正在載入單字庫...</p>
+
             <div id="msg-stats" class="stats-grid hidden">
-                <div class="stat-box again-bg" id="end-stat-again">0 <span>Again</span></div>
-                <div class="stat-box hard-bg" id="end-stat-hard">0 <span>Hard</span></div>
-                <div class="stat-box good-bg" id="end-stat-good">0 <span>Good</span></div>
-                <div class="stat-box easy-bg" id="end-stat-easy">0 <span>Easy</span></div>
+                <div class="stat-box" id="end-stat-ok">0<span>OK</span></div>
+                <div class="stat-box no-bg" id="end-stat-no">0<span>NO</span></div>
             </div>
-            
-            <button class="btn-primary hidden" id="btn-restart">重新開始 (隨機打亂)</button>
+
+            <button class="btn-primary hidden" id="btn-review-no">複習 NO 單字</button>
+            <button class="btn-outline hidden" id="btn-restart">重新開始 (隨機打亂)</button>
             <button class="btn-outline" id="btn-import-large">匯入新檔</button>
         </div>
-        
+
+        <!-- 底部列：目前模式 + 返回 -->
+        <div class="bottom-bar hidden" id="bottom-bar">
+            <span class="mode-label" id="mode-label"></span>
+            <div class="xp-bar hidden" id="xp-bar" aria-hidden="true"><i id="xp-fill"></i></div>
+        </div>
+
         <input type="file" id="csv-upload" accept=".csv" style="display: none;">
+    </div>
+
+    <!-- 對話框：需要按「確認」才會關閉 -->
+    <div class="modal hidden" id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+        <div class="modal-panel">
+            <div class="modal-icon" id="dialog-icon"></div>
+            <h3 id="dialog-title"></h3>
+            <p id="dialog-msg"></p>
+            <button class="btn-primary" id="dialog-ok">確認</button>
+        </div>
     </div>
 
     <!-- Firebase JS SDKs (ES Modules) -->
@@ -360,71 +435,77 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        
+
         let syncId = localStorage.getItem('srs_sync_id') || null;
+
+        const $ = id => document.getElementById(id);
 
         /* === State & IndexedDB (Local Fallback) === */
         const DB_NAME = "FlashcardDB";
         const DB_VERSION = 1;
         const STORE_NAME = "srs_state";
 
-        // 一輪最多累積幾個「非 easy」單字才會暫停引入新單字，只重複練習這些字
-        const ROUND_CAP = 20;
-        // queue 裡要保留幾個「還沒判過的新字」當預讀緩衝（只影響圖片預先載入，不是 queue 的總上限——
-        // 累積中的 reviewIds 單字本來就會一直留在 queue 裡重複練習，不能算進這個緩衝數）
-        const PRELOAD_LOOKAHEAD = 3;
+        // 每個單字只會待在下面三個清單其中之一：
+        //   pending = 還沒判過的新字（洗牌後的順序）
+        //   noIds   = NO 單字庫（按過 NO、還沒背起來）
+        //   okIds   = OK 單字（背完了，依完成順序）
+        // noCount[id] = 這個字按過幾次 NO，用來決定 OK 列表膠囊的顏色（0 綠 / 1 黃 / 2+ 紅）
+        function emptyState() {
+            return { cards: [], pending: [], noIds: [], okIds: [], noCount: {}, totalImported: 0 };
+        }
+        let appState = emptyState();
 
-        let appState = {
-            cards: [],
-            queue: [],      // 目前正在輪替的卡片 id（新字 + 需要重複練習的字混在一起）
-            pending: [],    // 尚未被引入 queue 的卡片 id
-            reviewIds: [],  // 目前「累積中」的非 easy 單字 id（本輪還沒被標記 easy 的字）
-            roundLocked: false, // reviewIds 累積滿 ROUND_CAP 後鎖住，暫停引入新字，直到全部變 easy
-            stats: { again: 0, hard: 0, good: 0, easy: 0 },
-            totalImported: 0,
-            side: 'front' // 'front' or 'back'
-        };
+        // 只存在畫面上、不需要存檔的狀態
+        const ui = { view: 'card', loading: true, dialog: false, decoWord: '', mode: 'new', side: 'front', reviewId: null, okScroll: 0 };
+        // mode: 'new' 依序看新字 / 'no' 複習 NO 單字庫 / 'ok' 從 OK 列表打開單張複習
 
-        // 舊版存檔可能沒有這些欄位，做相容性修補
-        function migrateBatchState(state) {
-            if (!state) return state;
-            if (!Array.isArray(state.pending)) state.pending = [];
-            if (!Array.isArray(state.reviewIds)) state.reviewIds = [];
-            if (typeof state.roundLocked !== 'boolean') state.roundLocked = state.reviewIds.length >= ROUND_CAP;
-            return state;
+        /* === 存檔格式相容：舊版（queue / reviewIds / stats）→ 新版（pending / noIds / okIds） === */
+        function legacyToNew(queue, pending, reviewIds, total) {
+            const inFlight = new Set([...queue, ...pending]);
+            const noSet = new Set(reviewIds);
+            const noIds = reviewIds.filter(id => inFlight.has(id));
+            const freshPending = queue.filter(id => !noSet.has(id)).concat(pending.filter(id => !noSet.has(id)));
+            const okIds = [];
+            for (let id = 0; id < total; id++) if (!inFlight.has(id)) okIds.push(id);
+            const noCount = {};
+            noIds.forEach(id => { noCount[id] = 1; });
+            return { pending: freshPending, noIds, okIds, noCount };
         }
 
-        // 只要沒鎖住、pending 還有字，就把新字補進 queue，維持「還沒判過的新字」有 PRELOAD_LOOKAHEAD 個緩衝
-        // 注意：不能用 queue.length 本身當上限，否則累積中的 reviewIds 單字會把緩衝空間卡死，
-        // 導致 queue 永遠長不大、reviewIds 實際上根本到不了 ROUND_CAP（這就是先前回報的 bug 成因）
-        //
-        // 新字要插進「靠近隊伍前面」而不是排到最後面：Again/Hard 會把字重新插回中前段位置，
-        // 如果新字永遠排在尾巴，遇到大量 Again/Hard 時會被卡住、永遠輪不到，導致 reviewIds
-        // 實際上根本長不大（這也是先前回報 bug 的一部分成因）。
-        function topUpQueue() {
-            if (appState.roundLocked) return;
-            let freshCount = 0;
-            for (const id of appState.queue) {
-                if (!appState.reviewIds.includes(id)) freshCount++;
+        function normalizeState(raw) {
+            const cards = Array.isArray(raw.cards) ? raw.cards : [];
+            const total = raw.totalImported || cards.length;
+            let core;
+            if (Array.isArray(raw.noIds) && Array.isArray(raw.okIds)) {
+                core = {
+                    pending: Array.isArray(raw.pending) ? raw.pending : [],
+                    noIds: raw.noIds,
+                    okIds: raw.okIds,
+                    noCount: (raw.noCount && typeof raw.noCount === 'object') ? raw.noCount : {}
+                };
+            } else {
+                core = legacyToNew(raw.queue || [], raw.pending || [], raw.reviewIds || [], total);
             }
-            while (freshCount < PRELOAD_LOOKAHEAD && appState.pending.length > 0) {
-                const insertAt = Math.min(2, appState.queue.length);
-                appState.queue.splice(insertAt, 0, appState.pending.shift());
-                freshCount++;
-            }
+            return { cards, totalImported: total, vocabSig: raw.vocabSig, ...core };
         }
 
-        // 累積池剛好滿 ROUND_CAP 時呼叫：鎖住之外，還要把 queue 裡「預讀緩衝」中
-        // 那些還沒被判過的新字收回 pending，否則使用者會繼續看到它們、把累積數推超過上限
-        function lockRound() {
-            appState.roundLocked = true;
-            const stillNew = [];
-            appState.queue = appState.queue.filter(id => {
-                if (appState.reviewIds.includes(id)) return true;
-                stillNew.push(id);
-                return false;
+        // 保證每個單字剛好在一個清單裡，並剔除超出單字庫範圍的 id
+        function sanitizeState() {
+            const n = appState.cards.length;
+            if (!n) return;
+            const seen = new Set();
+            const clean = arr => arr.filter(id => Number.isInteger(id) && id >= 0 && id < n && !seen.has(id) && (seen.add(id), true));
+            appState.noIds = clean(appState.noIds);
+            appState.okIds = clean(appState.okIds);
+            appState.pending = clean(appState.pending);
+            for (let id = 0; id < n; id++) if (!seen.has(id)) appState.pending.push(id);
+            const nc = {};
+            Object.keys(appState.noCount).forEach(k => {
+                const v = Number(appState.noCount[k]);
+                if (v > 0 && seen.has(Number(k))) nc[k] = v;
             });
-            appState.pending = stillNew.concat(appState.pending);
+            appState.noCount = nc;
+            appState.totalImported = n;
         }
 
         function openDB() {
@@ -482,12 +563,12 @@
             if (!syncId) return;
             try {
                 await setDoc(doc(db, "flashcards_sync", syncId), {
-                    queue: appState.queue,
                     pending: appState.pending,
-                    reviewIds: appState.reviewIds,
-                    roundLocked: appState.roundLocked,
-                    stats: appState.stats,
+                    noIds: appState.noIds,
+                    okIds: appState.okIds,
+                    noCountJson: JSON.stringify(appState.noCount),
                     totalImported: appState.totalImported,
+                    vocabSig: appState.vocabSig || null,
                     updatedAt: Date.now()
                 });
             } catch(e) {
@@ -498,25 +579,30 @@
         async function loadFromCloud(id) {
             try {
                 const docSnap = await getDoc(doc(db, "flashcards_sync", id));
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    appState.queue = data.queue || [];
-                    appState.pending = data.pending || [];
-                    appState.reviewIds = data.reviewIds || [];
-                    appState.roundLocked = !!data.roundLocked;
-                    appState.stats = data.stats || { again: 0, hard: 0, good: 0, easy: 0 };
-                    appState.totalImported = data.totalImported || appState.totalImported;
-                    migrateBatchState(appState);
-                    await saveStateLocal(appState);
-                    return true;
+                if (!docSnap.exists()) return false;
+                const data = docSnap.data();
+                // 雲端進度是用單字編號記的，單字庫換過就對不上，不能套用
+                if ((data.vocabSig || null) !== (appState.vocabSig || null)) return false;
+                let noCount = {};
+                if (typeof data.noCountJson === 'string') {
+                    try { noCount = JSON.parse(data.noCountJson) || {}; } catch (e) {}
                 }
-                return false;
+                appState = normalizeState({
+                    cards: appState.cards,
+                    vocabSig: appState.vocabSig,
+                    totalImported: data.totalImported || appState.totalImported,
+                    pending: data.pending, noIds: data.noIds, okIds: data.okIds, noCount,
+                    queue: data.queue, reviewIds: data.reviewIds
+                });
+                sanitizeState();
+                await saveStateLocal(appState);
+                return true;
             } catch(e) {
                 console.error("Cloud load failed", e);
                 return false;
             }
         }
-        
+
         async function updateState() {
             await saveStateLocal(appState);
             if (syncId) {
@@ -549,13 +635,13 @@
             let wordForms = [];
             let collocations = [];
             let example = [];
-            
+
             let currentBlock = "translation";
             const lines = text.split('\n');
             for (let line of lines) {
                 let tLine = line.trim();
                 if(!tLine) continue;
-                
+
                 if (tLine.includes("【詞性變化】") || tLine.includes("衍生字")) { currentBlock = "forms"; continue; }
                 if (tLine.includes("【搭配詞】") || tLine.includes("【考試重點")) { currentBlock = "collocations"; continue; }
                 if (tLine.includes("【例句】")) { currentBlock = "example"; continue; }
@@ -565,7 +651,7 @@
                 else if (currentBlock === "collocations") collocations.push(tLine);
                 else if (currentBlock === "example") example.push(tLine);
             }
-            
+
             let exampleEng = "";
             if (example.length > 0) {
                 let exText = example.join('<br>');
@@ -574,7 +660,7 @@
                 if (pIndex !== -1) {
                     exampleEng = exText.substring(0, pIndex).trim();
                 } else {
-                    exampleEng = exText; 
+                    exampleEng = exText;
                 }
             }
 
@@ -587,184 +673,699 @@
             };
         }
 
-        /* === Core Logic === */
-        const viewCard = document.getElementById('view-card');
-        const viewMessage = document.getElementById('view-message');
-        const elFront = document.getElementById('card-front');
-        const elBack = document.getElementById('card-back');
+        // 把 [單字, 內容] 的列載入成單字卡並套用到 appState，手動匯入與預先載入共用這份邏輯
+        // 單字庫的指紋：內建單字表一改，就會和存檔裡的不同，用來判斷要不要換新單字
+        function vocabSignature(rows) {
+            const text = rows.map(r => r[0].trim()).join('\n');
+            let h = 5381;
+            for (let i = 0; i < text.length; i++) h = ((h * 33) ^ text.charCodeAt(i)) >>> 0;
+            return rows.length + '-' + h.toString(36);
+        }
 
-        function updateViews(showCard) {
-            if (showCard) {
-                viewCard.classList.add('active');
-                viewMessage.classList.remove('active');
-            } else {
-                viewCard.classList.remove('active');
-                viewMessage.classList.add('active');
+        // sig：內建單字庫傳 vocabSignature(rows)；使用者自己匯入的 CSV 傳 'custom'（不會被自動換掉）
+        async function loadCardsFromRows(rows, sig = 'custom') {
+            if (rows.length === 0) return false;
+
+            const newCards = rows.map((r, i) => ({
+                id: i,
+                word: r[0].trim(),
+                parsed: parseCardText(r[1] ? r[1].trim() : "")
+            }));
+
+            appState = { ...emptyState(), cards: newCards, totalImported: newCards.length, vocabSig: sig };
+            appState.pending = shuffleArray(newCards.map(c => c.id));
+            // 雲端同步開著的話，先試著把雲端進度接續回來，而不是整個蓋掉
+            if (syncId) await loadFromCloud(syncId);
+            sanitizeState();
+
+            ui.mode = 'new';
+            ui.side = 'front';
+            ui.reviewId = null;
+            updateState();
+            return true;
+        }
+
+        function loadCardsFromText(text) {
+            return loadCardsFromRows(parseCSV(text));
+        }
+
+        // 預設單字庫：優先讀已經解析好的 JSON（傳輸會被壓縮、解析也快很多），失敗再退回原始 CSV
+        async function fetchDefaultRows() {
+            try {
+                const res = await fetch('toeic_vocabulary.json');
+                if (res.ok) {
+                    const rows = await res.json();
+                    if (Array.isArray(rows) && rows.length) return rows;
+                }
+            } catch (e) {
+                console.warn('JSON 單字庫載入失敗，改用 CSV', e);
             }
+            const res = await fetch('toeic_vocabulary.csv');
+            if (!res.ok) throw new Error('CSV ' + res.status);
+            return parseCSV(await res.text());
+        }
+
+        /* === Views === */
+        const viewCard = $('view-card');
+        const viewOk = $('view-ok');
+        const viewMessage = $('view-message');
+        const elFront = $('card-front');
+        const elBack = $('card-back');
+        const frontGroup = $('front-word-group');
+        const okListEl = $('ok-list');
+        const btnStatOk = $('stat-ok-btn');
+        const btnStatNo = $('stat-no-btn');
+
+        function currentCardId() {
+            if (ui.mode === 'new') return appState.pending.length ? appState.pending[0] : null;
+            if (ui.mode === 'no') return appState.noIds.length ? appState.noIds[0] : null;
+            return ui.reviewId;
+        }
+
+        function setView(name) {
+            ui.view = name;
+            viewCard.classList.toggle('active', name === 'card');
+            viewOk.classList.toggle('active', name === 'ok');
+            viewMessage.classList.toggle('active', name === 'message');
+            renderHeader();
+            positionDeco();
         }
 
         function renderHeader() {
-            // 進度條：累積中的非 easy 單字數（點 Again/Hard/Good 才會累積，點 Easy 代表學會了、離開累積池）
-            let roundCount = appState.reviewIds.length;
-            document.getElementById('round-progress-text').textContent = `${roundCount} / ${ROUND_CAP}`;
-            document.getElementById('round-progress-fill').style.width = `${Math.min(roundCount / ROUND_CAP, 1) * 100}%`;
-
-            // 總進度（點右邊的 i 才會顯示）
-            let remaining = appState.queue.length + appState.pending.length;
-            let completed = appState.totalImported - remaining;
-            let currentDisplay = appState.totalImported === 0 ? 0 : Math.min(completed + 1, appState.totalImported);
-            document.getElementById('header-progress-text').textContent = `總進度 ${currentDisplay} / ${appState.totalImported}`;
-
-            document.getElementById('stat-again').textContent = appState.stats.again;
-            document.getElementById('stat-hard').textContent = appState.stats.hard;
-            document.getElementById('stat-good').textContent = appState.stats.good;
-            document.getElementById('stat-easy').textContent = appState.stats.easy;
+            $('stat-ok').textContent = appState.okIds.length;
+            $('stat-no').textContent = appState.noIds.length;
+            btnStatOk.classList.toggle('active', ui.view === 'ok' || (ui.view === 'card' && ui.mode === 'ok'));
+            btnStatNo.classList.toggle('active', ui.view === 'card' && ui.mode === 'no');
+            const showBack = ui.view === 'ok' || (ui.view === 'card' && ui.mode !== 'new');
+            $('btn-back').classList.toggle('hidden', !showBack);
+            document.querySelector('header').classList.toggle('has-back', showBack);
+            renderBottomBar();
         }
-        
-        function preloadImages() {
-            for (let i = 1; i <= 2; i++) {
-                if (appState.queue.length > i) {
-                    const nextCard = appState.cards[appState.queue[i]];
-                    const img = new Image();
-                    img.src = `https://loremflickr.com/600/300/${encodeURIComponent(nextCard.word)}`;
+
+        function renderBottomBar() {
+            const bar = $('bottom-bar'), label = $('mode-label');
+            if (ui.view === 'message' || ui.loading) { bar.classList.add('hidden'); return; }
+            bar.classList.remove('hidden');
+            // 經驗值條只在背新單字時顯示
+            const total = appState.totalImported, done = total - appState.pending.length;
+            const showXp = ui.view === 'card' && ui.mode === 'new' && total > 0;
+            $('xp-bar').classList.toggle('hidden', !showXp);
+            if (showXp) $('xp-fill').style.width = (done / total * 100).toFixed(1) + '%';
+            if (ui.view === 'ok') label.textContent = `OK 單字 · ${appState.okIds.length}`;
+            else if (ui.mode === 'no') label.textContent = `NO 複習 · 剩 ${appState.noIds.length} 個`;
+            else if (ui.mode === 'ok') label.textContent = 'OK 單字複習';
+            else label.textContent = `新單字 · ${appState.totalImported - appState.pending.length} / ${appState.totalImported}`;
+        }
+
+        /* === 背景主視覺：黃昏山谷裡的城堡（像素畫，橫向捲動、無限循環） === */
+        // 先在很小的 canvas 上一格一格畫，再由 CSS 放大成整個畫面。
+        // 雲、遠山、近山、城堡、前景草丘各自畫在一張「頭尾相接」的長條圖上，用不同速度往左移，
+        // 看起來就像鏡頭一直往右走；越近的景物移得越快（視差）。天空、星星、月亮不動。
+        // 亂數用固定種子，所以每次畫出來的星星、樹的位置都一樣。
+        const scene = { layers: [], sky: null, W: 0, TW: 0, t0: performance.now(), last: '', running: false,
+            still: window.matchMedia('(prefers-reduced-motion: reduce)').matches };
+
+        function buildScene() {
+            const S = window.innerWidth < 600 ? 3 : 4;                 // 一格像素＝畫面上幾 px
+            const W = Math.ceil(window.innerWidth / S), H = Math.ceil(window.innerHeight / S);
+            const TW = Math.max(Math.round(W * 1.6), 420);             // 一輪循環的寬度
+            const main = $('scene');
+            main.width = W; main.height = H;
+            let seed = 20261117;
+            const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+            const tri = t => 1 - Math.abs(((t % 1) + 1) % 1 * 2 - 1);  // 三角波：畫尖尖的山
+            const hz = Math.round(H * 0.70);                           // 地平線
+            // 開一張新的圖層，回傳 [canvas, 畫方塊的函式]
+            const layer = w => {
+                const cv = document.createElement('canvas'); cv.width = w; cv.height = H;
+                const ctx = cv.getContext('2d');
+                return [cv, (x, y, pw, ph, c) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(pw)), Math.max(1, Math.round(ph))); }];
+            };
+            // 跨過圖層左右邊界的東西要在兩邊各畫一次，接縫才不會斷
+            const wrap = fn => [-TW, 0, TW].forEach(fn);
+
+            /* --- 不動的底圖：天空、星星、月亮、地面 --- */
+            const [skyCv, px] = layer(W);
+            const sky = ['#140b2e', '#1d1042', '#291658', '#38206f', '#4b2885', '#663092', '#8a3a96', '#b24a8f', '#d9627f', '#f58a6e', '#ffb86b'];
+            const band = hz / sky.length;
+            sky.forEach((c, i) => {
+                const y0 = Math.round(i * band), y1 = Math.round((i + 1) * band);
+                px(0, y0, W, y1 - y0, c);
+                if (i > 0) for (let x = 0; x < W; x++) {               // 色帶交界用棋盤格抖色
+                    if (x % 2 === 0) px(x, y0, 1, 1, sky[i - 1]);
+                    if (x % 4 === 1) px(x, y0 + 2, 1, 1, sky[i - 1]);
+                }
+            });
+            const nStars = Math.round(W * H / 260);
+            for (let i = 0; i < nStars; i++) {
+                const x = Math.floor(rnd() * W), y = Math.floor(rnd() * hz * 0.62), t = rnd();
+                const c = t < 0.6 ? '#FFF1E8' : t < 0.85 ? '#c9b6ff' : '#FFEC27';
+                px(x, y, 1, 1, c);
+                if (t > 0.93) { px(x - 1, y, 3, 1, c); px(x, y - 1, 1, 3, c); }
+            }
+            const R = Math.max(9, Math.min(26, Math.round(Math.min(W, H) * 0.11)));
+            const mx = Math.round(W * 0.80), my = Math.round(hz * 0.30);
+            for (let dy = -R - 5; dy <= R + 5; dy++) for (let dx = -R - 5; dx <= R + 5; dx++) {
+                const d2 = dx * dx + dy * dy;
+                if (d2 <= R * R) {
+                    const shade = (dx + R * 0.35) * (dx + R * 0.35) + (dy + R * 0.3) * (dy + R * 0.3) > R * R * 0.95;
+                    px(mx + dx, my + dy, 1, 1, shade ? '#e3c6d6' : '#FFF1E8');
+                } else if (d2 <= (R + 5) * (R + 5) && (dx + dy) % 2 === 0 && (d2 <= (R + 2) * (R + 2) || (dx - dy) % 4 === 0)) {
+                    px(mx + dx, my + dy, 1, 1, 'rgba(255, 241, 232, 0.22)');   // 光暈
                 }
             }
+            [[-0.35, -0.2, 0.18], [0.1, 0.25, 0.13], [-0.1, 0.5, 0.09], [0.35, -0.35, 0.1]].forEach(([ox, oy, cr]) => {
+                const r = Math.max(1, Math.round(R * cr));                     // 坑洞
+                px(mx + ox * R - r, my + oy * R - r + 1, r * 2, r * 2 - 2, '#d2b3cb');
+                px(mx + ox * R - r + 1, my + oy * R - r, r * 2 - 2, r * 2, '#d2b3cb');
+            });
+            px(0, hz, W, H - hz, '#28124a');                                   // 地面
+
+            /* --- 雲 --- */
+            const [cloudCv, pc] = layer(TW);
+            const cloud = (x, y, w, dark, light) => wrap(o => {
+                pc(o + x + w * 0.25, y - 4, w * 0.4, 2, light);
+                pc(o + x + w * 0.1, y - 2, w * 0.7, 2, light);
+                pc(o + x, y, w, 3, dark);
+                pc(o + x + w * 0.15, y + 3, w * 0.6, 1, dark);
+            });
+            cloud(TW * 0.04, hz * 0.22, 34, '#5b2f8d', '#7d45a6');
+            cloud(TW * 0.36, hz * 0.14, 26, '#4a2680', '#6a3a99');
+            cloud(TW * 0.70, hz * 0.26, 30, '#5b2f8d', '#7d45a6');
+            cloud(TW * 0.20, hz * 0.52, 40, '#a34d97', '#c96a98');
+            cloud(TW * 0.55, hz * 0.62, 30, '#c25f8f', '#e58a86');
+            cloud(TW * 0.86, hz * 0.70, 28, '#c25f8f', '#e58a86');
+
+            /* --- 遠山、近山（山形用整數個週期，頭尾才接得起來） --- */
+            const u = x => x / TW;
+            const f1 = Math.max(2, Math.round(TW / 74)), f2 = Math.round(TW / 29);
+            const n1 = Math.max(2, Math.round(TW / 97)), n2 = Math.round(TW / 21);
+            const farTop = x => hz - Math.round(H * 0.04 + tri(u(x) * f1 + 0.15) * H * 0.15 + tri(u(x) * f2 + 0.4) * H * 0.05);
+            const nearTop = x => hz - Math.round(H * 0.01 + tri(u(x) * n1 + 0.62) * H * 0.09 + tri(u(x) * n2 + 0.1) * H * 0.025);
+            const [farCv, pf] = layer(TW);
+            for (let x = 0; x < TW; x++) {
+                const f = farTop(x);
+                pf(x, f, 1, hz - f, '#5c2d86');
+                if (farTop(x - 1) > f || farTop(x - 2) > f) pf(x, f, 1, 3, '#8a55b3');   // 向光的左坡
+                if (hz - f > H * 0.17) pf(x, f, 1, 2, '#e9d9f2');                         // 山頂積雪
+            }
+            const [nearCv, pn] = layer(TW);
+            for (let x = 0; x < TW; x++) {
+                const n = nearTop(x);
+                pn(x, n, 1, hz - n, '#3a1b62');
+                if (nearTop(x - 1) > n) pn(x, n, 1, 2, '#55298a');
+            }
+
+            /* --- 城堡：蓋在小丘上，窗戶亮著燈（每一輪經過一次） --- */
+            const [castleCv, pk] = layer(TW);
+            const k = Math.max(1, Math.round(H / 150));
+            const cx = Math.round(TW * 0.30), by = hz - 3 * k;
+            for (let j = 0; j < 6; j++) pk(cx - (17 + j * 4) * k, by + j * k, (34 + j * 8) * k, k, j === 0 ? '#3a1b62' : '#28124a');
+            const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+            const stone = '#1b0c33', roof = '#6b1f52';
+            c(-8, -16, 16, 16, stone);                     // 主堡
+            c(-14, -22, 6, 22, stone);                     // 左塔
+            c(8, -27, 6, 27, stone);                       // 右塔
+            c(-3, -22, 6, 6, stone);                       // 中央小塔
+            for (let i = 0; i < 16; i += 2) c(-8 + i, -18, 1, 2, stone);          // 城垛
+            for (let i = 0; i < 6; i += 2) c(-3 + i, -24, 1, 2, stone);
+            for (let j = 0; j < 4; j++) { c(-15 + j, -23 - j, 8 - j * 2, 1, roof); c(7 + j, -28 - j, 8 - j * 2, 1, roof); }   // 尖屋頂
+            c(10.5, -37, 1, 6, stone); c(11.5, -37, 4, 2, '#FF004D'); c(11.5, -35, 2, 1, '#FF004D');                      // 旗子
+            [[-12, -17], [10, -21], [10, -13], [-4, -11], [3, -11], [-1, -19]].forEach(([x, y]) => c(x, y, 1, 2, '#FFEC27'));
+            c(-2, -6, 4, 6, '#0c0418'); c(-1, -7, 2, 1, '#0c0418');                // 城門
+
+            /* --- 前景：起伏的草丘和松樹剪影 --- */
+            const [hillCv, ph] = layer(TW);
+            const h1 = Math.max(1, Math.round(TW / 300)), h2 = Math.max(2, Math.round(TW / 110));
+            const hillTop = x => Math.round(H * 0.83 - Math.sin(u(x) * h1 * Math.PI * 2 + 2) * H * 0.035 - Math.sin(u(x) * h2 * Math.PI * 2) * H * 0.014);
+            for (let x = 0; x < TW; x++) {
+                const t = hillTop(x);
+                ph(x, t, 1, H - t, '#150926');
+                ph(x, t, 1, 1, '#3b1d63');
+            }
+            const nTrees = Math.round(TW / 9);
+            for (let i = 0; i < nTrees; i++) {
+                const x = Math.floor(rnd() * TW), base = hillTop(x) + 1, th = 6 + Math.floor(rnd() * 8);
+                wrap(o => {
+                    ph(o + x, base - 2, 1, 2, '#0b0416');
+                    for (let j = 0; j < th; j++) {
+                        const w = Math.max(1, 1 + Math.floor(j / 2) * 2 - (j % 4 === 3 ? 2 : 0));
+                        ph(o + x - Math.floor(w / 2), base - 2 - th + j, w, 1, '#0b0416');
+                    }
+                });
+            }
+
+            // speed：每秒往左移幾格像素（越後面的圖層越近、越快）
+            scene.sky = skyCv; scene.W = W; scene.TW = TW; scene.last = '';
+            scene.layers = [
+                { cv: cloudCv, speed: 1.5 }, { cv: farCv, speed: 3 }, { cv: nearCv, speed: 6 },
+                { cv: castleCv, speed: 9 }, { cv: hillCv, speed: 15 }
+            ];
+        }
+
+        // 每一幀：算出各層移到哪一格；有任何一層移了整格才重畫（所以捲動是一格一格跳的）
+        function paintScene(now) {
+            const { W, TW, layers } = scene;
+            const t = scene.still ? 0 : (now - scene.t0) / 1000;
+            const offs = layers.map(l => Math.floor(t * l.speed) % TW);
+            const key = offs.join();
+            if (key !== scene.last) {
+                scene.last = key;
+                const ctx = $('scene').getContext('2d');
+                ctx.drawImage(scene.sky, 0, 0);
+                layers.forEach((l, i) => { for (let x = -offs[i]; x < W; x += TW) ctx.drawImage(l.cv, x, 0); });
+            }
+            if (scene.still) scene.running = false;
+            else requestAnimationFrame(paintScene);
+        }
+        function startScene() {
+            buildScene();
+            if (scene.still) paintScene(performance.now());
+            else if (!scene.running) { scene.running = true; requestAnimationFrame(paintScene); }
+        }
+        startScene();
+        let sceneTimer = 0;
+        window.addEventListener('resize', () => { clearTimeout(sceneTimer); sceneTimer = setTimeout(startScene, 120); });
+
+        /* === 背景粒子 === */
+        (function makeParticles() {
+            const host = $('particles');
+            const cols = ['#FFF1E8', '#29ADFF', '#FFEC27', '#FF77A8', '#C2C3C7'];
+            const n = window.innerWidth < 600 ? 34 : 60;
+            for (let i = 0; i < n; i++) {
+                const el = document.createElement('span');
+                const size = [2, 2, 2, 3, 4][Math.floor(Math.random() * 5)];
+                const c = cols[Math.floor(Math.random() * cols.length)];
+                el.style.cssText = `left:${(Math.random() * 100).toFixed(1)}%;width:${size}px;height:${size}px;background:${c};` +
+                    `opacity:${(0.35 + Math.random() * 0.6).toFixed(2)};` +
+                    `--dx:${Math.round(Math.random() * 80 - 40)}px;animation-duration:${(9 + Math.random() * 10).toFixed(1)}s;` +
+                    `animation-delay:-${(Math.random() * 19).toFixed(1)}s;`;
+                host.appendChild(el);
+            }
+        })();
+
+        /* === 兩側裝飾單字：轉 90 度、裁掉一半、只有外圈輪廓 === */
+        // 用 canvas 先描邊、再把文字本體挖掉，只留下字外緣的一圈線——
+        // 效果等同 Illustrator 的「文字轉外框 + 聯集」，不會出現筆畫重疊處的內部線條。
+        const decoLeft = $('deco-left');
+        const decoRight = $('deco-right');
+        const DECO_FONT = "'Press Start 2P', monospace";
+        const DECO_LINE = 2; // 外框線粗細（px）
+
+        function pickWord(id) { const c = appState.cards[id]; return c ? c.word : ''; }
+        function randomWord() {
+            const n = appState.cards.length;
+            return n ? appState.cards[Math.floor(Math.random() * n)].word : '';
+        }
+
+        // 裝飾字以目前主畫面（卡片 / 列表 / 訊息）的垂直中心為準，上下居中
+        function decoCenterY() {
+            const panel = ui.view === 'ok' ? viewOk : ui.view === 'message' ? viewMessage : $('card-container');
+            const r = panel.getBoundingClientRect();
+            return r.height ? r.top + r.height / 2 : window.innerHeight / 2;
+        }
+
+        function positionDeco() {
+            const y = decoCenterY() + 'px';
+            decoLeft.style.top = y;
+            decoRight.style.top = y;
+        }
+
+        const decoMeasureCtx = document.createElement('canvas').getContext('2d');
+
+        // 這個字在畫面上的大小與字形範圍：外框裝飾與背景點點的挖空共用，兩邊才會完全對齊
+        function decoLayout(text) {
+            const cy = decoCenterY();
+            const maxLen = Math.min(cy, window.innerHeight - cy) * 2 * 0.96;
+            const measure = size => { decoMeasureCtx.font = `400 ${size}px ${DECO_FONT}`; return decoMeasureCtx.measureText(text); };
+
+            // 字太長就縮小，確保整個字都在畫面上下範圍內
+            let size = Math.min(Math.max(window.innerWidth * 0.15, 120), 240);
+            let m = measure(size);
+            let inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+            if (inkW > maxLen) {
+                size = Math.max(40, size * maxLen / inkW);
+                m = measure(size);
+                inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+            }
+            return { size, m, inkW, inkH: m.actualBoundingBoxAscent + m.actualBoundingBoxDescent };
+        }
+
+        function drawDeco(canvas, text) {
+            canvas.dataset.text = text;
+            if (!text) { canvas.style.display = 'none'; return; }
+            canvas.style.display = '';
+
+            const ctx = canvas.getContext('2d');
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const { size, m, inkW, inkH } = decoLayout(text);
+            const pad = Math.ceil(DECO_LINE) + 2;
+            const wCss = Math.ceil(inkW) + pad * 2;
+            const hCss = Math.ceil(inkH) + pad * 2;
+
+            // 畫布剛好包住字的實際範圍，所以旋轉後的「裁一半」就是切在字的正中間
+            canvas.width = Math.round(wCss * dpr);
+            canvas.height = Math.round(hCss * dpr);
+            canvas.style.width = wCss + 'px';
+            canvas.style.height = hCss + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.font = `400 ${size}px ${DECO_FONT}`;
+            ctx.textBaseline = 'alphabetic';
+            const x = pad + m.actualBoundingBoxLeft;
+            const y = pad + m.actualBoundingBoxAscent;
+            const rgb = getComputedStyle(document.documentElement).getPropertyValue('--deco-rgb').trim();
+            ctx.lineJoin = 'miter';
+            ctx.lineWidth = DECO_LINE * 2; // 描邊的外側一半才是最後留下的線
+            ctx.strokeStyle = `rgb(${rgb})`;
+            ctx.strokeText(text, x, y);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillText(text, x, y); // 挖掉文字本體（連同內部重疊的線）
+            ctx.globalCompositeOperation = 'source-over';
+        }
+
+        function setDeco(canvas, text) {
+            if (canvas.dataset.text === text) return;
+            drawDeco(canvas, text);
+            canvas.classList.remove('deco-in');
+            void canvas.offsetWidth;
+            canvas.classList.add('deco-in');
+        }
+
+        function redrawDeco() {
+            drawDeco(decoLeft, decoLeft.dataset.text || '');
+            drawDeco(decoRight, decoRight.dataset.text || '');
+        }
+
+        // 左右都是「現在這個單字」；不在卡片畫面時沿用最後一次的單字
+        function updateDeco() {
+            let word = '';
+            if (ui.view === 'card') {
+                const id = currentCardId();
+                if (id != null) word = pickWord(id);
+            }
+            if (word) ui.decoWord = word;
+            else if (!ui.decoWord) ui.decoWord = randomWord();
+            setDeco(decoLeft, ui.decoWord);
+            setDeco(decoRight, ui.decoWord);
+        }
+
+        /* === 卡片 === */
+        // 單字太長時自動縮小，確保一行放得下
+        function fitFrontWord() {
+            frontGroup.style.fontSize = '';
+            if (elFront.clientWidth) {
+                let size = parseFloat(getComputedStyle(frontGroup).fontSize);
+                let guard = 0;
+                while (frontGroup.offsetWidth > elFront.clientWidth && size > 18 && guard++ < 60) {
+                    size -= 2;
+                    frontGroup.style.fontSize = size + 'px';
+                }
+            }
+            alignSpeaker();
+        }
+
+        // 讓單字對齊「實際字形範圍」的上下中心，而不是行框（含上下留白）的中心
+        const frontWordEl = $('front-word');
+        const measureCtx = document.createElement('canvas').getContext('2d');
+
+        function alignSpeaker() {
+            let dy = 0;
+            const text = frontWordEl.textContent;
+            const lineBox = frontWordEl.offsetHeight;
+            const cs = getComputedStyle(frontWordEl);
+            const lh = parseFloat(cs.lineHeight);
+            if (text && lineBox && lh > 0 && lineBox <= lh * 1.5) { // 換行的片語就不調整
+                measureCtx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+                const m = measureCtx.measureText(text);
+                if (m.fontBoundingBoxAscent !== undefined) {
+                    const baseline = (lh - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2 + m.fontBoundingBoxAscent;
+                    const inkCenter = baseline + (m.actualBoundingBoxDescent - m.actualBoundingBoxAscent) / 2;
+                    dy = inkCenter - lh / 2;
+                }
+            }
+            // 讓單字字形的上下中心落在圓圈圓心
+            frontGroup.style.setProperty('--dy', dy.toFixed(1) + 'px');
+        }
+
+        function setFrontWord(word) {
+            const esc = ch => ch.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            let i = 0;
+            frontWordEl.innerHTML = word.split(' ').map(w =>
+                '<span class="w">' + [...w].map(ch => `<span class="l" style="--i:${i++}">${esc(ch)}</span>`).join('') + '</span>'
+            ).join(' ');
         }
 
         function renderCard() {
-            if (appState.queue.length === 0) return;
-            const card = appState.cards[appState.queue[0]];
-            
-            if (appState.side === 'front') {
+            const id = currentCardId();
+            if (id == null) return;
+            const card = appState.cards[id];
+            if (!card) return;
+
+            if (ui.side === 'front') {
                 elFront.classList.remove('flipped');
                 elBack.classList.remove('flipped');
-                document.getElementById('front-word').textContent = card.word;
+                setFrontWord(card.word);
+                fitFrontWord();
+                updateDeco();
                 playAudio(card.word);
             } else {
                 elFront.classList.add('flipped');
                 elBack.classList.add('flipped');
-                
-                // Back content
-                document.getElementById('back-image').style.backgroundImage = `url('https://loremflickr.com/600/300/${encodeURIComponent(card.word)}')`;
-                document.getElementById('back-translation').innerHTML = card.parsed.translation;
-                
-                const elForms = document.getElementById('back-forms');
+
+                $('back-translation').innerHTML = card.parsed.translation;
+
+                const elForms = $('back-forms');
                 if (card.parsed.wordForms) { elForms.innerHTML = card.parsed.wordForms; elForms.classList.remove('hidden'); }
                 else elForms.classList.add('hidden');
-                
-                const elColloc = document.getElementById('back-collocations');
+
+                const elColloc = $('back-collocations');
                 if (card.parsed.collocations) { elColloc.innerHTML = card.parsed.collocations; elColloc.classList.remove('hidden'); }
                 else elColloc.classList.add('hidden');
-                
-                const elExBox = document.getElementById('back-example-box');
+
+                const elExBox = $('back-example-box');
                 if (card.parsed.example) {
-                    document.getElementById('back-example-text').innerHTML = card.parsed.example;
+                    $('back-example-text').innerHTML = card.parsed.example;
                     elExBox.classList.remove('hidden');
                     playAudio(card.parsed.exampleEng);
                 } else {
                     elExBox.classList.add('hidden');
                 }
             }
-            
-            preloadImages();
         }
 
         function flipCard() {
-            if (appState.queue.length === 0) return;
-            appState.side = 'back';
+            if (ui.view !== 'card' || currentCardId() == null) return;
+            ui.side = 'back';
             renderCard();
-            updateState();
         }
 
-        function handleSRS(action) {
-            if (appState.queue.length === 0) return;
-            const currentId = appState.queue.shift();
+        function showCardView() {
+            ui.loading = false;
+            elFront.classList.remove('loading');
+            setView('card');
+            renderCard();
+        }
 
-            appState.stats[action]++;
+        /* === 模式切換 === */
+        function enterNewMode() {
+            ui.mode = 'new';
+            ui.side = 'front';
+            ui.reviewId = null;
+            if (appState.cards.length === 0) { showEmptyScreen(); return; }
+            if (appState.pending.length === 0) { showEndScreen(); return; }
+            showCardView();
+        }
 
-            const reviewIdx = appState.reviewIds.indexOf(currentId);
-            const wasInReview = reviewIdx !== -1;
+        function enterNoMode() {
+            if (appState.noIds.length === 0) {
+                showDialog('👍', '沒有單字需要複習', 'NO 單字庫目前是空的。');
+                return;
+            }
+            ui.mode = 'no';
+            ui.side = 'front';
+            ui.reviewId = null;
+            showCardView();
+        }
 
-            if (action === 'easy') {
-                // 學會了：完全移出輪替。如果它原本在累積池中，把它清掉（離開累積）
-                if (wasInReview) {
-                    appState.reviewIds.splice(reviewIdx, 1);
-                    // 鎖住的這一輪，等累積池全部清空才解鎖、換下一輪
-                    if (appState.roundLocked && appState.reviewIds.length === 0) {
-                        appState.roundLocked = false;
-                    }
-                }
+        function openOkCard(id) {
+            ui.okScroll = okListEl.scrollTop;
+            ui.mode = 'ok';
+            ui.reviewId = id;
+            ui.side = 'front';
+            showCardView();
+        }
+
+        /* === OK 單字列表（膠囊）：一次只畫一部分，捲到底再補 === */
+        const OK_CHUNK = 240;
+        let okOrder = [];
+        let okRendered = 0;
+
+        function updateOkEmpty() {
+            $('ok-empty').classList.toggle('hidden', okOrder.length > 0);
+            okListEl.classList.toggle('hidden', okOrder.length === 0);
+        }
+
+        function appendOkChunk() {
+            const frag = document.createDocumentFragment();
+            const end = Math.min(okOrder.length, okRendered + OK_CHUNK);
+            for (let i = okRendered; i < end; i++) {
+                const id = okOrder[i];
+                const card = appState.cards[id];
+                if (!card) continue;
+                const n = appState.noCount[id] || 0;
+                const btn = document.createElement('button');
+                btn.className = 'capsule ' + (n === 0 ? 'cap-green' : n === 1 ? 'cap-yellow' : 'cap-red');
+                btn.textContent = card.word;
+                btn.dataset.id = id;
+                frag.appendChild(btn);
+            }
+            okRendered = end;
+            okListEl.appendChild(frag);
+        }
+
+        function renderOkList() {
+            okListEl.innerHTML = '';
+            okOrder = [...appState.okIds].reverse(); // 最近背完的在最前面
+            okRendered = 0;
+            updateOkEmpty();
+            appendOkChunk();
+            okListEl.scrollTop = 0;
+        }
+
+        function openOkList() {
+            if (appState.cards.length === 0) return;
+            setView('ok');
+            renderOkList();
+            updateDeco();
+        }
+
+        // 從單張複習回到列表：保留捲動位置；如果那個字被按了 NO 就從列表拿掉
+        function returnToOkList(removedId) {
+            setView('ok');
+            if (removedId != null) {
+                const el = okListEl.querySelector(`[data-id="${removedId}"]`);
+                if (el) { el.remove(); okRendered--; }
+                const i = okOrder.indexOf(removedId);
+                if (i !== -1) okOrder.splice(i, 1);
+                updateOkEmpty();
+            }
+            okListEl.scrollTop = ui.okScroll || 0;
+            updateDeco();
+        }
+
+        okListEl.addEventListener('scroll', () => {
+            if (okRendered < okOrder.length && okListEl.scrollTop + okListEl.clientHeight >= okListEl.scrollHeight - 200) {
+                appendOkChunk();
+            }
+        });
+        okListEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('.capsule');
+            if (btn) openOkCard(Number(btn.dataset.id));
+        });
+
+        /* === 對話框（需要按「確認」才會關閉） === */
+        let dialogAction = null;
+        function showDialog(icon, title, message, onConfirm) {
+            $('dialog-icon').textContent = icon;
+            $('dialog-title').textContent = title;
+            $('dialog-msg').textContent = message;
+            dialogAction = onConfirm || null;
+            ui.dialog = true;
+            $('dialog').classList.remove('hidden');
+            $('dialog-ok').focus();
+        }
+        function closeDialog() {
+            if (!ui.dialog) return;
+            ui.dialog = false;
+            $('dialog').classList.add('hidden');
+            const fn = dialogAction;
+            dialogAction = null;
+            if (fn) fn();
+        }
+        $('dialog-ok').addEventListener('click', closeDialog);
+
+        /* === OK / NO 判定 === */
+        function judge(result) {
+            const id = currentCardId();
+            if (id == null || ui.view !== 'card') return;
+            const mode = ui.mode;
+            const { pending, noIds, okIds, noCount } = appState;
+            const removeFrom = (arr, v) => { const i = arr.indexOf(v); if (i !== -1) arr.splice(i, 1); };
+
+            if (result === 'ok') {
+                if (mode === 'new') { pending.shift(); okIds.push(id); }
+                else if (mode === 'no') { removeFrom(noIds, id); okIds.push(id); }
+                // mode === 'ok'：本來就在 OK 列表，維持原樣
             } else {
-                // Again / Hard / Good：這個字還不算學會，先放回 queue 繼續輪替
-                if (action === 'again') {
-                    if (appState.queue.length === 0) appState.queue.push(currentId);
-                    else appState.queue.splice(1, 0, currentId);
-                } else if (action === 'hard') {
-                    if (appState.queue.length === 0) appState.queue.push(currentId);
-                    else appState.queue.splice(Math.ceil(appState.queue.length / 2), 0, currentId);
-                } else if (action === 'good') {
-                    appState.queue.push(currentId);
-                }
-
-                // 累積池：只有這個字「第一次」變成非 easy 才會累加，滿了就鎖住並清掉緩衝區裡還沒判過的新字
-                if (!wasInReview) {
-                    appState.reviewIds.push(currentId);
-                    if (appState.reviewIds.length >= ROUND_CAP && !appState.roundLocked) {
-                        lockRound();
-                    }
-                }
+                noCount[id] = (noCount[id] || 0) + 1;
+                if (mode === 'new') { pending.shift(); noIds.push(id); }
+                else if (mode === 'no') { noIds.shift(); noIds.push(id); }
+                else { removeFrom(okIds, id); noIds.push(id); }
             }
 
-            // 沒鎖住的話，把新字補進 queue 維持預讀緩衝
-            topUpQueue();
-
-            appState.side = 'front';
+            ui.side = 'front';
             updateState();
 
-            if (appState.queue.length === 0 && appState.pending.length === 0) {
-                showEndScreen();
+            if (mode === 'ok') {
+                returnToOkList(result === 'no' ? id : null);
+            } else if (mode === 'no') {
+                if (noIds.length === 0) {
+                    renderHeader();
+                    showDialog('🎉', '複習完成', 'NO 單字庫已經全部複習完了！', enterNewMode);
+                } else {
+                    showCardView();
+                }
             } else {
-                renderHeader();
-                renderCard();
+                enterNewMode();
             }
+        }
+
+        function showLoadingScreen() {
+            ui.loading = true;
+            elFront.classList.add('loading');
+            setView('card');
         }
 
         function showEndScreen() {
-            updateViews(false);
-            renderHeader();
-            
-            document.getElementById('msg-title').textContent = "學習完成！";
-            document.getElementById('msg-desc').textContent = "這是您本次的學習統計：";
-            
-            document.getElementById('msg-stats').classList.remove('hidden');
-            document.getElementById('end-stat-again').innerHTML = `${appState.stats.again} <br><span>Again</span>`;
-            document.getElementById('end-stat-hard').innerHTML = `${appState.stats.hard} <br><span>Hard</span>`;
-            document.getElementById('end-stat-good').innerHTML = `${appState.stats.good} <br><span>Good</span>`;
-            document.getElementById('end-stat-easy').innerHTML = `${appState.stats.easy} <br><span>Easy</span>`;
-            
-            document.getElementById('btn-restart').classList.remove('hidden');
+            setView('message');
+            const ok = appState.okIds.length, no = appState.noIds.length;
+            $('msg-title').textContent = '新單字都看完了！';
+            $('msg-desc').textContent = no > 0 ? `還有 ${no} 個 NO 單字可以複習` : '全部單字都 OK 了 🎉';
+
+            $('msg-stats').classList.remove('hidden');
+            $('end-stat-ok').innerHTML = `${ok}<span>OK</span>`;
+            $('end-stat-no').innerHTML = `${no}<span>NO</span>`;
+
+            const btnReview = $('btn-review-no');
+            btnReview.classList.toggle('hidden', no === 0);
+            btnReview.textContent = `複習 NO 單字（${no}）`;
+
+            const btnRestart = $('btn-restart');
+            btnRestart.classList.remove('hidden');
+            btnRestart.classList.toggle('btn-primary', no === 0);
+            btnRestart.classList.toggle('btn-outline', no > 0);
+            updateDeco();
         }
-        
+
         function showEmptyScreen() {
-            updateViews(false);
-            document.getElementById('msg-title').textContent = "準備開始學習！";
-            document.getElementById('msg-desc').textContent = "請匯入單字卡 CSV 檔案";
-            document.getElementById('msg-stats').classList.add('hidden');
-            document.getElementById('btn-restart').classList.add('hidden');
+            ui.loading = false;
+            setView('message');
+            $('msg-title').textContent = '準備開始學習！';
+            $('msg-desc').textContent = '找不到內建單字庫，請確認網路連線，或手動匯入 CSV 檔案';
+            $('msg-stats').classList.add('hidden');
+            $('btn-review-no').classList.add('hidden');
+            $('btn-restart').classList.add('hidden');
+            updateDeco();
         }
 
         function restartQueue() {
-            appState.queue = [];
+            if (!confirm('確定要重新開始嗎？所有 OK / NO 紀錄都會清空。')) return;
             appState.pending = shuffleArray(appState.cards.map(c => c.id));
-            appState.reviewIds = [];
-            appState.roundLocked = false;
-            appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
-            appState.side = 'front';
-            topUpQueue();
+            appState.noIds = [];
+            appState.okIds = [];
+            appState.noCount = {};
             updateState();
-            updateViews(true);
-            renderHeader();
-            renderCard();
+            enterNewMode();
         }
 
         /* === Audio === */
@@ -779,8 +1380,8 @@
         /* === Event Listeners === */
 
         /* 漢堡選單開合 */
-        const btnMenu = document.getElementById('btn-menu');
-        const dropdownMenu = document.getElementById('dropdown-menu');
+        const btnMenu = $('btn-menu');
+        const dropdownMenu = $('dropdown-menu');
 
         function closeMenu() { dropdownMenu.classList.add('hidden'); }
         function toggleMenu() { dropdownMenu.classList.toggle('hidden'); }
@@ -802,45 +1403,71 @@
             }
         });
 
-        /* 總進度：點圓圈 i 才顯示 */
-        const btnTotalInfo = document.getElementById('btn-total-info');
-        const totalProgressPopover = document.getElementById('header-progress-text');
-
-        btnTotalInfo.addEventListener('click', (e) => {
-            e.stopPropagation();
-            totalProgressPopover.classList.toggle('hidden');
+        /* 左上角 OK / NO：隨時可點，再點一次同一個就回來 */
+        btnStatOk.addEventListener('click', () => {
+            btnStatOk.blur();
+            if (ui.view === 'ok') enterNewMode(); else openOkList();
         });
+        btnStatNo.addEventListener('click', () => {
+            btnStatNo.blur();
+            if (ui.view === 'card' && ui.mode === 'no') enterNewMode(); else enterNoMode();
+        });
+        $('btn-review-no').addEventListener('click', enterNoMode);
 
-        document.addEventListener('click', (e) => {
-            if (!totalProgressPopover.classList.contains('hidden') && !totalProgressPopover.contains(e.target) && !btnTotalInfo.contains(e.target)) {
-                totalProgressPopover.classList.add('hidden');
-            }
+        // 返回：單張複習 → OK 列表；其他（OK 列表 / NO 複習）→ 新單字
+        function goBack() {
+            if (ui.view === 'card' && ui.mode === 'ok') returnToOkList(null);
+            else enterNewMode();
+        }
+        $('btn-back').addEventListener('click', (e) => { e.currentTarget.blur(); goBack(); });
+
+        // 點標題也能隨時回到新單字
+        $('app-title').addEventListener('click', () => {
+            if (appState.cards.length && !(ui.view === 'card' && ui.mode === 'new')) enterNewMode();
         });
 
         elFront.addEventListener('click', flipCard);
-        
+
+        function burstFrom(btn) {
+            for (let i = 0; i < 14; i++) {
+                const a = i / 14 * Math.PI * 2, el = document.createElement('span');
+                el.className = 'burst';
+                el.style.setProperty('--bx', Math.round(Math.cos(a) * 90) + 'px');
+                el.style.setProperty('--by', Math.round(Math.sin(a) * 60) + 'px');
+                btn.appendChild(el);
+                setTimeout(() => el.remove(), 800);
+            }
+        }
+
         document.querySelectorAll('.btn-srs').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                handleSRS(e.target.dataset.action);
+                btn.blur();
+                if (btn.dataset.action === 'ok') burstFrom(btn);
+                judge(btn.dataset.action);
             });
         });
 
-        document.getElementById('btn-speak-front').addEventListener('click', (e) => {
+        frontWordEl.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (appState.queue.length > 0) playAudio(appState.cards[appState.queue[0]].word);
+            const id = currentCardId();
+            if (id != null) playAudio(appState.cards[id].word);
         });
 
-        document.getElementById('btn-speak-back').addEventListener('click', (e) => {
+        $('btn-speak-back').addEventListener('click', (e) => {
             e.stopPropagation();
-            if (appState.queue.length > 0) playAudio(appState.cards[appState.queue[0]].parsed.exampleEng);
+            const id = currentCardId();
+            if (id != null) playAudio(appState.cards[id].parsed.exampleEng);
         });
 
-        /* 手動洗牌按鈕 */
-        document.getElementById('btn-shuffle').addEventListener('click', () => {
-            if (appState.queue.length > 1) {
-                appState.queue = shuffleArray(appState.queue);
-                appState.side = 'front';
+        /* 手動洗牌：打亂目前這個模式剩下的卡片 */
+        $('btn-shuffle').addEventListener('click', () => {
+            const canShuffle = ui.view === 'card' && (ui.mode === 'new' || ui.mode === 'no');
+            const list = ui.mode === 'no' ? appState.noIds : appState.pending;
+            if (canShuffle && list.length > 1) {
+                if (ui.mode === 'no') appState.noIds = shuffleArray(appState.noIds);
+                else appState.pending = shuffleArray(appState.pending);
+                ui.side = 'front';
                 updateState();
                 renderCard();
                 alert('🔀 已將目前剩餘的卡片順序隨機打亂！');
@@ -849,125 +1476,56 @@
             }
         });
 
-        const fileInput = document.getElementById('csv-upload');
+        const fileInput = $('csv-upload');
         const triggerUpload = () => fileInput.click();
-        document.getElementById('btn-upload').addEventListener('click', triggerUpload);
-        document.getElementById('btn-import-large').addEventListener('click', triggerUpload);
-        
+        $('btn-import-large').addEventListener('click', triggerUpload);
+
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             const reader = new FileReader();
             reader.onload = async (ev) => {
-                const text = ev.target.result;
-                const rows = parseCSV(text);
-                
-                if (rows.length === 0) {
+                const ok = await loadCardsFromText(ev.target.result);
+                fileInput.value = '';
+
+                if (!ok) {
                     alert('CSV 內容空白或格式錯誤，請重新上傳！');
                     return;
                 }
-                
-                let newCards = rows.map((r, i) => {
-                    return {
-                        id: i,
-                        word: r[0].trim(),
-                        rawText: r[1] ? r[1].trim() : "",
-                        parsed: parseCardText(r[1] ? r[1].trim() : "")
-                    };
-                });
-                
-                appState.cards = newCards;
-                // If cloud sync is active, try to merge progress instead of overwriting entirely
-                if (syncId) {
-                    let loaded = await loadFromCloud(syncId);
-                    if (!loaded) {
-                        // First time sync for this CSV
-                        appState.queue = [];
-                        appState.pending = shuffleArray(newCards.map(c => c.id));
-                        appState.reviewIds = [];
-                        appState.roundLocked = false;
-                        appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
-                        appState.totalImported = newCards.length;
-                    }
-                } else {
-                    appState.queue = [];
-                    appState.pending = shuffleArray(newCards.map(c => c.id));
-                    appState.reviewIds = [];
-                    appState.roundLocked = false;
-                    appState.stats = { again: 0, hard: 0, good: 0, easy: 0 };
-                    appState.totalImported = newCards.length;
-                }
-                appState.side = 'front';
-                topUpQueue();
-
-                updateState();
-                fileInput.value = '';
-
-                if (appState.queue.length === 0 && appState.pending.length === 0) {
-                    showEndScreen();
-                } else {
-                    updateViews(true);
-                    renderHeader();
-                    renderCard();
-                }
+                enterNewMode();
             };
             reader.readAsText(file);
         });
 
-        document.getElementById('btn-restart').addEventListener('click', restartQueue);
-        
-        /* === Dark / Light Mode Toggle === */
-        function applyThemeIcon(theme) {
-            document.getElementById('icon-theme-dark').classList.toggle('hidden', theme === 'dark');
-            document.getElementById('icon-theme-light').classList.toggle('hidden', theme !== 'dark');
-        }
+        $('btn-restart').addEventListener('click', restartQueue);
 
-        function getCurrentTheme() {
-            const attr = document.documentElement.getAttribute('data-theme');
-            if (attr === 'dark' || attr === 'light') return attr;
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            try { localStorage.setItem('srs_theme', theme); } catch (e) {}
-            applyThemeIcon(theme);
-        }
-
-        document.getElementById('btn-theme').addEventListener('click', () => {
-            setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
-        });
-
-        applyThemeIcon(getCurrentTheme());
-
-        document.getElementById('btn-info').addEventListener('click', () => {
-            alert("快捷鍵說明：\n[Space] 顯示答案\n[Enter] 發音朗讀\n[1] Again\n[2] Hard\n[3] Good\n[4] Easy\n\n【雲端同步說明】\n由於單字庫龐大，請在每台設備「手動匯入同一個CSV檔」一次。之後點擊上方雲朵圖示輸入同步碼，您的『學習進度』就會在設備間自動同步！");
+        $('btn-info').addEventListener('click', () => {
+            alert("快捷鍵說明：\n[Space] 顯示答案\n[Enter] 發音朗讀\n[1] OK\n[2] NO\n\n【玩法】\n・按 OK：這個字背起來了，進入 OK 單字列表\n・按 NO：先放進 NO 單字庫\n・隨時點左上角 NO：複習 NO 單字庫\n・點左上角 OK：查看已背完的單字（綠＝一次就 OK、黃＝兩次、紅＝三次以上），點膠囊即可再複習\n\n【雲端同步說明】\n單字庫已內建，開啟頁面就會自動載入，不需要每台設備手動匯入。點擊選單的「雲端同步」輸入同步碼，您的『學習進度』就會在設備間自動同步！");
         });
 
         /* Cloud Sync Button Logic */
-        document.getElementById('btn-cloud').addEventListener('click', async () => {
+        $('btn-cloud').addEventListener('click', async () => {
             let input = prompt("【雲端同步】\n請設定/輸入您的專屬同步碼（中英文皆可）：\n(在手機和電腦輸入相同的同步碼，即可互相接續進度)", syncId || "");
             if (input !== null) {
                 input = input.trim();
                 if (input === "") {
                     syncId = null;
                     localStorage.removeItem('srs_sync_id');
-                    document.getElementById('icon-cloud-on').classList.add('hidden');
-                    document.getElementById('icon-cloud-off').classList.remove('hidden');
+                    $('icon-cloud-on').classList.add('hidden');
+                    $('icon-cloud-off').classList.remove('hidden');
                     alert("已關閉雲端同步。之後的進度僅會儲存於此設備。");
                 } else {
                     syncId = input;
                     localStorage.setItem('srs_sync_id', syncId);
-                    
+
                     let loaded = await loadFromCloud(syncId);
                     if (loaded) {
                         alert(`成功與雲端同步碼「${syncId}」連線，並載入最新進度！`);
                         if (appState.cards.length === 0) {
                             alert("⚠️ 發現雲端進度，但您尚未在此設備匯入 CSV！請點擊選單中的「匯入 CSV」以載入單字內容。");
                         } else {
-                            if (appState.queue.length === 0 && appState.pending.length === 0) showEndScreen();
-                            else { updateViews(true); renderHeader(); renderCard(); }
+                            enterNewMode();
                         }
                     } else {
                         if (appState.cards.length > 0) {
@@ -977,61 +1535,90 @@
                             alert(`已綁定同步碼「${syncId}」！請先匯入 CSV，我們就會自動幫您同步進度。`);
                         }
                     }
-                    document.getElementById('icon-cloud-off').classList.add('hidden');
-                    document.getElementById('icon-cloud-on').classList.remove('hidden');
+                    $('icon-cloud-off').classList.add('hidden');
+                    $('icon-cloud-on').classList.remove('hidden');
                 }
             }
         });
 
         document.addEventListener('keydown', e => {
+            if (ui.dialog) {
+                if (e.code === 'Enter' || e.code === 'Space' || e.key === 'Escape') { e.preventDefault(); closeDialog(); }
+                return;
+            }
             if (document.activeElement.tagName === 'INPUT') return;
-            if (appState.queue.length === 0) return;
+            if (e.key === 'Escape') {
+                if (ui.view === 'ok' || (ui.view === 'card' && ui.mode !== 'new')) goBack();
+                return;
+            }
+            if (ui.view !== 'card') return;
+            const id = currentCardId();
+            if (id == null) return;
 
             if (e.code === 'Space') {
                 e.preventDefault();
-                if (appState.side === 'front') flipCard();
+                if (ui.side === 'front') flipCard();
             }
             if (e.code === 'Enter') {
                 e.preventDefault();
-                const card = appState.cards[appState.queue[0]];
-                if (appState.side === 'front') playAudio(card.word);
+                const card = appState.cards[id];
+                if (ui.side === 'front') playAudio(card.word);
                 else playAudio(card.parsed.exampleEng);
             }
-            if (appState.side === 'back') {
-                if (e.key === '1') handleSRS('again');
-                if (e.key === '2') handleSRS('hard');
-                if (e.key === '3') handleSRS('good');
-                if (e.key === '4') handleSRS('easy');
+            if (ui.side === 'back') {
+                if (e.key === '1') judge('ok');
+                if (e.key === '2') judge('no');
             }
         });
+
+        // 視窗大小或字型載入完成後，重新量一次單字寬度
+        function refit() {
+            positionDeco();
+            if (ui.view === 'card' && ui.side === 'front') fitFrontWord();
+            redrawDeco();
+        }
+        window.addEventListener('resize', refit);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
+        if (document.fonts && document.fonts.load) {
+            ['16px "Press Start 2P"', '700 64px "Pixelify Sans"', '16px "Cubic 11"'].forEach(f => document.fonts.load(f, 'Aa字').then(refit).catch(() => {}));
+        }
 
         /* === Init === */
         window.addEventListener('DOMContentLoaded', async () => {
             let saved = await loadStateLocal();
             if (saved && saved.cards && saved.cards.length > 0) {
-                appState = migrateBatchState(saved);
-                topUpQueue();
+                appState = normalizeState(saved);
+                sanitizeState();
             }
 
             if (syncId) {
-                document.getElementById('icon-cloud-off').classList.add('hidden');
-                document.getElementById('icon-cloud-on').classList.remove('hidden');
-                // Try fetching latest cloud progress on boot
-                await loadFromCloud(syncId);
+                $('icon-cloud-off').classList.add('hidden');
+                $('icon-cloud-on').classList.remove('hidden');
             }
 
-            if (appState.cards.length > 0) {
-                renderHeader();
-                if (appState.queue.length === 0 && appState.pending.length === 0) {
-                    showEndScreen();
-                } else {
-                    updateViews(true);
-                    renderCard();
+            // 第一次造訪、本機儲存被清除過、或內建單字庫有更新時，自動載入內建單字庫，
+            // 不用每台設備都手動匯入一次 CSV（自己匯入的 CSV 不會被換掉）
+            if (appState.vocabSig !== 'custom') {
+                try {
+                    const rows = await fetchDefaultRows();
+                    const sig = vocabSignature(rows);
+                    if (appState.cards.length === 0 || appState.vocabSig !== sig) {
+                        showLoadingScreen();
+                        await loadCardsFromRows(rows, sig);
+                    }
+                } catch (e) {
+                    console.error('自動載入單字庫失敗', e);
                 }
-            } else {
-                showEmptyScreen();
-                renderHeader();
             }
+
+            // Try fetching latest cloud progress on boot
+            if (syncId && appState.cards.length > 0) {
+                await loadFromCloud(syncId);
+                sanitizeState();
+            }
+
+            if (appState.cards.length > 0) enterNewMode();
+            else showEmptyScreen();
         });
     </script>
 </body>
