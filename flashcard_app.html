@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="icon.png" type="image/png">
-    <meta name="apple-mobile-web-app-title" content="VC">
+    <meta name="apple-mobile-web-app-title" content="TOEIC Quest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VC</title>
+    <title>TOEIC Quest</title>
     <meta name="theme-color" content="#43257A">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,6 +112,8 @@
             font-family: var(--font-pixel); font-size: 11px; line-height: 1;
         }
         .stat-chip.stat-no { --c: var(--no-rgb); }
+        body:not(.in-vocab) .stat-counts { display: none; }
+        body:not(.in-vocab) .app-title { text-align: left; }
         .stat-chip .chip-num {
             min-width: 26px; height: 22px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
             background: rgb(var(--c)); color: var(--black); font-size: 11px;
@@ -277,6 +279,151 @@
         .modal-panel .btn-primary { width: calc(100% - 8px); margin: 0 4px; }
         @keyframes modalPop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
 
+        /* === 闖關地圖 === */
+        .map-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 8px 8px 4px; scrollbar-width: thin; scrollbar-color: var(--lav) transparent; }
+        .map-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 0 4px 18px; }
+        .map-title { margin: 0; font-weight: 400; font-size: 22px; color: var(--yellow); text-shadow: 2px 2px 0 var(--red); }
+        .map-lv { font-family: var(--font-pixel); font-size: 11px; color: var(--cream); text-shadow: 2px 2px 0 var(--black); white-space: nowrap; }
+        .region { margin-bottom: 22px; }
+        .region-name { display: inline-block; margin: 0 0 12px 4px; padding: 5px 10px 4px; background: var(--plum); color: var(--cream); font-size: 14px; box-shadow: 3px 3px 0 var(--black); }
+        .stage {
+            --p: 3px; --bd: var(--cream); --sh: rgba(0, 0, 0, 0.5); --bevel: transparent;
+            border: 0; border-radius: 0;
+            box-shadow:
+                0 calc(var(--p) * -1) 0 0 var(--bd), 0 var(--p) 0 0 var(--bd),
+                calc(var(--p) * -1) 0 0 0 var(--bd), var(--p) 0 0 0 var(--bd),
+                var(--p) calc(var(--p) * 2) 0 0 var(--sh), calc(var(--p) * 2) var(--p) 0 0 var(--sh);
+            appearance: none; -webkit-appearance: none; cursor: pointer; text-align: left;
+            display: flex; align-items: center; gap: 14px; width: calc(100% - 10px); margin: 0 6px 16px 4px; padding: 12px 14px;
+            background: var(--panel); color: var(--text); font-size: 15px;
+        }
+        .stage:hover { background: rgba(29, 43, 83, 0.92); }
+        .stage:active { transform: translate(3px, 3px); --sh: transparent; }
+        .stage-no { flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--blue); color: var(--black); font-family: var(--font-pixel); font-size: 12px; }
+        .stage-body { flex: 1; min-width: 0; }
+        .stage-title { display: block; font-size: 17px; color: var(--cream); }
+        .stage-sub { display: block; font-size: 13px; color: var(--text-mute); margin-top: 3px; }
+        .stage-tag { flex-shrink: 0; font-size: 12px; padding: 4px 7px 3px; background: var(--black); color: var(--text-mute); }
+        .stage.is-clear .stage-no { background: var(--green); }
+        .stage.is-clear .stage-tag { color: var(--yellow); background: transparent; font-size: 15px; letter-spacing: 1px; }
+        .stage.is-rec { --bd: var(--yellow); }
+        .stage.is-rec .stage-tag { background: var(--yellow); color: var(--black); }
+        .stage.is-soon, .stage.is-lock { cursor: default; --bd: var(--lav); }
+        .stage.is-soon .stage-no, .stage.is-lock .stage-no { background: var(--lav); }
+        .stage.is-soon .stage-title, .stage.is-lock .stage-title { color: var(--text-mute); }
+        .stage.is-soon:active, .stage.is-lock:active { transform: none; --sh: rgba(0, 0, 0, 0.5); }
+        .stage.is-soon:hover, .stage.is-lock:hover { background: var(--panel); }
+        .stage.is-wrong .stage-no { background: var(--red); color: var(--cream); }
+
+        /* === 章節、課程、測驗 === */
+        .course-panel {
+            --p: 4px; --bd: var(--cream); --sh: rgba(0, 0, 0, 0.5);
+            box-shadow:
+                0 calc(var(--p) * -1) 0 0 var(--bd), 0 var(--p) 0 0 var(--bd),
+                calc(var(--p) * -1) 0 0 0 var(--bd), var(--p) 0 0 0 var(--bd),
+                var(--p) calc(var(--p) * 2) 0 0 var(--sh), calc(var(--p) * 2) var(--p) 0 0 var(--sh);
+            flex: 1; min-height: 0; margin: 4px 8px 8px 4px; background: var(--panel);
+            display: flex; flex-direction: column;
+        }
+        .course-body { flex: 1; min-height: 0; overflow-y: auto; padding: 24px 24px 18px; font-size: 16px; line-height: 1.7; scrollbar-width: thin; scrollbar-color: var(--lav) var(--black); }
+        .course-foot { flex-shrink: 0; display: flex; gap: 16px; padding: 16px 20px 20px; border-top: 4px solid var(--cream); }
+        .course-foot:empty { display: none; }
+        .course-foot .btn-primary, .course-foot .btn-outline { flex: 1; width: auto; margin: 4px; padding: 12px 10px; font-size: 16px; }
+        .c-kicker { font-size: 13px; color: var(--blue); margin-bottom: 6px; }
+        .c-title { margin: 0 0 16px; font-weight: 400; font-size: 23px; line-height: 1.4; color: var(--yellow); }
+        .c-text { color: var(--text-mute); margin: 0 0 14px; }
+        .c-points { list-style: none; margin: 0 0 18px; padding: 0; }
+        .c-points li { position: relative; padding-left: 20px; margin-bottom: 10px; }
+        .c-points li::before { content: '▶'; position: absolute; left: 0; top: 1px; font-size: 10px; color: var(--yellow); }
+        .c-box { --p: 3px; --bd: var(--blue); --sh: transparent; background: rgba(29, 43, 83, 0.85); padding: 14px 16px; margin: 6px 3px 10px; }
+        .c-box .en { color: var(--cream); }
+        .c-box .zh { color: var(--text-mute); font-size: 15px; margin-top: 6px; }
+        .c-dots { display: flex; gap: 6px; margin-bottom: 18px; }
+        .c-dots i { width: 14px; height: 6px; background: var(--lav); }
+        .c-dots i.on { background: var(--yellow); }
+
+        .steps { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+        .step-btn { --p: 3px; --sh: rgba(0, 0, 0, 0.5); width: calc(100% - 10px); margin: 0 6px 16px 4px; display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--black); color: var(--text); cursor: pointer; text-align: left; font-size: 16px; }
+        .step-btn:hover { background: var(--navy); }
+        .step-btn:active { transform: translate(3px, 3px); --sh: transparent; }
+        .step-btn .s-ico { font-size: 20px; width: 26px; text-align: center; }
+        .step-btn .s-main { flex: 1; }
+        .step-btn .s-sub { display: block; font-size: 13px; color: var(--text-mute); }
+        .step-btn .s-state { font-size: 13px; color: var(--green); }
+
+        /* 題目 */
+        .q-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 14px; color: var(--text-mute); }
+        .q-count { font-family: var(--font-pixel); font-size: 11px; color: var(--cream); white-space: nowrap; }
+        .q-timer { flex: 1; height: 12px; background: var(--black); box-shadow: 0 0 0 2px var(--lav); padding: 2px; }
+        .q-timer i { display: block; height: 100%; width: 100%; background: repeating-linear-gradient(90deg, var(--yellow) 0, var(--yellow) 8px, var(--black) 8px, var(--black) 10px); }
+        .q-timer.low i { background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 8px, var(--black) 8px, var(--black) 10px); }
+        .q-sec { font-family: var(--font-pixel); font-size: 11px; min-width: 30px; text-align: right; color: var(--cream); }
+        .q-passage { white-space: pre-wrap; background: rgba(29, 43, 83, 0.85); padding: 14px 16px; margin: 0 3px 18px; font-size: 15px; line-height: 1.65; max-height: 38vh; overflow-y: auto; --p: 3px; --bd: var(--lav); --sh: transparent; box-shadow: 0 -3px 0 0 var(--lav), 0 3px 0 0 var(--lav), -3px 0 0 0 var(--lav), 3px 0 0 0 var(--lav); }
+        .q-passage .blank { background: var(--yellow); color: var(--black); padding: 0 4px; }
+        .q-text { font-size: 18px; color: var(--cream); margin: 0 0 18px; }
+        .q-play { --p: 3px; --sh: transparent; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px 3px; padding: 10px 14px; background: var(--blue); color: var(--black); cursor: pointer; font-size: 15px; }
+        .opts { display: flex; flex-direction: column; gap: 4px; }
+        .opt { --p: 3px; --bd: var(--cream); --sh: transparent; width: calc(100% - 6px); margin: 0 3px 12px; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--black); color: var(--text); text-align: left; cursor: pointer; font-family: var(--font-word); font-size: 17px; line-height: 1.45; }
+        .opt .k { flex-shrink: 0; font-family: var(--font-pixel); font-size: 11px; color: var(--yellow); margin-top: 5px; }
+        .opt:hover:not(:disabled) { background: var(--navy); }
+        .opt:disabled { cursor: default; }
+        .opt.right { --bd: var(--green); background: rgba(0, 135, 81, 0.55); }
+        .opt.wrong { --bd: var(--red); background: rgba(126, 37, 83, 0.75); }
+        .opt.dim { opacity: 0.5; }
+        .q-exp { margin-top: 8px; padding: 14px 16px; background: rgba(29, 43, 83, 0.85); font-size: 15px; }
+        .q-exp b { display: block; margin-bottom: 4px; font-weight: 400; }
+        .q-exp.ok b { color: var(--green); }
+        .q-exp.ng b { color: var(--red); }
+        .q-exp .tr { color: var(--text-mute); margin-top: 8px; white-space: pre-wrap; }
+        .q-exp .zh-line { margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--lav); color: var(--cream); }
+        .q-exp .zh-line b { display: inline; color: var(--blue); margin-right: 8px; }
+        .opt .oz { display: block; font-family: var(--font-body); font-size: 13px; color: var(--text-mute); margin-top: 2px; }
+
+        /* 結果 */
+        .r-score { font-family: var(--font-pixel); font-size: 30px; color: var(--cream); margin: 6px 0 4px; text-shadow: 3px 3px 0 var(--plum); }
+        .r-badge { display: inline-block; margin: 8px 0 18px; padding: 6px 10px 5px; font-size: 15px; }
+        .r-badge.pass { background: var(--green); color: var(--black); }
+        .r-badge.fail { background: var(--red); color: var(--cream); }
+        .r-table { width: 100%; border-collapse: collapse; margin: 6px 0 18px; font-size: 15px; }
+        .r-table th, .r-table td { padding: 8px 6px; border-bottom: 2px solid var(--navy); text-align: left; }
+        .r-table th { color: var(--text-dim); font-weight: 400; font-size: 13px; }
+        .r-table td.num { font-family: var(--font-pixel); font-size: 11px; white-space: nowrap; }
+        .r-bar { display: inline-block; width: 60px; height: 8px; background: var(--black); vertical-align: middle; margin-right: 8px; }
+        .r-bar i { display: block; height: 100%; }
+        .r-rec { margin: 0 0 6px; padding-left: 20px; position: relative; }
+        .r-rec::before { content: '!'; position: absolute; left: 4px; color: var(--yellow); }
+
+        /* 講義 */
+        .n-toc { margin: 0 0 22px; padding: 12px 14px; background: rgba(29, 43, 83, 0.85); }
+        .n-toc a { display: block; padding: 5px 0; color: var(--blue); text-decoration: none; font-size: 15px; cursor: pointer; }
+        .n-toc a:hover { color: var(--yellow); }
+        .n-toc a span { font-family: var(--font-pixel); font-size: 10px; color: var(--text-dim); margin-right: 8px; }
+        .n-sec { margin: 0 0 34px; scroll-margin-top: 10px; }
+        .n-sec h3 { margin: 0 0 12px; padding-bottom: 8px; border-bottom: 3px solid var(--plum); font-weight: 400; font-size: 20px; color: var(--yellow); }
+        .n-sec h3 span { font-family: var(--font-pixel); font-size: 11px; color: var(--pink); margin-right: 10px; }
+        .n-sec p { margin: 0 0 12px; color: var(--text); }
+        .n-table { width: 100%; border-collapse: collapse; margin: 4px 0 16px; font-size: 14px; line-height: 1.55; }
+        .n-table th { background: var(--plum); color: var(--cream); font-weight: 400; text-align: left; padding: 7px 8px; }
+        .n-table td { padding: 8px; border-bottom: 2px solid var(--navy); vertical-align: top; color: var(--text); min-width: 4.5em; }
+        .n-table tr:nth-child(even) td { background: rgba(29, 43, 83, 0.45); }
+        .n-wrap { overflow-x: auto; }
+        .n-steps { margin: 0 0 16px; padding-left: 22px; }
+        .n-steps li { margin-bottom: 8px; }
+        .n-steps li::marker { color: var(--yellow); font-family: var(--font-pixel); font-size: 10px; }
+        .n-ex { display: flex; gap: 10px; margin: 0 3px 12px; padding: 12px 14px; background: rgba(29, 43, 83, 0.85); box-shadow: -3px 0 0 0 var(--blue); }
+        .n-ex .say { flex-shrink: 0; cursor: pointer; color: var(--yellow); background: none; border: 0; padding: 0; font-size: 16px; line-height: 1.5; }
+        .n-ex .en { color: var(--cream); }
+        .n-ex .zh { color: var(--text-mute); font-size: 14px; margin-top: 4px; }
+        .n-tip { margin: 6px 3px 0; padding: 12px 14px; background: rgba(126, 37, 83, 0.6); font-size: 15px; }
+        .n-tip b { color: var(--yellow); font-weight: 400; margin-right: 6px; }
+
+        @media (max-width: 480px) {
+            .course-body { padding: 20px 18px 14px; }
+            .course-foot { padding: 14px 14px 16px; gap: 10px; }
+            .c-title { font-size: 20px; }
+            .q-text { font-size: 17px; }
+        }
+
         .hidden { display: none !important; }
 
         @media (prefers-reduced-motion: reduce) {
@@ -311,7 +458,7 @@
                 <button class="stat-chip stat-ok" id="stat-ok-btn" title="已背完的 OK 單字"><span>OK</span><span class="chip-num" id="stat-ok">0</span></button>
                 <button class="stat-chip stat-no" id="stat-no-btn" title="複習 NO 單字庫"><span>NO</span><span class="chip-num" id="stat-no">0</span></button>
             </div>
-            <h1 class="app-title" id="app-title" title="回到新單字" aria-label="Toeic Flashcard"><span>Toeic</span> <span class="t-full">Flashcard</span><span class="t-short">FC</span></h1>
+            <h1 class="app-title" id="app-title" title="回到新單字" aria-label="TOEIC Quest"><span>TOEIC</span> <span class="t-full">Quest</span><span class="t-short">Quest</span></h1>
             <div class="header-actions">
                 <button class="link-btn hidden" id="btn-back">‹ 返回</button>
                 <div class="icon-btn" id="btn-menu" title="選單">
@@ -397,6 +544,20 @@
             <button class="btn-primary hidden" id="btn-review-no">複習 NO 單字</button>
             <button class="btn-outline hidden" id="btn-restart">重新開始 (隨機打亂)</button>
             <button class="btn-outline" id="btn-import-large">匯入新檔</button>
+        </div>
+
+        <!-- View: 闖關地圖（首頁） -->
+        <div id="view-map" class="view-section">
+            <div class="map-head"><h2 class="map-title">冒險地圖</h2><span class="map-lv" id="map-lv"></span></div>
+            <div class="map-scroll" id="map-list"></div>
+        </div>
+
+        <!-- View: 章節／重點卡／題目／結果 -->
+        <div id="view-course" class="view-section">
+            <div class="course-panel">
+                <div class="course-body" id="course-body"></div>
+                <div class="course-foot" id="course-foot"></div>
+            </div>
         </div>
 
         <!-- 底部列：目前模式 + 返回 -->
@@ -569,6 +730,7 @@
                     noCountJson: JSON.stringify(appState.noCount),
                     totalImported: appState.totalImported,
                     vocabSig: appState.vocabSig || null,
+                    courseJson: JSON.stringify(course),
                     updatedAt: Date.now()
                 });
             } catch(e) {
@@ -581,6 +743,7 @@
                 const docSnap = await getDoc(doc(db, "flashcards_sync", id));
                 if (!docSnap.exists()) return false;
                 const data = docSnap.data();
+                mergeCloudCourse(data.courseJson);   // 課程進度和單字庫無關，先接回來
                 // 雲端進度是用單字編號記的，單字庫換過就對不上，不能套用
                 if ((data.vocabSig || null) !== (appState.vocabSig || null)) return false;
                 let noCount = {};
@@ -747,8 +910,13 @@
             viewCard.classList.toggle('active', name === 'card');
             viewOk.classList.toggle('active', name === 'ok');
             viewMessage.classList.toggle('active', name === 'message');
+            $('view-map').classList.toggle('active', name === 'map');
+            $('view-course').classList.toggle('active', name === 'course');
+            document.body.classList.toggle('in-vocab', ['card', 'ok', 'message'].includes(name));
             renderHeader();
             positionDeco();
+            // 背景跟著區域換：單字＝森林、地圖＝黃昏城堡、章節＝各自的主題
+            setSceneTheme(['card', 'ok', 'message'].includes(name) ? 'forest' : name === 'course' ? (SCENE_OF[ui.sceneCh] || 'dusk') : 'dusk');
         }
 
         function renderHeader() {
@@ -756,7 +924,7 @@
             $('stat-no').textContent = appState.noIds.length;
             btnStatOk.classList.toggle('active', ui.view === 'ok' || (ui.view === 'card' && ui.mode === 'ok'));
             btnStatNo.classList.toggle('active', ui.view === 'card' && ui.mode === 'no');
-            const showBack = ui.view === 'ok' || (ui.view === 'card' && ui.mode !== 'new');
+            const showBack = ui.view !== 'map';
             $('btn-back').classList.toggle('hidden', !showBack);
             document.querySelector('header').classList.toggle('has-back', showBack);
             renderBottomBar();
@@ -764,8 +932,15 @@
 
         function renderBottomBar() {
             const bar = $('bottom-bar'), label = $('mode-label');
-            if (ui.view === 'message' || ui.loading) { bar.classList.add('hidden'); return; }
+            if (ui.view === 'message' || ui.view === 'course' || ui.loading) { bar.classList.add('hidden'); return; }
             bar.classList.remove('hidden');
+            if (ui.view === 'map') {
+                const into = course.xp % XP_PER_LV;
+                $('xp-bar').classList.remove('hidden');
+                $('xp-fill').style.width = (into / XP_PER_LV * 100).toFixed(1) + '%';
+                label.textContent = `Lv ${level()} · 下一級還差 ${XP_PER_LV - into} XP`;
+                return;
+            }
             // 經驗值條只在背新單字時顯示
             const total = appState.totalImported, done = total - appState.pending.length;
             const showXp = ui.view === 'card' && ui.mode === 'new' && total > 0;
@@ -777,150 +952,650 @@
             else label.textContent = `新單字 · ${appState.totalImported - appState.pending.length} / ${appState.totalImported}`;
         }
 
-        /* === 背景主視覺：黃昏山谷裡的城堡（像素畫，橫向捲動、無限循環） === */
+        /* === 背景主視覺：每個區域／章節各有一個像素場景（橫向捲動、無限循環） === */
         // 先在很小的 canvas 上一格一格畫，再由 CSS 放大成整個畫面。
-        // 雲、遠山、近山、城堡、前景草丘各自畫在一張「頭尾相接」的長條圖上，用不同速度往左移，
-        // 看起來就像鏡頭一直往右走；越近的景物移得越快（視差）。天空、星星、月亮不動。
-        // 亂數用固定種子，所以每次畫出來的星星、樹的位置都一樣。
-        const scene = { layers: [], sky: null, W: 0, TW: 0, t0: performance.now(), last: '', running: false,
+        // 天空（含太陽、月亮、星星、地面）是不動的底圖；其餘五層各畫在一張「頭尾相接」的長條圖上
+        // （寬度 TW），用不同速度往左移，越近越快（視差），看起來像鏡頭一直往右走。
+        // 規則：亂數用固定種子；跨過長條圖邊界的物件用 wrap() 在兩邊各畫一次；
+        // 地形用整數個週期（per()），頭尾才接得起來。
+        // 主題：地圖＝黃昏城堡、單字＝魔法森林、Part 5 文法＝白天小鎮、Part 5 詞彙＝魔法圖書塔、
+        // Part 6＝海港、Part 7＝沙漠遺跡、聽力＝水晶洞窟、魔王關＝火山。
+        const SCENE_OF = { vocab: 'forest', p5g: 'meadow', p5v: 'library', p6: 'harbor', p7s: 'desert', p7m: 'desert', p7t: 'desert', p2: 'cave', p34: 'cave', boss: 'volcano' };
+        const scene = { theme: 'dusk', layers: [], sky: null, W: 0, TW: 0, t0: performance.now(), last: '', running: false,
             still: window.matchMedia('(prefers-reduced-motion: reduce)').matches };
 
-        function buildScene() {
+        function sceneKit(theme) {
             const S = window.innerWidth < 600 ? 3 : 4;                 // 一格像素＝畫面上幾 px
             const W = Math.ceil(window.innerWidth / S), H = Math.ceil(window.innerHeight / S);
             const TW = Math.max(Math.round(W * 1.6), 420);             // 一輪循環的寬度
-            const main = $('scene');
-            main.width = W; main.height = H;
             let seed = 20261117;
+            for (const ch of theme) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
             const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
-            const tri = t => 1 - Math.abs(((t % 1) + 1) % 1 * 2 - 1);  // 三角波：畫尖尖的山
-            const hz = Math.round(H * 0.70);                           // 地平線
-            // 開一張新的圖層，回傳 [canvas, 畫方塊的函式]
-            const layer = w => {
-                const cv = document.createElement('canvas'); cv.width = w; cv.height = H;
-                const ctx = cv.getContext('2d');
-                return [cv, (x, y, pw, ph, c) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(pw)), Math.max(1, Math.round(ph))); }];
-            };
-            // 跨過圖層左右邊界的東西要在兩邊各畫一次，接縫才不會斷
-            const wrap = fn => [-TW, 0, TW].forEach(fn);
-
-            /* --- 不動的底圖：天空、星星、月亮、地面 --- */
-            const [skyCv, px] = layer(W);
-            const sky = ['#140b2e', '#1d1042', '#291658', '#38206f', '#4b2885', '#663092', '#8a3a96', '#b24a8f', '#d9627f', '#f58a6e', '#ffb86b'];
-            const band = hz / sky.length;
-            sky.forEach((c, i) => {
-                const y0 = Math.round(i * band), y1 = Math.round((i + 1) * band);
-                px(0, y0, W, y1 - y0, c);
-                if (i > 0) for (let x = 0; x < W; x++) {               // 色帶交界用棋盤格抖色
-                    if (x % 2 === 0) px(x, y0, 1, 1, sky[i - 1]);
-                    if (x % 4 === 1) px(x, y0 + 2, 1, 1, sky[i - 1]);
-                }
-            });
-            const nStars = Math.round(W * H / 260);
-            for (let i = 0; i < nStars; i++) {
-                const x = Math.floor(rnd() * W), y = Math.floor(rnd() * hz * 0.62), t = rnd();
-                const c = t < 0.6 ? '#FFF1E8' : t < 0.85 ? '#c9b6ff' : '#FFEC27';
-                px(x, y, 1, 1, c);
-                if (t > 0.93) { px(x - 1, y, 3, 1, c); px(x, y - 1, 1, 3, c); }
-            }
-            const R = Math.max(9, Math.min(26, Math.round(Math.min(W, H) * 0.11)));
-            const mx = Math.round(W * 0.80), my = Math.round(hz * 0.30);
-            for (let dy = -R - 5; dy <= R + 5; dy++) for (let dx = -R - 5; dx <= R + 5; dx++) {
-                const d2 = dx * dx + dy * dy;
-                if (d2 <= R * R) {
-                    const shade = (dx + R * 0.35) * (dx + R * 0.35) + (dy + R * 0.3) * (dy + R * 0.3) > R * R * 0.95;
-                    px(mx + dx, my + dy, 1, 1, shade ? '#e3c6d6' : '#FFF1E8');
-                } else if (d2 <= (R + 5) * (R + 5) && (dx + dy) % 2 === 0 && (d2 <= (R + 2) * (R + 2) || (dx - dy) % 4 === 0)) {
-                    px(mx + dx, my + dy, 1, 1, 'rgba(255, 241, 232, 0.22)');   // 光暈
-                }
-            }
-            [[-0.35, -0.2, 0.18], [0.1, 0.25, 0.13], [-0.1, 0.5, 0.09], [0.35, -0.35, 0.1]].forEach(([ox, oy, cr]) => {
-                const r = Math.max(1, Math.round(R * cr));                     // 坑洞
-                px(mx + ox * R - r, my + oy * R - r + 1, r * 2, r * 2 - 2, '#d2b3cb');
-                px(mx + ox * R - r + 1, my + oy * R - r, r * 2 - 2, r * 2, '#d2b3cb');
-            });
-            px(0, hz, W, H - hz, '#28124a');                                   // 地面
-
-            /* --- 雲 --- */
-            const [cloudCv, pc] = layer(TW);
-            const cloud = (x, y, w, dark, light) => wrap(o => {
-                pc(o + x + w * 0.25, y - 4, w * 0.4, 2, light);
-                pc(o + x + w * 0.1, y - 2, w * 0.7, 2, light);
-                pc(o + x, y, w, 3, dark);
-                pc(o + x + w * 0.15, y + 3, w * 0.6, 1, dark);
-            });
-            cloud(TW * 0.04, hz * 0.22, 34, '#5b2f8d', '#7d45a6');
-            cloud(TW * 0.36, hz * 0.14, 26, '#4a2680', '#6a3a99');
-            cloud(TW * 0.70, hz * 0.26, 30, '#5b2f8d', '#7d45a6');
-            cloud(TW * 0.20, hz * 0.52, 40, '#a34d97', '#c96a98');
-            cloud(TW * 0.55, hz * 0.62, 30, '#c25f8f', '#e58a86');
-            cloud(TW * 0.86, hz * 0.70, 28, '#c25f8f', '#e58a86');
-
-            /* --- 遠山、近山（山形用整數個週期，頭尾才接得起來） --- */
-            const u = x => x / TW;
-            const f1 = Math.max(2, Math.round(TW / 74)), f2 = Math.round(TW / 29);
-            const n1 = Math.max(2, Math.round(TW / 97)), n2 = Math.round(TW / 21);
-            const farTop = x => hz - Math.round(H * 0.04 + tri(u(x) * f1 + 0.15) * H * 0.15 + tri(u(x) * f2 + 0.4) * H * 0.05);
-            const nearTop = x => hz - Math.round(H * 0.01 + tri(u(x) * n1 + 0.62) * H * 0.09 + tri(u(x) * n2 + 0.1) * H * 0.025);
-            const [farCv, pf] = layer(TW);
-            for (let x = 0; x < TW; x++) {
-                const f = farTop(x);
-                pf(x, f, 1, hz - f, '#5c2d86');
-                if (farTop(x - 1) > f || farTop(x - 2) > f) pf(x, f, 1, 3, '#8a55b3');   // 向光的左坡
-                if (hz - f > H * 0.17) pf(x, f, 1, 2, '#e9d9f2');                         // 山頂積雪
-            }
-            const [nearCv, pn] = layer(TW);
-            for (let x = 0; x < TW; x++) {
-                const n = nearTop(x);
-                pn(x, n, 1, hz - n, '#3a1b62');
-                if (nearTop(x - 1) > n) pn(x, n, 1, 2, '#55298a');
-            }
-
-            /* --- 城堡：蓋在小丘上，窗戶亮著燈（每一輪經過一次） --- */
-            const [castleCv, pk] = layer(TW);
-            const k = Math.max(1, Math.round(H / 150));
-            const cx = Math.round(TW * 0.30), by = hz - 3 * k;
-            for (let j = 0; j < 6; j++) pk(cx - (17 + j * 4) * k, by + j * k, (34 + j * 8) * k, k, j === 0 ? '#3a1b62' : '#28124a');
-            const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
-            const stone = '#1b0c33', roof = '#6b1f52';
-            c(-8, -16, 16, 16, stone);                     // 主堡
-            c(-14, -22, 6, 22, stone);                     // 左塔
-            c(8, -27, 6, 27, stone);                       // 右塔
-            c(-3, -22, 6, 6, stone);                       // 中央小塔
-            for (let i = 0; i < 16; i += 2) c(-8 + i, -18, 1, 2, stone);          // 城垛
-            for (let i = 0; i < 6; i += 2) c(-3 + i, -24, 1, 2, stone);
-            for (let j = 0; j < 4; j++) { c(-15 + j, -23 - j, 8 - j * 2, 1, roof); c(7 + j, -28 - j, 8 - j * 2, 1, roof); }   // 尖屋頂
-            c(10.5, -37, 1, 6, stone); c(11.5, -37, 4, 2, '#FF004D'); c(11.5, -35, 2, 1, '#FF004D');                      // 旗子
-            [[-12, -17], [10, -21], [10, -13], [-4, -11], [3, -11], [-1, -19]].forEach(([x, y]) => c(x, y, 1, 2, '#FFEC27'));
-            c(-2, -6, 4, 6, '#0c0418'); c(-1, -7, 2, 1, '#0c0418');                // 城門
-
-            /* --- 前景：起伏的草丘和松樹剪影 --- */
-            const [hillCv, ph] = layer(TW);
-            const h1 = Math.max(1, Math.round(TW / 300)), h2 = Math.max(2, Math.round(TW / 110));
-            const hillTop = x => Math.round(H * 0.83 - Math.sin(u(x) * h1 * Math.PI * 2 + 2) * H * 0.035 - Math.sin(u(x) * h2 * Math.PI * 2) * H * 0.014);
-            for (let x = 0; x < TW; x++) {
-                const t = hillTop(x);
-                ph(x, t, 1, H - t, '#150926');
-                ph(x, t, 1, 1, '#3b1d63');
-            }
-            const nTrees = Math.round(TW / 9);
-            for (let i = 0; i < nTrees; i++) {
-                const x = Math.floor(rnd() * TW), base = hillTop(x) + 1, th = 6 + Math.floor(rnd() * 8);
-                wrap(o => {
-                    ph(o + x, base - 2, 1, 2, '#0b0416');
-                    for (let j = 0; j < th; j++) {
-                        const w = Math.max(1, 1 + Math.floor(j / 2) * 2 - (j % 4 === 3 ? 2 : 0));
-                        ph(o + x - Math.floor(w / 2), base - 2 - th + j, w, 1, '#0b0416');
+            const K = {
+                W, H, TW, rnd,
+                hz: Math.round(H * 0.70),                                // 地平線
+                k: Math.max(1, Math.round(H / 150)),                     // 建築物的放大倍數
+                u: x => x / TW,
+                tri: t => 1 - Math.abs(((t % 1) + 1) % 1 * 2 - 1),      // 三角波：尖尖的山
+                sn: (x, n, ph = 0) => Math.sin((x / TW * n + ph) * Math.PI * 2),   // 一輪 n 個週期的正弦波
+                per: d => Math.max(1, Math.round(TW / d)),               // 每 d 格一個週期，取整數
+                pick: a => a[Math.floor(rnd() * a.length)],
+                // 開一張新的圖層，回傳 [canvas, 畫方塊的函式]
+                layer: w => {
+                    const cv = document.createElement('canvas'); cv.width = w; cv.height = H;
+                    const ctx = cv.getContext('2d');
+                    return [cv, (x, y, pw, ph, c) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(pw)), Math.max(1, Math.round(ph))); }];
+                },
+                // 跨過圖層左右邊界的東西要在兩邊各畫一次，接縫才不會斷
+                wrap: fn => [-TW, 0, TW].forEach(fn),
+                // 由上到下的色帶，交界用棋盤格抖色
+                gradient(px, cols, y0, y1) {
+                    const band = (y1 - y0) / cols.length;
+                    cols.forEach((c, i) => {
+                        const a = Math.round(y0 + i * band), b = Math.round(y0 + (i + 1) * band);
+                        px(0, a, W, b - a, c);
+                        if (i > 0) for (let x = 0; x < W; x++) {
+                            if (x % 2 === 0) px(x, a, 1, 1, cols[i - 1]);
+                            if (x % 4 === 1) px(x, a + 2, 1, 1, cols[i - 1]);
+                        }
+                    });
+                },
+                stars(px, n, y0, y1, cols) {
+                    for (let i = 0; i < n; i++) {
+                        const x = Math.floor(rnd() * W), y = Math.floor(y0 + rnd() * (y1 - y0)), t = rnd(), c = cols[Math.floor(t * cols.length)];
+                        px(x, y, 1, 1, c);
+                        if (t > 0.94) { px(x - 1, y, 3, 1, c); px(x, y - 1, 1, 3, c); }
                     }
-                });
-            }
+                },
+                // 圓盤（月亮、太陽）；shade＝右下的陰影，glow＝外圈光暈，cut＝挖掉一個圓變成弦月
+                disc(px, cx, cy, R, c, shade, glow, cut) {
+                    for (let dy = -R - 5; dy <= R + 5; dy++) for (let dx = -R - 5; dx <= R + 5; dx++) {
+                        const d2 = dx * dx + dy * dy;
+                        if (d2 <= R * R) {
+                            if (cut && (dx - cut[0]) ** 2 + (dy - cut[1]) ** 2 <= R * R) continue;
+                            const sh = shade && (dx + R * 0.35) ** 2 + (dy + R * 0.3) ** 2 > R * R * 0.95;
+                            px(cx + dx, cy + dy, 1, 1, sh ? shade : c);
+                        } else if (glow && d2 <= (R + 5) * (R + 5) && (dx + dy) % 2 === 0 && (d2 <= (R + 2) * (R + 2) || (dx - dy) % 4 === 0)) {
+                            px(cx + dx, cy + dy, 1, 1, glow);
+                        }
+                    }
+                },
+                // 山脊：top(x) 是每一欄的頂端；light＝向光的左坡，dark＝背光的右坡
+                ridge(p, top, bottom, col, light, dark) {
+                    for (let x = 0; x < TW; x++) {
+                        const t = top(x);
+                        if (bottom - t <= 0) continue;
+                        p(x, t, 1, bottom - t, col);
+                        if (light && (top(x - 1) > t || top(x - 2) > t)) p(x, t, 1, 2, light);
+                        else if (dark && (top(x + 1) > t || top(x + 2) > t)) p(x, t, 1, 2, dark);
+                    }
+                },
+                cloud(pc, x, y, w, dark, light) {
+                    K.wrap(o => {
+                        pc(o + x + w * 0.25, y - 4, w * 0.4, 2, light);
+                        pc(o + x + w * 0.1, y - 2, w * 0.7, 2, light);
+                        pc(o + x, y, w, 3, dark);
+                        pc(o + x + w * 0.15, y + 3, w * 0.6, 1, dark);
+                    });
+                },
+                pine(p, x, base, th, col) {
+                    K.wrap(o => {
+                        p(o + x, base - 2, 1, 2, col);
+                        for (let j = 0; j < th; j++) {
+                            const w = Math.max(1, 1 + Math.floor(j / 2) * 2 - (j % 4 === 3 ? 2 : 0));
+                            p(o + x - Math.floor(w / 2), base - 2 - th + j, w, 1, col);
+                        }
+                    });
+                },
+                // 底座小丘（建築物用）
+                mound(p, cx, by, top, body) {
+                    const k = K.k;
+                    for (let j = 0; j < 6; j++) p(cx - (17 + j * 4) * k, by + j * k, (34 + j * 8) * k, k, j === 0 ? top : body);
+                },
+                // 一般的五層速度：遠到近
+                speeds: [1.5, 3, 6, 9, 15]
+            };
+            return K;
+        }
 
+        const SCENES = {
+            /* --- 地圖：黃昏山谷裡的城堡 --- */
+            dusk(K) {
+                const { W, H, TW, hz, rnd, tri, u, k } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#140b2e', '#1d1042', '#291658', '#38206f', '#4b2885', '#663092', '#8a3a96', '#b24a8f', '#d9627f', '#f58a6e', '#ffb86b'], 0, hz);
+                K.stars(px, Math.round(W * H / 260), 0, hz * 0.62, ['#FFF1E8', '#FFF1E8', '#FFF1E8', '#c9b6ff', '#FFEC27']);
+                const R = Math.max(9, Math.min(26, Math.round(Math.min(W, H) * 0.11)));
+                const mx = Math.round(W * 0.80), my = Math.round(hz * 0.30);
+                K.disc(px, mx, my, R, '#FFF1E8', '#e3c6d6', 'rgba(255, 241, 232, 0.22)');
+                [[-0.35, -0.2, 0.18], [0.1, 0.25, 0.13], [-0.1, 0.5, 0.09], [0.35, -0.35, 0.1]].forEach(([ox, oy, cr]) => {
+                    const r = Math.max(1, Math.round(R * cr));                     // 坑洞
+                    px(mx + ox * R - r, my + oy * R - r + 1, r * 2, r * 2 - 2, '#d2b3cb');
+                    px(mx + ox * R - r + 1, my + oy * R - r, r * 2 - 2, r * 2, '#d2b3cb');
+                });
+                px(0, hz, W, H - hz, '#28124a');
+
+                const [cloudCv, pc] = K.layer(TW);
+                K.cloud(pc, TW * 0.04, hz * 0.22, 34, '#5b2f8d', '#7d45a6');
+                K.cloud(pc, TW * 0.36, hz * 0.14, 26, '#4a2680', '#6a3a99');
+                K.cloud(pc, TW * 0.70, hz * 0.26, 30, '#5b2f8d', '#7d45a6');
+                K.cloud(pc, TW * 0.20, hz * 0.52, 40, '#a34d97', '#c96a98');
+                K.cloud(pc, TW * 0.55, hz * 0.62, 30, '#c25f8f', '#e58a86');
+                K.cloud(pc, TW * 0.86, hz * 0.70, 28, '#c25f8f', '#e58a86');
+
+                const f1 = K.per(74), f2 = K.per(29), n1 = K.per(97), n2 = K.per(21);
+                const farTop = x => hz - Math.round(H * 0.04 + tri(u(x) * f1 + 0.15) * H * 0.15 + tri(u(x) * f2 + 0.4) * H * 0.05);
+                const nearTop = x => hz - Math.round(H * 0.01 + tri(u(x) * n1 + 0.62) * H * 0.09 + tri(u(x) * n2 + 0.1) * H * 0.025);
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, farTop, hz, '#5c2d86', '#8a55b3');
+                for (let x = 0; x < TW; x++) if (hz - farTop(x) > H * 0.17) pf(x, farTop(x), 1, 2, '#e9d9f2');   // 山頂積雪
+                const [nearCv, pn] = K.layer(TW);
+                K.ridge(pn, nearTop, hz, '#3a1b62', '#55298a');
+
+                const [castleCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.30), by = hz - 3 * k;
+                K.mound(pk, cx, by, '#3a1b62', '#28124a');
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                const stone = '#1b0c33', roof = '#6b1f52';
+                c(-8, -16, 16, 16, stone); c(-14, -22, 6, 22, stone); c(8, -27, 6, 27, stone); c(-3, -22, 6, 6, stone);
+                for (let i = 0; i < 16; i += 2) c(-8 + i, -18, 1, 2, stone);
+                for (let i = 0; i < 6; i += 2) c(-3 + i, -24, 1, 2, stone);
+                for (let j = 0; j < 4; j++) { c(-15 + j, -23 - j, 8 - j * 2, 1, roof); c(7 + j, -28 - j, 8 - j * 2, 1, roof); }
+                c(10.5, -37, 1, 6, stone); c(11.5, -37, 4, 2, '#FF004D'); c(11.5, -35, 2, 1, '#FF004D');
+                [[-12, -17], [10, -21], [10, -13], [-4, -11], [3, -11], [-1, -19]].forEach(([x, y]) => c(x, y, 1, 2, '#FFEC27'));
+                c(-2, -6, 4, 6, '#0c0418'); c(-1, -7, 2, 1, '#0c0418');
+
+                const [hillCv, ph] = K.layer(TW);
+                const h1 = K.per(300), h2 = K.per(110);
+                const hillTop = x => Math.round(H * 0.83 - K.sn(x, h1, 0.32) * H * 0.035 - K.sn(x, h2) * H * 0.014);
+                for (let x = 0; x < TW; x++) { const t = hillTop(x); ph(x, t, 1, H - t, '#150926'); ph(x, t, 1, 1, '#3b1d63'); }
+                for (let i = 0, n = Math.round(TW / 9); i < n; i++) {
+                    const x = Math.floor(rnd() * TW);
+                    K.pine(ph, x, hillTop(x) + 1, 6 + Math.floor(rnd() * 8), '#0b0416');
+                }
+                return { sky: skyCv, layers: [cloudCv, farCv, nearCv, castleCv, hillCv] };
+            },
+
+            /* --- 核心單字：綠色魔法森林（螢火蟲、發光蘑菇屋） --- */
+            forest(K) {
+                const { W, H, TW, hz, rnd, k, pick } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#03161a', '#05201f', '#082a24', '#0c3529', '#11412e', '#184e33', '#215c38', '#2d6b3c', '#3d7b40', '#538c45'], 0, hz);
+                K.stars(px, Math.round(W * H / 700), 0, hz * 0.45, ['#e8fff0', '#e8fff0', '#b8ffd8']);
+                const R = Math.max(7, Math.min(20, Math.round(Math.min(W, H) * 0.08)));
+                K.disc(px, Math.round(W * 0.2), Math.round(hz * 0.26), R, '#f2ffd6', '#d3ecaa', 'rgba(220, 255, 180, 0.25)');
+                px(0, hz, W, H - hz, '#082419');
+
+                // 螢火蟲（最慢的一層）
+                const [flyCv, pf] = K.layer(TW);
+                for (let i = 0, n = Math.round(TW / 5); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = Math.floor(hz * 0.3 + rnd() * (H * 0.62)), c = rnd() < 0.7 ? '#d8ff5a' : '#7dffc0';
+                    const glow = c === '#d8ff5a' ? 'rgba(216, 255, 90, 0.28)' : 'rgba(125, 255, 192, 0.28)';
+                    K.wrap(o => { pf(o + x - 1, y, 3, 1, glow); pf(o + x, y - 1, 1, 3, glow); pf(o + x, y, 1, 1, c); });
+                }
+                // 遠方樹冠：一顆顆圓圓的樹頂
+                const [farCv, pa] = K.layer(TW);
+                const c1 = K.per(16), c2 = K.per(150);
+                const canopy = x => hz - Math.round(H * 0.11 + H * 0.05 * K.sn(x, c2, 0.2) + H * 0.045 * Math.sqrt(Math.abs(K.sn(x, c1 / 2))));
+                K.ridge(pa, canopy, hz, '#154530', '#22603f');
+                // 近處：高大的松樹
+                const [nearCv, pn] = K.layer(TW);
+                pn(0, hz - 2, TW, 2, '#0b2f20');
+                for (let i = 0, n = Math.round(TW / 11); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), th = Math.round(H * (0.14 + rnd() * 0.16));
+                    K.pine(pn, x, hz, th, rnd() < 0.5 ? '#0d3a27' : '#0a3022');
+                }
+                // 地標：紅色蘑菇屋＋藍色發光蘑菇
+                const [homeCv, pk] = K.layer(TW);
+                const shroom = (cx, by, s, cap, rim, stem, lit) => {
+                    const c = (x, y, w, h, col) => pk(cx + x * s, by + y * s, w * s, h * s, col);
+                    c(-5, -14, 10, 14, stem); c(-5, -14, 2, 14, '#fff8e6');
+                    if (lit) { c(-2, -6, 4, 6, '#4a2a14'); c(-1, -7, 2, 1, '#4a2a14'); c(2, -12, 2, 2, '#ffd94a'); c(-4, -12, 2, 2, '#ffd94a'); }
+                    for (let dy = 0; dy < 10; dy++) {
+                        const w = Math.round(14 * Math.sqrt(1 - (dy / 10) ** 2));
+                        c(-w, -14 - dy, w * 2, 1, dy < 2 ? rim : cap);
+                    }
+                    [[-9, -17], [4, -20], [-3, -22], [8, -16], [-1, -18]].forEach(([x, y]) => c(x, y, 2, 2, '#fff1e8'));
+                };
+                K.mound(pk, Math.round(TW * 0.3), hz - k, '#123d28', '#0b2f20');
+                shroom(Math.round(TW * 0.3), hz - k, k, '#d8343c', '#9e1f2a', '#e8dcc0', true);
+                shroom(Math.round(TW * 0.3) + 26 * k, hz, Math.max(1, Math.round(k / 2)), '#ff5aa8', '#b8306f', '#e8dcc0', false);
+                const bx = Math.round(TW * 0.74);
+                K.mound(pk, bx, hz - k, '#123d28', '#0b2f20');
+                shroom(bx, hz - k, Math.max(1, Math.round(k * 0.7)), '#3ac8ff', '#1f7fb8', '#d6f4ff', false);
+                for (let dy = -30 * k; dy < 0; dy++) for (let dx = -14 * k; dx <= 14 * k; dx++)    // 藍蘑菇的光
+                    if ((dx + dy) % 3 === 0 && dx * dx / (14 * k) ** 2 + (dy + 12 * k) ** 2 / (18 * k) ** 2 < 1 && (dx * 7 + dy * 3) % 5 === 0) pk(bx + dx, hz - k + dy, 1, 1, 'rgba(120, 220, 255, 0.35)');
+                // 前景：灌木叢和小小的發光蘑菇
+                const [bushCv, pb] = K.layer(TW);
+                const b1 = K.per(220), b2 = K.per(14);
+                const bushTop = x => Math.round(H * 0.84 - K.sn(x, b1) * H * 0.03 - Math.sqrt(Math.abs(K.sn(x, b2 / 2))) * H * 0.025);
+                for (let x = 0; x < TW; x++) { const t = bushTop(x); pb(x, t, 1, H - t, '#03140c'); pb(x, t, 1, 1, '#14402a'); }
+                for (let i = 0, n = Math.round(TW / 16); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = bushTop(x) + 2 + Math.floor(rnd() * 6), c = pick(['#5ef2ff', '#ff7ad9', '#d8ff5a']);
+                    K.wrap(o => { pb(o + x, y, 1, 2, '#d8e8d0'); pb(o + x - 1, y - 1, 3, 1, c); });
+                }
+                return { sky: skyCv, layers: [flyCv, farCv, nearCv, homeCv, bushCv] };
+            },
+
+            /* --- Part 5 文法：晴天草原上的小鎮 --- */
+            meadow(K) {
+                const { W, H, TW, hz, rnd, tri, u, k, pick } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#2f6fd0', '#3a7bd8', '#4787de', '#5694e4', '#67a2e9', '#7ab0ed', '#8fbef1', '#a6ccf4', '#bfdaf6', '#d8e9f8'], 0, hz);
+                const R = Math.max(8, Math.min(22, Math.round(Math.min(W, H) * 0.09)));
+                K.disc(px, Math.round(W * 0.18), Math.round(hz * 0.3), R, '#fff3a0', null, 'rgba(255, 246, 168, 0.45)');
+                K.disc(px, Math.round(W * 0.18), Math.round(hz * 0.3), R - 3, '#ffec27');
+                px(0, hz, W, H - hz, '#4a9a42');
+
+                const [cloudCv, pc] = K.layer(TW);
+                [[0.05, 0.2, 44], [0.32, 0.12, 30], [0.5, 0.34, 52], [0.74, 0.18, 38], [0.9, 0.42, 30], [0.2, 0.5, 34]].forEach(([x, y, w]) => {
+                    K.cloud(pc, TW * x, hz * y, w, '#dde9f7', '#ffffff');
+                    K.cloud(pc, TW * x + w * 0.3, hz * y - 3, w * 0.5, '#ffffff', '#ffffff');
+                });
+                const f1 = K.per(90), f2 = K.per(33);
+                const farTop = x => hz - Math.round(H * 0.05 + tri(u(x) * f1 + 0.3) * H * 0.14 + tri(u(x) * f2) * H * 0.04);
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, farTop, hz, '#6d8fc6', '#93b2df');
+                for (let x = 0; x < TW; x++) if (hz - farTop(x) > H * 0.16) pf(x, farTop(x), 1, 2, '#ffffff');
+                // 近處：圓圓的綠色丘陵和樹
+                const [nearCv, pn] = K.layer(TW);
+                const g1 = K.per(170), g2 = K.per(60);
+                const nearTop = x => hz - Math.round(H * 0.035 + H * 0.035 * (1 + K.sn(x, g1, 0.1)) + H * 0.01 * K.sn(x, g2));
+                K.ridge(pn, nearTop, hz, '#5aa84a', '#83cf62');
+                for (let i = 0, n = Math.round(TW / 22); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), t = nearTop(x), r = 2 + Math.floor(rnd() * 3);
+                    K.wrap(o => {
+                        pn(o + x, t - 2, 1, 3, '#6b4a2a');
+                        pn(o + x - r, t - 2 - r, r * 2 + 1, r, '#2f7f35'); pn(o + x - r + 1, t - 2 - r * 2 + 1, r * 2 - 1, r, '#3a9440');
+                        pn(o + x - r + 1, t - 2 - r * 2 + 1, 1, 1, '#6fc45a');
+                    });
+                }
+                // 地標：紅屋頂小鎮＋鐘樓，另一頭是風車
+                const [townCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.3), by = hz - k;
+                K.mound(pk, cx, by, '#6fc45a', '#4a9a42');
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                const house = (x, w, h, wall, roof) => {
+                    c(x, -h, w, h, wall);
+                    for (let j = 0; j <= Math.ceil(w / 2); j++) c(x - 1 + j, -h - 1 - j, w + 2 - j * 2, 1, roof);
+                    c(x + 1, -h + 2, 2, 2, '#3b5ba5'); if (w > 6) c(x + w - 3, -h + 2, 2, 2, '#3b5ba5');
+                    c(x + Math.floor(w / 2) - 1, -3, 2, 3, '#7a4a2a');
+                };
+                house(-19, 7, 7, '#f3e3c3', '#d9483b');
+                c(-11, -24, 6, 24, '#ece0cc'); c(-11, -24, 1, 24, '#ffffff');                       // 鐘樓
+                for (let j = 0; j < 5; j++) c(-12 + j, -25 - j * 2, 8 - j * 2, 2, '#3f6fb0');
+                c(-9, -20, 2, 2, '#ffec27'); c(-9, -8, 2, 3, '#7a4a2a');
+                house(-3, 9, 9, '#fff1e0', '#e2763a');
+                house(8, 7, 6, '#f3e3c3', '#c43c4c');
+                house(17, 8, 8, '#efe1c8', '#d9483b');
+                const wx = Math.round(TW * 0.74), wy = hz;                                       // 風車
+                K.mound(pk, wx, wy, '#6fc45a', '#4a9a42');
+                const w2 = (x, y, w, h, col) => pk(wx + x * k, wy + y * k, w * k, h * k, col);
+                for (let j = 0; j < 16; j++) w2(-4 + Math.floor(j / 6), -j - 1, 8 - Math.floor(j / 6) * 2, 1, '#e8dcc8');
+                w2(-1, -4, 2, 4, '#7a4a2a'); w2(-1, -20, 2, 3, '#c43c4c');
+                for (let i = 1; i <= 9; i++) { w2(i, -18 - i, 1, 1, '#8a5a3a'); w2(-i, -18 + i, 1, 1, '#8a5a3a'); w2(-i, -18 - i, 1, 1, '#8a5a3a'); w2(i, -18 + i, 1, 1, '#8a5a3a'); }
+                for (let i = 3; i <= 9; i++) { w2(i + 1, -18 - i, 1, 1, '#fff8e8'); w2(-i, -18 + i + 1, 1, 1, '#fff8e8'); w2(-i - 1, -18 - i, 1, 1, '#fff8e8'); w2(i, -18 + i + 1, 1, 1, '#fff8e8'); }
+                // 前景：草地、木柵欄、小花
+                const [grassCv, pg] = K.layer(TW);
+                const h1 = K.per(260), h2 = K.per(90);
+                const top = x => Math.round(H * 0.85 - K.sn(x, h1) * H * 0.025 - K.sn(x, h2, 0.4) * H * 0.012);
+                for (let x = 0; x < TW; x++) {
+                    const t = top(x); pg(x, t, 1, H - t, '#2f7f35'); pg(x, t, 1, 1, '#62c454');
+                    if (x % 3 === 0) pg(x, t - 1, 1, 1, '#62c454');
+                    pg(x, t - 5, 1, 1, '#8a5a32'); pg(x, t - 3, 1, 1, '#8a5a32');                // 柵欄橫木
+                }
+                const nPost = K.per(14);
+                for (let i = 0; i < nPost; i++) { const x = Math.round(i * TW / nPost); pg(x, top(x) - 7, 2, 7, '#6b4226'); pg(x, top(x) - 7, 1, 7, '#a0703f'); }
+                for (let i = 0, n = Math.round(TW / 5); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = top(x) + 2 + Math.floor(rnd() * (H * 0.1)), c = pick(['#ff4d6d', '#ffec27', '#ffffff', '#ff9ad5']);
+                    K.wrap(o => { pg(o + x, y, 1, 1, c); pg(o + x, y + 1, 1, 1, '#256b2c'); });
+                }
+                return { sky: skyCv, layers: [cloudCv, farCv, nearCv, townCv, grassCv] };
+            },
+
+            /* --- Part 5 詞彙：藍紫色的魔法圖書塔（飄浮的書、尖塔城市） --- */
+            library(K) {
+                const { W, H, TW, hz, rnd, k, pick } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#07061f', '#0c0a2c', '#120f3b', '#19144b', '#211a5c', '#2a206e', '#35267f', '#412c8e', '#4f3399', '#5e3aa2'], 0, hz);
+                K.stars(px, Math.round(W * H / 200), 0, hz * 0.8, ['#ffffff', '#ffffff', '#9fe8ff', '#ffc2f0', '#9fe8ff']);
+                const R = Math.max(8, Math.min(24, Math.round(Math.min(W, H) * 0.1)));
+                K.disc(px, Math.round(W * 0.82), Math.round(hz * 0.26), R, '#eef3ff', null, 'rgba(200, 220, 255, 0.22)', [Math.round(R * 0.5), -Math.round(R * 0.25)]);
+                px(0, hz, W, H - hz, '#0d0a2a');
+
+                // 飄浮的書和魔法光點（最慢的一層）
+                const [bookCv, pb] = K.layer(TW);
+                for (let i = 0, n = Math.round(TW / 22); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = Math.floor(hz * 0.12 + rnd() * hz * 0.7), c = pick(['#ff5c7a', '#4fd1ff', '#ffd24a', '#9b7bff', '#58e0a0']);
+                    const open = rnd() < 0.4;
+                    K.wrap(o => {
+                        if (open) { pb(o + x, y, 3, 1, '#fff1e8'); pb(o + x + 4, y, 3, 1, '#fff1e8'); pb(o + x + 1, y + 1, 5, 1, '#d8d0f0'); pb(o + x + 3, y, 1, 2, c); pb(o + x - 1, y + 1, 1, 1, c); pb(o + x + 7, y + 1, 1, 1, c); }
+                        else { pb(o + x, y, 6, 3, c); pb(o + x, y + 3, 6, 1, '#fff1e8'); pb(o + x + 1, y + 1, 1, 1, '#ffffff'); }
+                    });
+                }
+                for (let i = 0, n = Math.round(TW / 9); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = Math.floor(rnd() * hz), c = rnd() < 0.6 ? 'rgba(160, 240, 255, 0.7)' : 'rgba(255, 190, 240, 0.7)';
+                    K.wrap(o => pb(o + x, y, 1, 1, c));
+                }
+                // 尖塔城市：每座塔有尖屋頂，有些窗戶亮著
+                const spires = (p, gap, wMin, wMax, hMin, hMax, col, roof, win) => {
+                    p(0, hz - 3, TW, 3, col);
+                    for (let x = Math.floor(rnd() * gap); x < TW; x += gap / 2 + Math.floor(rnd() * gap)) {
+                        const w = wMin + Math.floor(rnd() * (wMax - wMin + 1)), h = Math.round(H * (hMin + rnd() * (hMax - hMin))), wins = [];
+                        for (let j = 0; j < h / 6; j++) if (rnd() < 0.35) wins.push(j);
+                        K.wrap(o => {
+                            p(o + x, hz - h, w, h, col);
+                            for (let j = 0; j <= Math.ceil(w / 2) + 1; j++) p(o + x + Math.min(j, w / 2), hz - h - j * 2 - 1, Math.max(1, w - j * 2), 2, roof);
+                            wins.forEach(j => p(o + x + Math.floor(w / 2), hz - h + 3 + j * 6, 1, 2, win));
+                        });
+                    }
+                };
+                const [farCv, pf] = K.layer(TW);
+                spires(pf, 22, 4, 8, 0.06, 0.2, '#2a2470', '#352c86', '#ffd86b');
+                const [nearCv, pn] = K.layer(TW);
+                spires(pn, 46, 7, 12, 0.05, 0.13, '#18144c', '#231c63', '#7fe0ff');
+                // 地標：高高的魔法塔，頂端有發光水晶球，周圍飄著符文
+                const [towerCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.32), by = hz - k;
+                K.mound(pk, cx, by, '#231c63', '#110d36');
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                c(-8, -10, 16, 10, '#0c0a2e'); c(-6, -46, 12, 36, '#0c0a2e'); c(-6, -46, 2, 36, '#231d63');
+                for (let y = -42; y < -10; y += 8) { c(-7, y, 14, 1, '#2c2478'); c(-2, y + 3, 2, 3, (y / 8) % 2 ? '#ffd86b' : '#7fe0ff'); }
+                c(-2, -6, 4, 6, '#04030f'); c(-1, -7, 2, 1, '#04030f'); c(-1, -5, 2, 1, '#7fe0ff');
+                for (let j = 0; j < 7; j++) c(-8 + j, -47 - j * 2, 16 - j * 2, 2, j % 2 ? '#5a34b0' : '#4a2a9a');
+                c(-0.5, -61, 1, 2, '#bba6ff');
+                K.disc(pk, cx, by - 64 * k, 3 * k, '#bff3ff', '#7fd8ff', 'rgba(150, 230, 255, 0.4)');
+                [[-16, -40], [14, -34], [-18, -24], [16, -50], [12, -18]].forEach(([x, y], i) => {     // 符文
+                    const col = i % 2 ? '#7fe0ff' : '#ff9ae6';
+                    c(x, y, 1, 3, col); c(x - 1, y + 1, 3, 1, col); c(x + 1, y - 1, 1, 1, col);
+                });
+                const sx = Math.round(TW * 0.76);                                              // 第二座小塔
+                const d = (x, y, w, h, col) => pk(sx + x * k, by + y * k, w * k, h * k, col);
+                K.mound(pk, sx, by, '#231c63', '#110d36');
+                d(-4, -24, 8, 24, '#0c0a2e'); d(-4, -24, 1, 24, '#231d63'); d(-1, -18, 2, 2, '#ffd86b'); d(-1, -10, 2, 2, '#7fe0ff');
+                for (let j = 0; j < 5; j++) d(-5 + j, -25 - j * 2, 10 - j * 2, 2, '#4a2a9a');
+                // 前景：石欄杆和燭台
+                const [railCv, pr] = K.layer(TW);
+                const y0 = Math.round(H * 0.85);
+                pr(0, y0, TW, H - y0, '#08061c'); pr(0, y0 - 9, TW, 2, '#2c2678'); pr(0, y0 - 9, TW, 1, '#4a3fb0'); pr(0, y0 - 1, TW, 1, '#2c2678');
+                const nB = K.per(5);
+                for (let i = 0; i < nB; i++) { const x = Math.round(i * TW / nB); pr(x, y0 - 7, 2, 6, '#1c1856'); pr(x, y0 - 5, 2, 2, '#2c2678'); }
+                const nC = K.per(70);
+                for (let i = 0; i < nC; i++) {
+                    const x = Math.round(i * TW / nC + 20);
+                    K.wrap(o => {
+                        pr(o + x - 1, y0 - 11, 4, 2, '#3a3290'); pr(o + x, y0 - 16, 2, 5, '#f1e6d0');
+                        pr(o + x, y0 - 18, 2, 2, '#ffb02a'); pr(o + x, y0 - 19, 1, 1, '#ffec27');
+                        pr(o + x - 2, y0 - 20, 6, 4, 'rgba(255, 200, 80, 0.18)');
+                    });
+                }
+                return { sky: skyCv, layers: [bookCv, farCv, nearCv, towerCv, railCv] };
+            },
+
+            /* --- Part 6：早晨的海港（燈塔、帆船、木棧道） --- */
+            harbor(K) {
+                const { W, H, TW, hz, rnd, tri, u, k } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#1c67b0', '#2477bb', '#2f88c5', '#3e98cd', '#52a8d4', '#6ab7da', '#86c6df', '#a6d4e2', '#c8e2e2', '#ecece0'], 0, hz);
+                const sx = Math.round(W * 0.24), R = Math.max(7, Math.min(20, Math.round(Math.min(W, H) * 0.08)));
+                K.disc(px, sx, Math.round(hz * 0.42), R, '#fffbe0', null, 'rgba(255, 250, 210, 0.5)');
+                for (let i = 0; i < 6; i++) {                                                      // 海鷗
+                    const x = Math.floor(W * (0.4 + rnd() * 0.5)), y = Math.floor(hz * (0.15 + rnd() * 0.4));
+                    px(x - 2, y - 1, 1, 1, '#24395c'); px(x - 1, y, 1, 1, '#24395c'); px(x, y - 1, 1, 1, '#24395c'); px(x + 1, y - 1, 1, 1, '#24395c'); px(x + 2, y - 2, 1, 1, '#24395c'); px(x - 3, y - 2, 1, 1, '#24395c');
+                }
+                K.gradient(px, ['#3f93cf', '#3484c3', '#2a76b6', '#2168a7', '#195a97', '#134c86'], hz, H);
+                for (let y = hz + 2; y < H * 0.8; y += 3) {                                       // 太陽倒影
+                    const w = Math.max(2, Math.round(R * (1 - (y - hz) / (H * 0.5)) * 1.4));
+                    px(sx - w / 2 + ((y * 7) % 5) - 2, y, w, 1, 'rgba(255, 250, 210, 0.55)');
+                }
+                const [cloudCv, pc] = K.layer(TW);
+                [[0.08, 0.2, 40], [0.36, 0.1, 28], [0.6, 0.3, 46], [0.84, 0.16, 34]].forEach(([x, y, w]) => K.cloud(pc, TW * x, hz * y, w, '#e2eef6', '#ffffff'));
+                // 遠方小島
+                const i1 = K.per(140), i2 = K.per(55);
+                const isle = x => hz - Math.round(Math.max(0, tri(u(x) * i1 + 0.2) * H * 0.13 - H * 0.05) + Math.max(0, tri(u(x) * i2 + 0.7) * H * 0.05 - H * 0.025));
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, isle, hz, '#3d6f97', '#5b8cb5');
+                for (let x = 0; x < TW; x++) if (hz - isle(x) > 2) pf(x, hz, 1, 1, '#a8d4ee');
+                // 海面上的浪花
+                const [waveCv, pw] = K.layer(TW);
+                for (let i = 0, n = Math.round(TW * H / 200); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), y = Math.floor(hz + 2 + rnd() * (H * 0.86 - hz)), w = 2 + Math.floor(rnd() * 4), c = rnd() < 0.6 ? '#9fd3f2' : '#e6f6ff';
+                    K.wrap(o => pw(o + x, y, w, 1, c));
+                }
+                // 地標：紅白燈塔＋帆船
+                const [lightCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.3), by = hz + 2 * k;
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                for (let j = 0; j < 5; j++) c(-12 + j * 2 - (j % 2), -j * 2 - 2, 24 - j * 4, 2, j % 2 ? '#4a4a5e' : '#5d5d74');
+                for (let j = 0; j < 28; j++) {
+                    const w = 8 - Math.floor(j / 8) * 1, x = -Math.floor(w / 2);
+                    c(x, -12 - j, w, 1, Math.floor(j / 5) % 2 ? '#e03a3a' : '#f6f6f6');
+                    c(x, -12 - j, 1, 1, Math.floor(j / 5) % 2 ? '#ff6a6a' : '#ffffff');
+                }
+                c(-5, -41, 10, 1, '#2a2a3a'); c(-3, -45, 6, 4, '#ffec27'); c(-3, -45, 1, 4, '#2a2a3a'); c(2, -45, 1, 4, '#2a2a3a'); c(-4, -47, 8, 2, '#e03a3a'); c(-1, -49, 2, 2, '#e03a3a');
+                for (let j = 1; j < 14; j++) { c(3 + j * 1.5, -44 - j * 0.3, 1.5, j * 0.6 + 1, 'rgba(255, 240, 150, 0.22)'); c(-4.5 - j * 1.5, -44 - j * 0.3, 1.5, j * 0.6 + 1, 'rgba(255, 240, 150, 0.22)'); }
+                const shx = Math.round(TW * 0.74), shy = hz + 4 * k;                            // 帆船
+                const s = (x, y, w, h, col) => pk(shx + x * k, shy + y * k, w * k, h * k, col);
+                for (let j = 0; j < 4; j++) s(-10 + j, -4 + j, 20 - j * 2, 1, j === 0 ? '#9a5a2e' : '#6b3a1f');
+                s(-0.5, -24, 1, 20, '#5a341c');
+                for (let j = 0; j < 16; j++) { s(1, -23 + j, Math.floor(j * 0.55) + 1, 1, '#fff8e8'); s(-1 - Math.floor(j * 0.4), -21 + j, Math.floor(j * 0.4) + 1, 1, '#f0e6d0'); }
+                s(0.5, -27, 4, 2, '#ff004d');
+                // 前景：木棧道
+                const [pierCv, pp] = K.layer(TW);
+                const y0 = Math.round(H * 0.86), nP = K.per(26);
+                for (let i = 0; i < nP; i++) {
+                    const x = Math.round(i * TW / nP);
+                    pp(x, y0, 3, H - y0, '#4a2e18'); pp(x, y0, 1, H - y0, '#6b4426');
+                    pp(x, y0 - 6, 3, 6, '#5a3820'); pp(x, y0 - 7, 3, 1, '#8a5a32');
+                    const nx = Math.round((i + 1) * TW / nP);                                  // 欄杆繩子
+                    for (let xx = x + 3; xx < nx; xx++) { const t = (xx - x) / (nx - x); pp(xx, y0 - 5 + Math.round(Math.sin(t * Math.PI) * 2), 1, 1, '#c8a46a'); }
+                }
+                pp(0, y0, TW, 3, '#9a6a3a'); pp(0, y0, TW, 1, '#c08850'); pp(0, y0 + 3, TW, 1, '#3a2412');
+                for (let x = 0; x < TW; x += 5) pp(x, y0 + 1, 1, 2, '#7a4a28');
+                for (let i = 0, n = K.per(160); i < n; i++) {                                     // 木箱
+                    const x = Math.round(i * TW / n + 60);
+                    K.wrap(o => { pp(o + x, y0 - 6, 6, 6, '#b07a3a'); pp(o + x, y0 - 6, 6, 1, '#d09a5a'); pp(o + x, y0 - 4, 6, 1, '#7a4a20'); pp(o + x + 2, y0 - 6, 1, 6, '#7a4a20'); });
+                }
+                return { sky: skyCv, layers: [cloudCv, farCv, waveCv, lightCv, pierCv] };
+            },
+
+            /* --- Part 7：橘紅色的沙漠遺跡（金字塔、石柱、仙人掌） --- */
+            desert(K) {
+                const { W, H, TW, hz, rnd, k } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#b8392a', '#cc482c', '#dd5a30', '#ea6d35', '#f3813c', '#f99646', '#fdab54', '#ffc066', '#ffd47e', '#ffe39a'], 0, hz);
+                const R = Math.max(10, Math.min(30, Math.round(Math.min(W, H) * 0.13)));
+                K.disc(px, Math.round(W * 0.72), Math.round(hz * 0.55), R, '#fff4c8', '#ffe39a', 'rgba(255, 240, 190, 0.4)');
+                px(0, hz, W, H - hz, '#c97a36');
+                const [cloudCv, pc] = K.layer(TW);                                                 // 細長的熱風雲
+                [[0.05, 0.2, 60], [0.4, 0.12, 44], [0.66, 0.28, 70], [0.88, 0.4, 40], [0.25, 0.38, 50]].forEach(([x, y, w]) => K.wrap(o => {
+                    pc(o + TW * x, hz * y, w, 1, '#ffcf8a'); pc(o + TW * x + w * 0.2, hz * y + 1, w * 0.7, 1, '#f39a52'); pc(o + TW * x + w * 0.5, hz * y - 1, w * 0.3, 1, '#ffe0a8');
+                }));
+                const d1 = K.per(200), d2 = K.per(70), e1 = K.per(130), e2 = K.per(45);
+                const farTop = x => hz - Math.round(H * 0.05 + H * 0.05 * (1 + K.sn(x, d1, 0.3)) + H * 0.015 * K.sn(x, d2));
+                const nearTop = x => hz - Math.round(H * 0.02 + H * 0.035 * (1 + K.sn(x, e1, 0.7)) + H * 0.012 * K.sn(x, e2, 0.2));
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, farTop, hz, '#de8e48', '#f2ae62', '#c87838');
+                const [nearCv, pn] = K.layer(TW);
+                K.ridge(pn, nearTop, hz, '#c56f34', '#dc904c', '#a65a28');
+                // 地標：階梯金字塔＋倒塌的石柱神殿
+                const [ruinCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.3), by = hz;
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                for (let j = 0; j < 12; j++) {
+                    const w = 48 - j * 4;
+                    c(-w / 2, -(j + 1) * 3, w / 2, 3, '#efbe6c'); c(0, -(j + 1) * 3, w / 2, 3, '#b8783a');
+                    c(-w / 2, -(j + 1) * 3, w, 1, '#ffd88a');
+                }
+                c(-2, -8, 4, 5, '#4a2410'); c(-1, -9, 2, 1, '#4a2410');
+                const rx = Math.round(TW * 0.72);
+                const r = (x, y, w, h, col) => pk(rx + x * k, by + y * k, w * k, h * k, col);
+                r(-20, -2, 40, 2, '#c99456');
+                [[-16, 22], [-8, 22], [0, 14], [8, 22], [14, 8]].forEach(([x, h]) => { r(x, -2 - h, 4, h, '#e8c48a'); r(x + 3, -2 - h, 1, h, '#b88a50'); r(x - 1, -3 - h, 6, 1, '#f6dcaa'); });
+                r(-17, -27, 30, 3, '#e8c48a'); r(-17, -25, 30, 1, '#b88a50'); r(16, -4, 6, 2, '#d8ac70'); r(19, -6, 3, 2, '#d8ac70');
+                // 前景：沙地、仙人掌、石頭
+                const [sandCv, ps] = K.layer(TW);
+                const h1 = K.per(240), h2 = K.per(80);
+                const top = x => Math.round(H * 0.85 - K.sn(x, h1) * H * 0.03 - K.sn(x, h2, 0.5) * H * 0.012);
+                for (let x = 0; x < TW; x++) { const t = top(x); ps(x, t, 1, H - t, '#a2541f'); ps(x, t, 1, 1, '#d48c44'); if ((x * 13) % 7 === 0) ps(x, t + 3 + (x % 5), 1, 1, '#c06c2c'); }
+                for (let i = 0, n = Math.round(TW / 45); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), b = top(x) + 1, h = 8 + Math.floor(rnd() * 8), arm = rnd() < 0.5 ? -1 : 1;
+                    K.wrap(o => {
+                        ps(o + x, b - h, 3, h, '#3f8a3a'); ps(o + x, b - h, 1, h, '#5aa84a'); ps(o + x + 1, b - h - 1, 1, 1, '#3f8a3a');
+                        ps(o + x + (arm > 0 ? 3 : -2), b - h + 4, 2, 2, '#3f8a3a'); ps(o + x + (arm > 0 ? 4 : -2), b - h + 1, 1, 4, '#3f8a3a');
+                        ps(o + x + (arm > 0 ? -2 : 3), b - h + 7, 2, 2, '#2f6f2f'); ps(o + x + (arm > 0 ? -2 : 4), b - h + 5, 1, 3, '#2f6f2f');
+                    });
+                }
+                for (let i = 0, n = Math.round(TW / 30); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), b = top(x) + 2 + Math.floor(rnd() * 8), w = 2 + Math.floor(rnd() * 4);
+                    K.wrap(o => { ps(o + x, b, w, 2, '#6e3a1a'); ps(o + x, b, w - 1, 1, '#8a4c24'); });
+                }
+                return { sky: skyCv, layers: [cloudCv, farCv, nearCv, ruinCv, sandCv] };
+            },
+
+            /* --- 聽力：發光的水晶洞窟（鐘乳石、藍紫水晶） --- */
+            cave(K) {
+                const { W, H, TW, hz, rnd, tri, u, k, pick } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#03030a', '#05060f', '#080a17', '#0b0e20', '#0f1329', '#131833', '#171d3d', '#1c2247'], 0, hz);
+                K.stars(px, Math.round(W * H / 500), hz * 0.15, hz, ['#4ff0ff', '#ff6ad5', '#a0ffef', '#7f9cff']);
+                for (let y = Math.round(hz * 0.45); y < hz; y++) for (let x = 0; x < W; x++)        // 遠方水晶的光
+                    if ((x + y) % 3 === 0 && (x * 5 + y * 3) % 7 === 0) px(x, y, 1, 1, x / W < 0.5 ? 'rgba(80, 220, 255, 0.14)' : 'rgba(220, 90, 255, 0.12)');
+                px(0, hz, W, H - hz, '#0b0d20');
+                // 洞頂的鐘乳石（最慢的一層）
+                const [ceilCv, pc] = K.layer(TW);
+                const t1 = K.per(60), t2 = K.per(17);
+                for (let x = 0; x < TW; x++) { const h = Math.round(H * 0.04 + tri(u(x) * t1) * H * 0.04 + tri(u(x) * t2 + 0.3) * H * 0.02); pc(x, 0, 1, h, '#0d0f22'); pc(x, h, 1, 1, '#2a3166'); }
+                for (let i = 0, n = Math.round(TW / 9); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), len = Math.round(H * (0.06 + rnd() * 0.16)), w = 2 + Math.floor(rnd() * 3), y0 = Math.round(H * 0.05);
+                    K.wrap(o => { for (let j = 0; j < len; j++) { const ww = Math.max(1, Math.round(w * (1 - j / len))); pc(o + x - Math.floor(ww / 2), y0 + j, ww, 1, '#0d0f22'); pc(o + x - Math.floor(ww / 2), y0 + j, 1, 1, '#232a5a'); } pc(o + x, y0 + len, 1, 1, '#5ff2ff'); });
+                }
+                // 遠方石柱
+                const f1 = K.per(48), f2 = K.per(19);
+                const farTop = x => hz - Math.round(H * 0.04 + tri(u(x) * f1 + 0.2) * H * 0.14 + tri(u(x) * f2) * H * 0.05);
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, farTop, hz, '#151a3a', '#232b60');
+                // 近處岩石，上面長著水晶
+                const crystal = (p, x, base, h, col, light) => K.wrap(o => {
+                    for (let j = 0; j < h; j++) { const w = j < 2 ? 1 : 3; p(o + x - Math.floor(w / 2), base - h + j, w, 1, col); }
+                    p(o + x - 1, base - h + 2, 1, h - 2, light); p(o + x, base - h, 1, 1, '#ffffff');
+                    p(o + x - 3, base - h, 7, h, light === '#bff8ff' ? 'rgba(80, 230, 255, 0.12)' : 'rgba(255, 90, 210, 0.12)');
+                });
+                const n1 = K.per(90), n2 = K.per(23);
+                const nearTop = x => hz - Math.round(H * 0.01 + tri(u(x) * n1 + 0.6) * H * 0.08 + tri(u(x) * n2 + 0.1) * H * 0.025);
+                const [nearCv, pn] = K.layer(TW);
+                K.ridge(pn, nearTop, hz, '#0e1129', '#1b2148');
+                for (let i = 0, n = Math.round(TW / 18); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), cy = rnd() < 0.5;
+                    crystal(pn, x, nearTop(x) + 1, 4 + Math.floor(rnd() * 6), cy ? '#38e1ff' : '#ff4fcf', cy ? '#bff8ff' : '#ffc0ef');
+                }
+                // 地標：巨大的紫色水晶群
+                const [gemCv, pk] = K.layer(TW);
+                const cluster = (cx, s, col, light, dark, glow) => {
+                    const c = (x, y, w, h, cc) => pk(cx + x * s, hz + y * s, w * s, h * s, cc);
+                    for (let dy = -40; dy < 0; dy++) for (let dx = -22; dx <= 22; dx++)
+                        if ((dx + dy) % 2 === 0 && (dx * 3 + dy) % 5 === 0 && dx * dx / 484 + (dy + 16) ** 2 / 600 < 1) c(dx, dy, 1, 1, glow);
+                    [[-10, 18, 5], [-4, 32, 7], [4, 24, 6], [10, 14, 4], [-15, 10, 4]].forEach(([x, h, w]) => {
+                        c(x, -h, w, h, col); c(x, -h, 1, h, light); c(x + w - 1, -h, 1, h, dark);
+                        for (let j = 1; j <= Math.ceil(w / 2); j++) c(x + j - 1, -h - (Math.ceil(w / 2) - j + 1), w - (j - 1) * 2, 1, j === 1 ? light : col);
+                    });
+                    c(-17, -2, 34, 2, '#0e1129');
+                };
+                cluster(Math.round(TW * 0.3), k, '#9b5cff', '#e0c8ff', '#5a2fb0', 'rgba(170, 110, 255, 0.35)');
+                cluster(Math.round(TW * 0.75), Math.max(1, Math.round(k * 0.6)), '#28c8f0', '#c8f6ff', '#1478a8', 'rgba(80, 220, 255, 0.35)');
+                // 前景：洞窟地面、小水晶、石筍
+                const [floorCv, pg] = K.layer(TW);
+                const h1 = K.per(200), h2 = K.per(60);
+                const top = x => Math.round(H * 0.85 - K.sn(x, h1) * H * 0.03 - K.sn(x, h2, 0.3) * H * 0.015);
+                for (let x = 0; x < TW; x++) { const t = top(x); pg(x, t, 1, H - t, '#05060f'); pg(x, t, 1, 1, '#1d2350'); }
+                for (let i = 0, n = Math.round(TW / 20); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), h = 4 + Math.floor(rnd() * 10);
+                    if (rnd() < 0.5) crystal(pg, x, top(x) + 1, Math.ceil(h / 2) + 2, pick(['#38e1ff', '#ff4fcf']), '#ffffff');
+                    else K.wrap(o => { for (let j = 0; j < h; j++) { const w = Math.max(1, Math.round(4 * j / h)); pg(o + x - Math.floor(w / 2), top(x) - h + j, w, 1, '#0a0c1e'); } });
+                }
+                return { sky: skyCv, layers: [ceilCv, farCv, nearCv, gemCv, floorCv] };
+            },
+
+            /* --- 魔王關：紅色火山和魔王城 --- */
+            volcano(K) {
+                const { W, H, TW, hz, rnd, tri, u, k } = K;
+                const [skyCv, px] = K.layer(W);
+                K.gradient(px, ['#140303', '#220606', '#330909', '#470c0b', '#5e110c', '#78180d', '#94220e', '#b2320f', '#cf4612', '#ea6418'], 0, hz);
+                K.stars(px, Math.round(W * H / 300), hz * 0.1, hz, ['#ff9a3a', '#ffcc4a', '#ff5a2a', '#ff5a2a']);
+                const R = Math.max(7, Math.min(18, Math.round(Math.min(W, H) * 0.07)));
+                K.disc(px, Math.round(W * 0.15), Math.round(hz * 0.22), R, '#ff5a3a', '#c8301f', 'rgba(255, 80, 40, 0.3)');
+                px(0, hz, W, H - hz, '#1a0505');
+                const [cloudCv, pc] = K.layer(TW);                                                 // 火山灰雲
+                [[0.02, 0.15, 50], [0.3, 0.25, 40], [0.55, 0.1, 56], [0.8, 0.3, 44], [0.15, 0.45, 36], [0.68, 0.5, 30]].forEach(([x, y, w]) => {
+                    K.cloud(pc, TW * x, hz * y, w, '#3b1210', '#5e1c16');
+                    K.cloud(pc, TW * x + w * 0.2, hz * y + 4, w * 0.6, '#2a0b0a', '#3b1210');
+                });
+                // 遠方：一座大火山（一輪一座）加上鋸齒山脈
+                const j1 = K.per(40);
+                const vTop = x => {
+                    const cone = Math.max(0, tri(u(x) + 0.25) * 2 - 1), crater = Math.min(cone, 0.9);
+                    return hz - Math.round(Math.max(crater * H * 0.36, H * 0.04 + tri(u(x) * j1) * H * 0.07));
+                };
+                const [farCv, pf] = K.layer(TW);
+                K.ridge(pf, vTop, hz, '#2e0b0b', '#4a1410');
+                for (let x = 0; x < TW; x++) {
+                    const t = vTop(x), cone = Math.max(0, tri(u(x) + 0.25) * 2 - 1);
+                    if (cone >= 0.9) { pf(x, t - 1, 1, 2, '#ffb01a'); pf(x, t - 3, 1, 2, 'rgba(255, 120, 30, 0.4)'); }
+                    else if (cone > 0.45 && (x * 7) % 11 < 2) pf(x, t, 1, Math.round((hz - t) * (cone - 0.35)), '#c2300f');   // 流下來的岩漿
+                }
+                const n1 = K.per(26), n2 = K.per(9);
+                const nearTop = x => hz - Math.round(H * 0.01 + tri(u(x) * n1 + 0.4) * H * 0.07 + tri(u(x) * n2) * H * 0.03);
+                const [nearCv, pn] = K.layer(TW);
+                K.ridge(pn, nearTop, hz, '#160404', '#3a0c08');
+                for (let x = 0; x < TW; x++) if ((x * 5) % 13 === 0) pn(x, nearTop(x) + 3, 1, 3, '#ff4a12');
+                // 地標：魔王城
+                const [fortCv, pk] = K.layer(TW);
+                const cx = Math.round(TW * 0.34), by = hz - 2 * k;
+                K.mound(pk, cx, by, '#3a0c08', '#160404');
+                const c = (x, y, w, h, col) => pk(cx + x * k, by + y * k, w * k, h * k, col);
+                const dk = '#0c0202';
+                c(-12, -18, 24, 18, dk); c(-18, -28, 7, 28, dk); c(11, -28, 7, 28, dk); c(-4, -36, 8, 18, dk);
+                [[-18, -28, 7], [11, -28, 7], [-4, -36, 8]].forEach(([x, y, w]) => { for (let j = 0; j < 6; j++) c(x + j * 0.5, y - j, w - j, 1, dk); c(x + w / 2 - 0.5, y - 9, 1, 3, dk); });
+                for (let i = 0; i < 24; i += 3) c(-12 + i, -20, 2, 2, dk);
+                c(-15, -22, 1, 2, '#ff2a2a'); c(14, -22, 1, 2, '#ff2a2a'); c(-2, -30, 1, 2, '#ff2a2a'); c(1, -30, 1, 2, '#ff2a2a'); c(-8, -12, 1, 2, '#ff8a1a'); c(7, -12, 1, 2, '#ff8a1a');
+                c(-4, -9, 8, 9, '#ff5a12'); c(-3, -10, 6, 1, '#ff5a12'); c(-3, -8, 6, 8, '#ffb01a'); c(-1, -9, 2, 9, dk);
+                c(-15, -40, 1, 12, dk); c(-14, -40, 5, 3, '#a01818'); c(14, -40, 1, 12, dk); c(15, -40, 5, 3, '#a01818');
+                // 前景：岩漿河
+                const [lavaCv, pl] = K.layer(TW);
+                const h1 = K.per(180), h2 = K.per(50), lp = K.per(120);
+                const top = x => Math.round(H * 0.85 - K.sn(x, h1) * H * 0.03 - K.sn(x, h2, 0.6) * H * 0.012);
+                for (let x = 0; x < TW; x++) {
+                    const t = top(x), pool = K.sn(x, lp);
+                    pl(x, t, 1, H - t, '#0e0303'); pl(x, t, 1, 1, '#4a1008');
+                    if (pool > 0.55) {
+                        const d = Math.round((pool - 0.55) * 14);
+                        pl(x, t + 4, 1, d + 1, '#ff5a12'); if (pool > 0.7) pl(x, t + 4, 1, Math.max(1, d - 2), '#ffb01a');
+                        if (x % 4 === 0) pl(x, t + 3, 1, 1, 'rgba(255, 160, 40, 0.5)');
+                    }
+                }
+                for (let i = 0, n = Math.round(TW / 24); i < n; i++) {
+                    const x = Math.floor(rnd() * TW), h = 5 + Math.floor(rnd() * 9);
+                    K.wrap(o => { for (let j = 0; j < h; j++) { const w = Math.max(1, Math.round(3 * j / h)); pl(o + x - Math.floor(w / 2), top(x) - h + j + 1, w, 1, '#070101'); } pl(o + x, top(x) - h + 2, 1, 1, '#ff4a12'); });
+                }
+                return { sky: skyCv, layers: [cloudCv, farCv, nearCv, fortCv, lavaCv] };
+            }
+        };
+
+        function buildScene() {
+            const K = sceneKit(scene.theme);
+            const main = $('scene');
+            main.width = K.W; main.height = K.H;
+            const b = SCENES[scene.theme](K);
             // speed：每秒往左移幾格像素（越後面的圖層越近、越快）
-            scene.sky = skyCv; scene.W = W; scene.TW = TW; scene.last = '';
-            scene.layers = [
-                { cv: cloudCv, speed: 1.5 }, { cv: farCv, speed: 3 }, { cv: nearCv, speed: 6 },
-                { cv: castleCv, speed: 9 }, { cv: hillCv, speed: 15 }
-            ];
+            scene.sky = b.sky; scene.W = K.W; scene.TW = K.TW; scene.last = '';
+            scene.layers = b.layers.map((cv, i) => ({ cv, speed: K.speeds[i] }));
+        }
+        // 換場景：只有主題真的不同才重畫
+        function setSceneTheme(name) {
+            if (!SCENES[name]) name = 'dusk';
+            if (name === scene.theme && scene.sky) return;
+            scene.theme = name;
+            startScene();
         }
 
         // 每一幀：算出各層移到哪一格；有任何一層移了整格才重畫（所以捲動是一格一格跳的）
@@ -1369,12 +2044,30 @@
         }
 
         /* === Audio === */
+        // 從裝置內建的英文語音挑最自然的一個：神經網路／增強版語音優先，排除機器人、怪聲那類
+        const NOVELTY = /Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Fred|Junior|Ralph|Kathy|Grandma|Grandpa|Rocko|Shelley|Sandy|Eddy|Flo|Reed/i;
+        const VOICE_RANK = [/Natural|Neural|Online/i, /Premium/i, /Enhanced|Siri/i, /Google US English/i, /^(Ava|Zoe|Evan|Nathan|Allison|Samantha|Susan|Tom)\b/i, /Google UK English/i, /Daniel|Karen|Moira|Serena|Alex/i];
+        let bestVoice = null;
+        function pickVoice() {
+            if (!window.speechSynthesis) return null;
+            const vs = speechSynthesis.getVoices().filter(v => /^en[-_](US|GB|AU|CA)/i.test(v.lang) && !NOVELTY.test(v.name));
+            if (!vs.length) return null;
+            const score = v => { const i = VOICE_RANK.findIndex(r => r.test(v.name)); return (i === -1 ? 99 : i) * 2 + (/en[-_]US/i.test(v.lang) ? 0 : 1); };
+            bestVoice = vs.slice().sort((a, b) => score(a) - score(b))[0];
+            return bestVoice;
+        }
+        if (window.speechSynthesis) { pickVoice(); speechSynthesis.addEventListener('voiceschanged', pickVoice); }
+        function makeUtterance(text) {
+            const u = new SpeechSynthesisUtterance(text);
+            const v = bestVoice || pickVoice();
+            if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-US';
+            u.rate = 0.92;
+            return u;
+        }
         function playAudio(text) {
             if (!window.speechSynthesis || !text) return;
             window.speechSynthesis.cancel();
-            let u = new SpeechSynthesisUtterance(text);
-            u.lang = 'en-US';
-            window.speechSynthesis.speak(u);
+            window.speechSynthesis.speak(makeUtterance(text));
         }
 
         /* === Event Listeners === */
@@ -1414,16 +2107,19 @@
         });
         $('btn-review-no').addEventListener('click', enterNoMode);
 
-        // 返回：單張複習 → OK 列表；其他（OK 列表 / NO 複習）→ 新單字
+        // 返回：單張複習 → OK 列表；NO 複習 / OK 列表 → 新單字；課程畫面 → 上一層；其他 → 地圖
         function goBack() {
             if (ui.view === 'card' && ui.mode === 'ok') returnToOkList(null);
-            else enterNewMode();
+            else if (ui.view === 'ok' || (ui.view === 'card' && ui.mode === 'no')) enterNewMode();
+            else if (ui.view === 'course') courseBack();
+            else showMap();
         }
         $('btn-back').addEventListener('click', (e) => { e.currentTarget.blur(); goBack(); });
 
-        // 點標題也能隨時回到新單字
+        // 點標題隨時回到地圖
         $('app-title').addEventListener('click', () => {
-            if (appState.cards.length && !(ui.view === 'card' && ui.mode === 'new')) enterNewMode();
+            if (ui.view === 'course' && quiz && !quiz.answered && !confirm('要離開嗎？這次作答不會計算成績。')) return;
+            showMap();
         });
 
         elFront.addEventListener('click', flipCard);
@@ -1501,7 +2197,7 @@
         $('btn-restart').addEventListener('click', restartQueue);
 
         $('btn-info').addEventListener('click', () => {
-            alert("快捷鍵說明：\n[Space] 顯示答案\n[Enter] 發音朗讀\n[1] OK\n[2] NO\n\n【玩法】\n・按 OK：這個字背起來了，進入 OK 單字列表\n・按 NO：先放進 NO 單字庫\n・隨時點左上角 NO：複習 NO 單字庫\n・點左上角 OK：查看已背完的單字（綠＝一次就 OK、黃＝兩次、紅＝三次以上），點膠囊即可再複習\n\n【雲端同步說明】\n單字庫已內建，開啟頁面就會自動載入，不需要每台設備手動匯入。點擊選單的「雲端同步」輸入同步碼，您的『學習進度』就會在設備間自動同步！");
+            alert("【闖關地圖】\n首頁是冒險地圖：先做「弱點檢測」，地圖會標出建議優先的章節。每章依序是 重點卡 → 練習 → 章節測驗，測驗答對 80% 過關。答錯的題目會自動放進錯題本。\n\n題目快捷鍵：[1]–[4] 或 [A]–[D] 選答案、[Enter] 下一題、[P] 重播聽力、[Esc] 返回\n\n單字卡快捷鍵：\n[Space] 顯示答案\n[Enter] 發音朗讀\n[1] OK\n[2] NO\n\n【單字卡玩法】\n・按 OK：這個字背起來了，進入 OK 單字列表\n・按 NO：先放進 NO 單字庫\n・隨時點左上角 NO：複習 NO 單字庫\n・點左上角 OK：查看已背完的單字（綠＝一次就 OK、黃＝兩次、紅＝三次以上），點膠囊即可再複習\n\n【雲端同步說明】\n單字庫已內建，開啟頁面就會自動載入，不需要每台設備手動匯入。點擊選單的「雲端同步」輸入同步碼，您的『學習進度』就會在設備間自動同步！");
         });
 
         /* Cloud Sync Button Logic */
@@ -1548,9 +2244,10 @@
             }
             if (document.activeElement.tagName === 'INPUT') return;
             if (e.key === 'Escape') {
-                if (ui.view === 'ok' || (ui.view === 'card' && ui.mode !== 'new')) goBack();
+                if (ui.view !== 'map') goBack();
                 return;
             }
+            if (ui.view === 'course') { courseKey(e); return; }
             if (ui.view !== 'card') return;
             const id = currentCardId();
             if (id == null) return;
@@ -1583,8 +2280,502 @@
             ['16px "Press Start 2P"', '700 64px "Pixelify Sans"', '16px "Cubic 11"'].forEach(f => document.fonts.load(f, 'Aa字').then(refit).catch(() => {}));
         }
 
+        /* ===================================================================
+           多益課程：闖關地圖、章節（重點卡 → 練習 → 測驗）、弱點檢測、錯題本
+           題目資料在 data/course.json；進度存在 IndexedDB 的 "course"，並跟著雲端同步碼一起同步
+           =================================================================== */
+        const XP_PER_LV = 300;
+        let COURSE = null;                 // data/course.json
+        let QINDEX = {};                   // 題目 id → 題目
+        let course = emptyCourse();        // 學習進度
+        let quiz = null;                   // 進行中的測驗
+        let lessonIdx = 0;                 // 重點卡第幾張
+
+        function emptyCourse() { return { v: 1, xp: 0, diag: null, ch: {}, wrong: [], updatedAt: 0 }; }
+        function normalizeCourse(c) {
+            const e = emptyCourse();
+            if (!c || typeof c !== 'object') return e;
+            return { ...e, ...c, ch: (c.ch && typeof c.ch === 'object') ? c.ch : {}, wrong: Array.isArray(c.wrong) ? c.wrong : [] };
+        }
+        const escHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        async function saveCourseLocal() {
+            try {
+                const dbx = await openDB();
+                const tx = dbx.transaction(STORE_NAME, "readwrite");
+                tx.objectStore(STORE_NAME).put(course, "course");
+                await new Promise(r => tx.oncomplete = r);
+            } catch (e) {
+                try { localStorage.setItem('course_state', JSON.stringify(course)); } catch (e2) {}
+            }
+        }
+        async function loadCourseLocal() {
+            try {
+                const dbx = await openDB();
+                const req = dbx.transaction(STORE_NAME, "readonly").objectStore(STORE_NAME).get("course");
+                return await new Promise(r => { req.onsuccess = () => r(req.result); req.onerror = () => r(null); });
+            } catch (e) {
+                try { return JSON.parse(localStorage.getItem('course_state')); } catch (e2) { return null; }
+            }
+        }
+        // 雲端那份比較新才採用
+        function mergeCloudCourse(json) {
+            if (typeof json !== 'string') return;
+            try {
+                const c = normalizeCourse(JSON.parse(json));
+                if ((c.updatedAt || 0) > (course.updatedAt || 0)) { course = c; saveCourseLocal(); }
+            } catch (e) {}
+        }
+        function saveCourse() {
+            course.updatedAt = Date.now();
+            saveCourseLocal();
+            if (syncId) saveToCloud();
+        }
+
+        async function loadCourseData() {
+            if (COURSE) return COURSE;
+            const res = await fetch('data/course.json');
+            if (!res.ok) throw new Error('course ' + res.status);
+            COURSE = await res.json();
+            QINDEX = {};
+            const add = q => { QINDEX[q.id] = q; };
+            COURSE.diagnostic.questions.forEach(add);
+            Object.values(COURSE.lessons).forEach(l => { l.practice.forEach(add); l.test.forEach(add); });
+            return COURSE;
+        }
+
+        function level() { return Math.floor(course.xp / XP_PER_LV) + 1; }
+        function addXp(n) { course.xp = Math.max(0, course.xp + n); }
+
+        /* --- 弱點分析：各題型的正確率與平均秒數 → 排出建議的章節順序 --- */
+        function weakTags() {
+            if (!course.diag || !course.diag.byTag) return [];
+            return Object.entries(course.diag.byTag)
+                .map(([tag, s]) => ({ tag, acc: s.n ? s.c / s.n : 1, sec: s.n ? s.sec / s.n : 0, n: s.n }))
+                .sort((a, b) => a.acc - b.acc || b.sec - a.sec);
+        }
+        function recommendedChapters() {
+            const seen = new Set(), out = [];
+            if (COURSE.santa) COURSE.santa.focus.forEach(ch => { if (!seen.has(ch)) { seen.add(ch); out.push(ch); } });
+            weakTags().filter(t => t.acc < 0.85).forEach(t => {
+                const ch = COURSE.tags[t.tag] && COURSE.tags[t.tag].chapter;
+                if (ch && !seen.has(ch)) { seen.add(ch); out.push(ch); }
+            });
+            return out;
+        }
+
+        /* === 地圖 === */
+        function showMap() {
+            stopQuiz();
+            setView('map');
+            const host = $('map-list');
+            if (!COURSE) {
+                host.innerHTML = '<p class="c-text">正在載入課程…</p>';
+                loadCourseData().then(showMap).catch(() => { host.innerHTML = '<p class="c-text">課程載入失敗，請確認網路連線後重新整理。</p>'; });
+                return;
+            }
+            $('map-lv').textContent = `Lv ${level()} · ${course.xp} XP`;
+            const rec = recommendedChapters();
+            let n = 0, html = '';
+            COURSE.regions.forEach(rg => {
+                const chs = COURSE.chapters.filter(c => c.region === rg.id);
+                if (!chs.length) return;
+                html += `<div class="region"><div class="region-name">${escHtml(rg.name)}</div>`;
+                chs.forEach(c => {
+                    n++;
+                    const st = course.ch[c.id] || {};
+                    let cls = 'stage', tag = '';
+                    if (c.kind === 'soon') { cls += ' is-soon'; tag = '即將推出'; }
+                    else if (c.kind === 'diag') { tag = course.diag ? `${course.diag.score}/${course.diag.total}` : '先做這個'; if (!course.diag) cls += ' is-rec'; }
+                    else if (c.kind === 'santa') { tag = `${COURSE.santa.predicted}`; }
+                    else if (c.kind === 'vocab') { tag = `${appState.okIds.length}/${appState.cards.length || 0}`; }
+                    else if (st.cleared) { cls += ' is-clear'; tag = '★'.repeat(st.stars || 1) + '☆'.repeat(3 - (st.stars || 1)); }
+                    if (c.kind !== 'diag' && c.kind !== 'santa' && !st.cleared && rec.includes(c.id)) { cls += ' is-rec'; tag = c.kind === 'soon' ? '弱點・即將推出' : '建議優先'; }
+                    html += `<button class="${cls}" data-ch="${c.id}"><span class="stage-no">${String(n).padStart(2, '0')}</span>` +
+                        `<span class="stage-body"><span class="stage-title">${escHtml(c.title)}</span><span class="stage-sub">${escHtml(c.sub)}</span></span>` +
+                        `<span class="stage-tag">${escHtml(tag)}</span></button>`;
+                });
+                html += '</div>';
+            });
+            const nw = course.wrong.filter(id => QINDEX[id]).length;
+            html += `<div class="region"><div class="region-name">道具</div>` +
+                `<button class="stage is-wrong${nw ? '' : ' is-lock'}" data-ch="wrong"><span class="stage-no">✕</span>` +
+                `<span class="stage-body"><span class="stage-title">錯題本</span><span class="stage-sub">${nw ? '答錯的題目，答對就會移除' : '目前沒有錯題'}</span></span>` +
+                `<span class="stage-tag">${nw} 題</span></button></div>`;
+            host.innerHTML = html;
+        }
+
+        $('map-list').addEventListener('click', e => {
+            const b = e.target.closest('.stage');
+            if (!b) return;
+            const id = b.dataset.ch;
+            if (id === 'wrong') { startWrongReview(); return; }
+            const c = COURSE.chapters.find(x => x.id === id);
+            if (!c || c.kind === 'soon') return;
+            if (c.kind === 'vocab') { enterNewMode(); return; }
+            if (c.kind === 'diag') { showDiagIntro(); return; }
+            if (c.kind === 'santa') { showSantaPage(); return; }
+            showChapter(id);
+        });
+
+        /* === 課程畫面共用 === */
+        function courseScreen(bodyHtml, footHtml = '') {
+            stopTimer();
+            setView('course');
+            $('course-body').innerHTML = bodyHtml;
+            $('course-body').scrollTop = 0;
+            $('course-foot').innerHTML = footHtml;
+            renderBottomBar();
+        }
+        $('course-foot').addEventListener('click', e => {
+            const b = e.target.closest('[data-go]');
+            if (b) courseAction(b.dataset.go);
+        });
+        $('course-body').addEventListener('click', e => {
+            const opt = e.target.closest('.opt');
+            if (opt && !opt.disabled) { answer(Number(opt.dataset.i)); return; }
+            if (e.target.closest('.q-play')) { playQuestionAudio(); return; }
+            const say = e.target.closest('[data-say]');
+            if (say) { playAudio(say.dataset.say); return; }
+            const toc = e.target.closest('[data-sec]');
+            if (toc) { e.preventDefault(); const el = $('n-sec-' + toc.dataset.sec); if (el) el.scrollIntoView({ block: 'start' }); return; }
+            const s = e.target.closest('[data-go]');
+            if (s) courseAction(s.dataset.go);
+        });
+
+        function courseAction(go) {
+            if (go === 'map') return showMap();
+            if (go === 'chapter') return showChapter(ui.chapter);
+            if (go === 'notes') return showNotes();
+            if (go === 'notes-done') return finishNotes();
+            if (go === 'lesson') return showLesson(0);
+            if (go === 'prev') return showLesson(lessonIdx - 1);
+            if (go === 'next-card') return showLesson(lessonIdx + 1);
+            if (go === 'practice') return startQuiz('practice', ui.chapter);
+            if (go === 'test') return startQuiz('test', ui.chapter);
+            if (go === 'diag') return startQuiz('diag', 'diag');
+            if (go === 'wrong') return startWrongReview();
+            if (go === 'next-q') return nextQuestion();
+        }
+
+        /* === 章節首頁 === */
+        function showChapter(id) {
+            ui.chapter = id; ui.sceneCh = id;
+            const c = COURSE.chapters.find(x => x.id === id), L = COURSE.lessons[id], st = course.ch[id] || {};
+            const pct = v => v == null ? '' : `最佳 ${Math.round(v * 100)}%`;
+            courseScreen(
+                `<div class="c-kicker">${escHtml(COURSE.regions.find(r => r.id === c.region).name)}</div>` +
+                `<h2 class="c-title">${escHtml(c.title)}</h2>` +
+                `<p class="c-text">${escHtml(c.sub)}。練習和測驗每題限時 ${L.limit} 秒，超時算答錯；測驗答對 ${Math.round(L.pass * 100)}% 以上過關。</p>` +
+                `<div class="steps">` +
+                (L.notes ? `<button class="step-btn" data-go="notes"><span class="s-ico">📘</span><span class="s-main">講義<span class="s-sub">${L.notes.length} 節完整說明・表格與例句</span></span><span class="s-state">${st.notes ? '已讀' : ''}</span></button>` : '') +
+                `<button class="step-btn" data-go="lesson"><span class="s-ico">📖</span><span class="s-main">重點卡<span class="s-sub">${L.cards.length} 張快速複習</span></span><span class="s-state">${st.lesson ? '已讀' : ''}</span></button>` +
+                `<button class="step-btn" data-go="practice"><span class="s-ico">✏️</span><span class="s-main">練習<span class="s-sub">${L.practice.length} 題・答完馬上看解析</span></span><span class="s-state">${pct(st.practice)}</span></button>` +
+                `<button class="step-btn" data-go="test"><span class="s-ico">⚔️</span><span class="s-main">章節測驗<span class="s-sub">${L.test.length} 題・${Math.round(L.pass * 100)}% 過關</span></span><span class="s-state">${st.cleared ? '★'.repeat(st.stars || 1) : pct(st.test)}</span></button>` +
+                `</div>`,
+                `<button class="btn-outline" data-go="map">‹ 地圖</button>`
+            );
+        }
+
+        /* === 講義：完整說明，分節、表格、例句（可發音） === */
+        function notesTable(tb) {
+            if (!tb) return '';
+            return `<div class="n-wrap"><table class="n-table"><tr>${tb.head.map(h => `<th>${escHtml(h)}</th>`).join('')}</tr>` +
+                tb.rows.map(r => `<tr>${r.map(c => `<td>${escHtml(c)}</td>`).join('')}</tr>`).join('') + `</table></div>`;
+        }
+        function showNotes() {
+            const c = COURSE.chapters.find(x => x.id === ui.chapter), N = COURSE.lessons[ui.chapter].notes;
+            const num = i => String(i + 1).padStart(2, '0');
+            const sayText = s => s.replace(/\s*\(.*$/, '').replace(/_{3,}/g, 'blank');   // 念英文題幹，括號裡的選項不念
+            const body =
+                `<div class="c-kicker">講義・${escHtml(c.title)}</div><h2 class="c-title">${escHtml(c.title)} 講義</h2>` +
+                `<nav class="n-toc">${N.map((s, i) => `<a data-sec="${i}"><span>${num(i)}</span>${escHtml(s.h)}</a>`).join('')}</nav>` +
+                N.map((s, i) =>
+                    `<section class="n-sec" id="n-sec-${i}"><h3><span>${num(i)}</span>${escHtml(s.h)}</h3>` +
+                    (s.p || []).map(t => `<p>${escHtml(t)}</p>`).join('') +
+                    notesTable(s.table) +
+                    (s.p2 || []).map(t => `<p>${escHtml(t)}</p>`).join('') +
+                    notesTable(s.table2) +
+                    (s.steps ? `<ol class="n-steps">${s.steps.map(t => `<li>${escHtml(t)}</li>`).join('')}</ol>` : '') +
+                    (s.ex || []).map(([en, zh]) => `<div class="n-ex"><button class="say" data-say="${escHtml(sayText(en))}" aria-label="朗讀">🔊</button><div><div class="en">${escHtml(en)}</div><div class="zh">${escHtml(zh)}</div></div></div>`).join('') +
+                    (s.tip ? `<div class="n-tip"><b>提醒</b>${escHtml(s.tip)}</div>` : '') +
+                    `</section>`).join('');
+            courseScreen(body, `<button class="btn-outline" data-go="chapter">‹ 章節</button><button class="btn-primary" data-go="notes-done">讀完了，看重點卡 ▶</button>`);
+        }
+        function finishNotes() {
+            const st = course.ch[ui.chapter] = course.ch[ui.chapter] || {};
+            if (!st.notes) { st.notes = true; addXp(30); saveCourse(); }
+            showLesson(0);
+        }
+
+        /* === 重點卡 === */
+        function showLesson(i) {
+            const L = COURSE.lessons[ui.chapter];
+            lessonIdx = Math.max(0, Math.min(L.cards.length - 1, i));
+            const card = L.cards[lessonIdx], last = lessonIdx === L.cards.length - 1;
+            if (last) { const st = course.ch[ui.chapter] = course.ch[ui.chapter] || {}; if (!st.lesson) { st.lesson = true; addXp(20); saveCourse(); } }
+            courseScreen(
+                `<div class="c-dots">${L.cards.map((_, k) => `<i class="${k <= lessonIdx ? 'on' : ''}"></i>`).join('')}</div>` +
+                `<div class="c-kicker">重點卡 ${lessonIdx + 1} / ${L.cards.length}</div>` +
+                `<h2 class="c-title">${escHtml(card.title)}</h2>` +
+                `<ul class="c-points">${card.points.map(p => `<li>${escHtml(p)}</li>`).join('')}</ul>` +
+                (card.ex ? `<div class="c-box"><div class="en">${escHtml(card.ex[0])}</div><div class="zh">${escHtml(card.ex[1])}</div></div>` : ''),
+                (lessonIdx > 0 ? `<button class="btn-outline" data-go="prev">‹ 上一張</button>` : `<button class="btn-outline" data-go="chapter">‹ 章節</button>`) +
+                (last ? `<button class="btn-primary" data-go="practice">開始練習 ▶</button>` : `<button class="btn-primary" data-go="next-card">下一張 ▶</button>`)
+            );
+        }
+
+        /* === 測驗引擎 === */
+        const PART_LIMIT = { p5: 30, p6: 40, p7: 60, p2: 20 };   // 弱點檢測各題型的時限（秒）
+        let timerRaf = 0;
+
+        function shuffleOpts(q) {
+            // 聽力題的 A/B/C 對應語音，不洗；其他題目每次打亂選項順序
+            const order = q.opts.map((_, i) => i);
+            if (q.part !== 'p2') for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+            return order;
+        }
+
+        function startQuiz(mode, chapterId, list) {
+            let qs, limit = null;
+            if (mode === 'diag') qs = COURSE.diagnostic.questions.slice();
+            else if (mode === 'wrong') qs = list;
+            else { const L = COURSE.lessons[chapterId]; qs = L[mode].slice(); limit = L.limit; }
+            if (mode !== 'diag') qs = shuffleArray(qs);
+            ui.sceneCh = mode === 'practice' || mode === 'test' ? chapterId : null;
+            quiz = { mode, chapterId, qs, limit, i: 0, results: [], answered: false, order: [], t0: 0, dur: 0 };
+            renderQuestion();
+        }
+
+        function startWrongReview() {
+            if (!COURSE) return;
+            const list = course.wrong.map(id => QINDEX[id]).filter(Boolean);
+            if (!list.length) { showDialog('👍', '沒有錯題', '錯題本目前是空的，繼續保持！'); return; }
+            startQuiz('wrong', null, list.slice(0, 20));
+        }
+
+        function qLimit(q) { return quiz.limit && q.part === 'p5' ? quiz.limit : (PART_LIMIT[q.part] || 30); }
+
+        function renderQuestion() {
+            const q = quiz.qs[quiz.i];
+            quiz.answered = false;
+            quiz.order = shuffleOpts(q);
+            const label = { diag: '弱點檢測', practice: '練習', test: '章節測驗', wrong: '錯題本' }[quiz.mode];
+            let passage = '';
+            if (q.passage) {
+                const p = COURSE.passages[q.passage];
+                const blankNo = (q.q.match(/^\[(\d)\]/) || [])[1];
+                passage = `<div class="q-passage">${escHtml(p.text).replace(/\[(\d)\]/g, (m, d) => d === blankNo ? `<span class="blank">(${d}) ____</span>` : `(${d}) ____`)}</div>`;
+            }
+            const keys = ['A', 'B', 'C', 'D'];
+            const qText = q.passage && /^\[\d\]$/.test(q.q) ? `空格 ${q.q.slice(1, 2)} 該填哪一個？` : q.q.replace(/^\[\d\]\s*/, '');
+            courseScreen(
+                `<div class="q-top"><span class="q-count">${quiz.i + 1}/${quiz.qs.length}</span><span>${label}</span>` +
+                `<div class="q-timer" id="q-timer"><i id="q-timer-fill"></i></div><span class="q-sec" id="q-sec">${q.audio ? '♪' : ''}</span></div>` +
+                passage +
+                (q.audio ? `<button class="q-play" id="q-play">🔊 播放題目</button>` : '') +
+                `<p class="q-text">${escHtml(qText)}</p>` +
+                `<div class="opts">${quiz.order.map((oi, k) => `<button class="opt" data-i="${k}"><span class="k">${keys[k]}</span><span>${q.part === 'p2' ? '回應 ' + escHtml(q.opts[oi]) : escHtml(q.opts[oi])}</span></button>`).join('')}</div>` +
+                `<div id="q-exp"></div>`,
+                `<button class="btn-outline" data-go="${quiz.mode === 'diag' || quiz.mode === 'wrong' ? 'map' : 'chapter'}">‹ 離開</button>`
+            );
+            quiz.dur = qLimit(q);
+            if (q.audio) playQuestionAudio(); else startTimer();
+        }
+
+        // 聽力題：念題目和三個回應，念完才開始倒數
+        function playQuestionAudio() {
+            const q = quiz && quiz.qs[quiz.i];
+            if (!q || !q.audio) return;
+            stopTimer();
+            if (!window.speechSynthesis) { startTimer(); return; }
+            window.speechSynthesis.cancel();
+            q.audio.forEach((line, k) => {
+                const u = makeUtterance(line);
+                if (k === q.audio.length - 1) u.onend = () => { if (quiz && quiz.qs[quiz.i] === q && !quiz.answered) startTimer(); };
+                window.speechSynthesis.speak(u);
+            });
+        }
+
+        function startTimer() {
+            stopTimer();
+            quiz.t0 = performance.now();
+            const tick = now => {
+                if (!quiz || quiz.answered) return;
+                const left = Math.max(0, quiz.dur - (now - quiz.t0) / 1000);
+                const fill = $('q-timer-fill'), sec = $('q-sec'), bar = $('q-timer');
+                if (fill) fill.style.width = (left / quiz.dur * 100).toFixed(1) + '%';
+                if (sec) sec.textContent = Math.ceil(left) + 's';
+                if (bar) bar.classList.toggle('low', left <= 5);
+                if (left <= 0) { answer(-1); return; }
+                timerRaf = requestAnimationFrame(tick);
+            };
+            timerRaf = requestAnimationFrame(tick);
+        }
+        function stopTimer() { cancelAnimationFrame(timerRaf); timerRaf = 0; }
+        function stopQuiz() { stopTimer(); if (window.speechSynthesis) window.speechSynthesis.cancel(); quiz = null; }
+
+        // k = 畫面上第幾個選項；-1 = 超時
+        function answer(k) {
+            if (!quiz || quiz.answered) return;
+            const q = quiz.qs[quiz.i];
+            quiz.answered = true;
+            stopTimer();
+            const sec = quiz.t0 ? Math.min(quiz.dur, (performance.now() - quiz.t0) / 1000) : 0;
+            const chosen = k >= 0 ? quiz.order[k] : -1;
+            const ok = chosen === q.a;
+            quiz.results.push({ id: q.id, tag: q.tag, ok, sec, timeout: k < 0 });
+
+            // 錯題本：答錯加入；在錯題本裡答對就移除
+            const wi = course.wrong.indexOf(q.id);
+            if (!ok && wi === -1) course.wrong.push(q.id);
+            if (ok && quiz.mode === 'wrong' && wi !== -1) course.wrong.splice(wi, 1);
+            if (ok) addXp(10);
+
+            document.querySelectorAll('.opt').forEach((b, i) => {
+                b.disabled = true;
+                const oi = quiz.order[i];
+                if (oi === q.a) b.classList.add('right');
+                else if (i === k) b.classList.add('wrong');
+                else b.classList.add('dim');
+            });
+            const head = k < 0 ? '⏱ 超時' : ok ? `✔ 答對了 · ${sec.toFixed(1)} 秒` : '✘ 答錯了';
+            const tr = q.audio ? `<div class="tr">${escHtml(q.audio.join('\n'))}</div>` : '';
+            if (q.optsZh) document.querySelectorAll('.opt').forEach((b, i) => {
+                b.lastElementChild.insertAdjacentHTML('beforeend', `<span class="oz">${escHtml(q.optsZh[quiz.order[i]])}</span>`);
+            });
+            const zh = q.zh ? `<div class="zh-line"><b>中譯</b>${escHtml(q.zh)}</div>` : '';
+            $('q-exp').innerHTML = `<div class="q-exp ${ok ? 'ok' : 'ng'}"><b>${head}</b>${escHtml(q.exp)}${zh}${tr}</div>`;
+            const last = quiz.i === quiz.qs.length - 1;
+            $('course-foot').innerHTML =
+                `<button class="btn-outline" data-go="${quiz.mode === 'diag' || quiz.mode === 'wrong' ? 'map' : 'chapter'}">‹ 離開</button>` +
+                `<button class="btn-primary" data-go="next-q">${last ? '看結果 ▶' : '下一題 ▶'}</button>`;
+            $('q-exp').scrollIntoView({ block: 'nearest' });
+            saveCourse();
+        }
+
+        function nextQuestion() {
+            if (!quiz || !quiz.answered) return;
+            if (quiz.i < quiz.qs.length - 1) { quiz.i++; renderQuestion(); }
+            else finishQuiz();
+        }
+
+        function finishQuiz() {
+            const { mode, chapterId, results } = quiz;
+            const total = results.length, score = results.filter(r => r.ok).length, acc = total ? score / total : 0;
+            const avg = total ? results.reduce((s, r) => s + r.sec, 0) / total : 0;
+            let body = '', foot = '';
+
+            if (mode === 'diag') {
+                const byTag = {};
+                results.forEach(r => { const t = byTag[r.tag] = byTag[r.tag] || { n: 0, c: 0, sec: 0 }; t.n++; if (r.ok) t.c++; t.sec += r.sec; });
+                const first = !course.diag;
+                course.diag = { at: Date.now(), score, total, byTag };
+                if (first) addXp(50);
+                saveCourse();
+                const rows = weakTags().map(t => {
+                    const pct = Math.round(t.acc * 100), col = pct >= 85 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+                    return `<tr><td>${escHtml(COURSE.tags[t.tag].name)}</td><td class="num"><span class="r-bar"><i style="width:${pct}%;background:${col}"></i></span>${pct}%</td><td class="num">${t.sec.toFixed(1)}s</td></tr>`;
+                }).join('');
+                const recs = recommendedChapters().map(id => COURSE.chapters.find(c => c.id === id)).filter(Boolean);
+                const slow = results.filter(r => r.ok && r.sec > (PART_LIMIT[QINDEX[r.id].part] || 30) * 0.7).length;
+                body = `<div class="c-kicker">弱點檢測結果</div><div class="r-score">${score}/${total}</div>` +
+                    `<p class="c-text">平均每題 ${avg.toFixed(1)} 秒${slow ? `，有 ${slow} 題雖然答對但花太久` : ''}。</p>` +
+                    `<table class="r-table"><tr><th>題型</th><th>正確率</th><th>平均</th></tr>${rows}</table>` +
+                    (recs.length ? `<div class="c-kicker">建議優先補強</div>${recs.map(c => `<p class="r-rec">${escHtml(c.title)}${c.kind === 'soon' ? '（即將推出）' : ''}</p>`).join('')}`
+                        : `<p class="c-text">每個題型都在 85% 以上，很穩！可以直接挑戰章節測驗。</p>`);
+                foot = `<button class="btn-outline" data-go="diag">再測一次</button><button class="btn-primary" data-go="map">回到地圖 ▶</button>`;
+            } else if (mode === 'wrong') {
+                saveCourse();
+                body = `<div class="c-kicker">錯題本</div><div class="r-score">${score}/${total}</div>` +
+                    `<p class="c-text">答對的題目已經從錯題本移除，還剩 ${course.wrong.length} 題。</p>`;
+                foot = `<button class="btn-outline" data-go="map">回到地圖</button>` + (course.wrong.length ? `<button class="btn-primary" data-go="wrong">再複習 ▶</button>` : '');
+            } else {
+                const L = COURSE.lessons[chapterId], st = course.ch[chapterId] = course.ch[chapterId] || {};
+                st[mode] = Math.max(st[mode] || 0, acc);
+                let badge = '';
+                if (mode === 'test') {
+                    const pass = acc >= L.pass;
+                    if (pass) {
+                        const stars = acc === 1 && avg <= L.limit * 0.6 ? 3 : acc >= 0.9 ? 2 : 1;
+                        if (!st.cleared) addXp(100);
+                        st.cleared = true; st.stars = Math.max(st.stars || 0, stars);
+                        badge = `<div class="r-badge pass">過關！${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>`;
+                    } else badge = `<div class="r-badge fail">還差 ${Math.ceil(L.pass * total) - score} 題過關</div>`;
+                }
+                saveCourse();
+                const wrongN = results.filter(r => !r.ok).length, toN = results.filter(r => r.timeout).length;
+                body = `<div class="c-kicker">${mode === 'test' ? '章節測驗結果' : '練習結果'}</div><div class="r-score">${score}/${total}</div>${badge}` +
+                    `<p class="c-text">正確率 ${Math.round(acc * 100)}%，平均每題 ${avg.toFixed(1)} 秒（目標 ${L.limit} 秒內）。` +
+                    `${wrongN ? `答錯 ${wrongN} 題${toN ? `（其中 ${toN} 題超時）` : ''}，已經放進錯題本。` : '全部答對！'}</p>`;
+                foot = mode === 'test'
+                    ? `<button class="btn-outline" data-go="test">重考</button><button class="btn-primary" data-go="map">回到地圖 ▶</button>`
+                    : `<button class="btn-outline" data-go="practice">再練一次</button><button class="btn-primary" data-go="test">挑戰測驗 ▶</button>`;
+            }
+            quiz = null;
+            courseScreen(body, foot);
+        }
+
+        /* === 我的 Santa 數據（2026-11-20 從 Santa 實力分析頁抄下來的） === */
+        function showSantaPage() {
+            ui.sceneCh = null;
+            const S = COURSE.santa;
+            const bar = (v, col) => `<span class="r-bar"><i style="width:${v}%;background:${col}"></i></span>`;
+            const col = me => me >= 82 ? 'var(--green)' : me >= 79 ? 'var(--yellow)' : 'var(--red)';   // 依自己的分數高低上色，紅色＝自己最弱的項目
+            const rows = list => list.map(([k, me, avg]) => `<tr><td>${escHtml(k)}</td><td class="num">${bar(me, col(me))}${me}</td><td class="num">${avg}</td></tr>`).join('');
+            const chName = id => (COURSE.chapters.find(c => c.id === id) || {}).title || '';
+            courseScreen(
+                `<div class="c-kicker">起點・資料日期 ${S.date}</div><h2 class="c-title">我的 Santa 數據</h2>` +
+                `<p class="c-text">Santa 預測分數 ${S.predicted}（聽力 ${S.lc}、閱讀 ${S.rc}）。地圖上「建議優先」的章節，就是依這份數據和弱點檢測排出來的。</p>` +
+                `<table class="r-table"><tr><th>能力</th><th>我的</th><th>750 分平均</th></tr>${rows(S.skills)}</table>` +
+                `<table class="r-table"><tr><th>大題</th><th>我的</th><th>750 分平均</th></tr>${rows(S.parts)}</table>` +
+                `<table class="r-table"><tr><th>閱讀每題時間</th><th>我的</th><th>建議</th></tr>${S.time.map(([k, me, sug]) => `<tr><td>${k}</td><td class="num">${me}s</td><td class="num">${sug}s</td></tr>`).join('')}</table>` +
+                `<div class="c-kicker">較弱的概念（正確率）</div>` +
+                S.weak.map(([k, me, avg, ch]) => `<p class="r-rec">${escHtml(k)}：${me}%${avg ? `（750 分平均 ${avg}%）` : ''} → ${escHtml(chName(ch))}</p>`).join('') +
+                `<p class="c-text" style="margin-top:14px">解讀：速度三個 Part 都比建議快，問題不在寫不完，而在詞彙和 Part 5 的正確率。正式考 755 和預測 870 的落差，多半是考場狀況，之後用全真計時練。</p>`,
+                `<button class="btn-outline" data-go="map">‹ 地圖</button>`
+            );
+        }
+
+        /* === 弱點檢測說明 === */
+        function showDiagIntro() {
+            ui.sceneCh = null;
+            const d = course.diag;
+            courseScreen(
+                `<div class="c-kicker">起點</div><h2 class="c-title">弱點檢測</h2>` +
+                `<p class="c-text">30 題，以閱讀為主，另有 2 題聽力（會用瀏覽器語音念出來，請開聲音）。題目難度照 800–900 分程度出。</p>` +
+                `<ul class="c-points"><li>每題有時限：Part 5 30 秒、Part 6 40 秒、Part 7 60 秒，超時算答錯</li>` +
+                `<li>除了對錯，也會記錄每題花多久，找出「會但太慢」的題型</li><li>做完會依結果在地圖上標出建議優先的章節</li></ul>` +
+                (d ? `<p class="c-text">上次成績：${d.score}/${d.total}（${new Date(d.at).toLocaleDateString('zh-TW')}）</p>` : ''),
+                `<button class="btn-outline" data-go="map">‹ 地圖</button><button class="btn-primary" data-go="diag">開始檢測 ▶</button>`
+            );
+        }
+
+        // 課程畫面的返回：題目中 → 確認後離開；章節內頁 → 章節首頁；其他 → 地圖
+        function courseBack() {
+            if (quiz && !quiz.answered && !confirm('要離開嗎？這次作答不會計算成績。')) return;
+            if (quiz && quiz.mode !== 'diag' && quiz.mode !== 'wrong' && quiz.chapterId) { stopQuiz(); showChapter(ui.chapter); return; }
+            if (!quiz && ui.chapter && document.querySelector('#course-body .c-dots, #course-body .n-toc')) { showChapter(ui.chapter); return; }
+            showMap();
+        }
+
+        function courseKey(e) {
+            if (quiz) {
+                const q = quiz.qs[quiz.i];
+                const map = { '1': 0, '2': 1, '3': 2, '4': 3, a: 0, b: 1, c: 2, d: 3 };
+                const k = map[e.key.toLowerCase()];
+                if (!quiz.answered && k != null && k < q.opts.length) { e.preventDefault(); answer(k); return; }
+                if (quiz.answered && (e.code === 'Enter' || e.code === 'Space')) { e.preventDefault(); nextQuestion(); return; }
+                if (q.audio && e.key.toLowerCase() === 'p') { playQuestionAudio(); return; }
+                return;
+            }
+            if (e.code === 'ArrowRight' && document.querySelector('#course-body .c-dots')) showLesson(lessonIdx + 1);
+            if (e.code === 'ArrowLeft' && document.querySelector('#course-body .c-dots')) showLesson(lessonIdx - 1);
+        }
+
         /* === Init === */
         window.addEventListener('DOMContentLoaded', async () => {
+            course = normalizeCourse(await loadCourseLocal());
             let saved = await loadStateLocal();
             if (saved && saved.cards && saved.cards.length > 0) {
                 appState = normalizeState(saved);
@@ -1617,8 +2808,11 @@
                 sanitizeState();
             }
 
-            if (appState.cards.length > 0) enterNewMode();
-            else showEmptyScreen();
+            // 首頁是闖關地圖
+            ui.loading = false;
+            elFront.classList.remove('loading');
+            try { await loadCourseData(); } catch (e) { console.error('課程載入失敗', e); }
+            showMap();
         });
     </script>
 </body>

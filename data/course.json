@@ -1,0 +1,3056 @@
+{
+ "version": 1,
+ "tags": {
+  "g-pos": {
+   "name": "詞性判斷",
+   "chapter": "p5g"
+  },
+  "g-verb": {
+   "name": "時態與語態",
+   "chapter": "p5g"
+  },
+  "g-conj": {
+   "name": "連接詞與介系詞",
+   "chapter": "p5g"
+  },
+  "g-adv": {
+   "name": "進階句構",
+   "chapter": "p5g"
+  },
+  "vocab": {
+   "name": "詞彙題",
+   "chapter": "p5v"
+  },
+  "p6": {
+   "name": "段落填空",
+   "chapter": "p6"
+  },
+  "p7": {
+   "name": "閱讀理解",
+   "chapter": "p7s"
+  },
+  "p2": {
+   "name": "聽力應答",
+   "chapter": "p2"
+  }
+ },
+ "regions": [
+  {
+   "id": "start",
+   "name": "起點"
+  },
+  {
+   "id": "forest",
+   "name": "單字森林"
+  },
+  {
+   "id": "castle",
+   "name": "閱讀城堡"
+  },
+  {
+   "id": "cave",
+   "name": "聽力洞窟"
+  },
+  {
+   "id": "boss",
+   "name": "魔王關"
+  }
+ ],
+ "chapters": [
+  {
+   "id": "diag",
+   "region": "start",
+   "kind": "diag",
+   "title": "弱點檢測",
+   "sub": "30 題・找出要先補的題型"
+  },
+  {
+   "id": "santa",
+   "region": "start",
+   "kind": "santa",
+   "title": "我的 Santa 數據",
+   "sub": "預測 870・最弱：詞彙、Part 5"
+  },
+  {
+   "id": "vocab",
+   "region": "forest",
+   "kind": "vocab",
+   "title": "核心單字",
+   "sub": "Santa 收藏單字卡"
+  },
+  {
+   "id": "p5g",
+   "region": "castle",
+   "kind": "lesson",
+   "title": "Part 5 文法速解",
+   "sub": "每題 20 秒・30 題 10 分鐘"
+  },
+  {
+   "id": "p5v",
+   "region": "castle",
+   "kind": "lesson",
+   "title": "Part 5 詞彙題",
+   "sub": "搭配・近義字・排除法"
+  },
+  {
+   "id": "p6",
+   "region": "castle",
+   "kind": "soon",
+   "title": "Part 6 段落填空",
+   "sub": "插入句、前後文連貫"
+  },
+  {
+   "id": "p7s",
+   "region": "castle",
+   "kind": "soon",
+   "title": "Part 7 單篇閱讀",
+   "sub": "同義改寫、何者為非"
+  },
+  {
+   "id": "p7m",
+   "region": "castle",
+   "kind": "soon",
+   "title": "Part 7 多篇閱讀",
+   "sub": "兩三篇交叉比對"
+  },
+  {
+   "id": "p7t",
+   "region": "castle",
+   "kind": "soon",
+   "title": "Part 7 時間實戰",
+   "sub": "54 題 55 分鐘"
+  },
+  {
+   "id": "p2",
+   "region": "cave",
+   "kind": "soon",
+   "title": "Part 2 陷阱題",
+   "sub": "間接回答、同音陷阱"
+  },
+  {
+   "id": "p34",
+   "region": "cave",
+   "kind": "soon",
+   "title": "Part 3/4 圖表與意圖",
+   "sub": "看圖作答、說話者意圖"
+  },
+  {
+   "id": "boss",
+   "region": "boss",
+   "kind": "soon",
+   "title": "閱讀全真計時",
+   "sub": "100 題 75 分鐘"
+  }
+ ],
+ "passages": {
+  "dp6": {
+   "title": "Memo",
+   "text": "To all staff:\n\nStarting next Monday, the third-floor kitchen will be closed for [1]. During this time, employees may use the break room on the second floor. [2] We expect the work to be completed by March 20. [3] the renovation, a new coffee machine and additional seating will be available.\n\nWe apologize for any inconvenience and appreciate your [4].\n\nFacilities Department"
+  },
+  "dp7": {
+   "title": "Email + Program",
+   "text": "From: Daniel Ortiz, Brightwave Conferences\nTo: Hana Kim\nSubject: Regional Marketing Summit\n\nDear Ms. Kim,\n\nThank you for agreeing to lead a workshop at the Regional Marketing Summit. As discussed, your session on social media analytics has been scheduled for the second day. Speakers receive a complimentary pass for the full event as well as two nights' accommodation at the Harbor View Hotel.\n\nPlease send your presentation slides to me no later than October 10 so that our technical team can test them in advance. If you would prefer a different time slot, let me know by October 3; after that date, the program will be sent to the printer.\n\nBest regards,\nDaniel Ortiz\n\n──────────\nRegional Marketing Summit — Day 2 (October 18)\n 9:00  Opening Remarks ........ Room A\n10:00  Social Media Analytics (H. Kim) ... Room B\n13:00  Panel: The Future of Retail ... Room A\n15:00  Networking Reception ... Lobby"
+  }
+ },
+ "diagnostic": {
+  "questions": [
+   {
+    "id": "d01",
+    "tag": "g-pos",
+    "part": "p5",
+    "q": "The new software allows employees to complete expense reports more ______ than before.",
+    "opts": [
+     "efficient",
+     "efficiently",
+     "efficiency",
+     "efficiencies"
+    ],
+    "a": 1,
+    "exp": "more ______ than 修飾的是動作 complete，要用副詞 efficiently。",
+    "zh": "新軟體讓員工能比以前更有效率地完成費用報告。"
+   },
+   {
+    "id": "d02",
+    "tag": "g-pos",
+    "part": "p5",
+    "q": "Ms. Tanaka's ______ to the project has been praised by the entire board.",
+    "opts": [
+     "contribute",
+     "contributed",
+     "contribution",
+     "contributive"
+    ],
+    "a": 2,
+    "exp": "所有格 Ms. Tanaka's 後面接名詞，而且它是句子的主詞 → contribution。",
+    "zh": "田中小姐對這個專案的貢獻受到整個董事會的稱讚。"
+   },
+   {
+    "id": "d03",
+    "tag": "g-pos",
+    "part": "p5",
+    "q": "All visitors must remain ______ while the safety demonstration is in progress.",
+    "opts": [
+     "seat",
+     "seated",
+     "seating",
+     "seats"
+    ],
+    "a": 1,
+    "exp": "remain 是連綴動詞，後面接形容詞。seated（坐著的）是常考的分詞形容詞。",
+    "zh": "安全示範進行期間，所有訪客都必須保持坐著。"
+   },
+   {
+    "id": "d04",
+    "tag": "g-pos",
+    "part": "p5",
+    "q": "The quarterly report was ______ longer than the one submitted last year.",
+    "opts": [
+     "consider",
+     "considerable",
+     "considerably",
+     "consideration"
+    ],
+    "a": 2,
+    "exp": "修飾比較級 longer 要用副詞：considerably / much / far longer。",
+    "zh": "這份季報比去年提交的那份長了許多。"
+   },
+   {
+    "id": "d05",
+    "tag": "g-verb",
+    "part": "p5",
+    "q": "By the time the merger is finalized next spring, the company ______ three new regional offices.",
+    "opts": [
+     "opens",
+     "opened",
+     "will have opened",
+     "has opened"
+    ],
+    "a": 2,
+    "exp": "By the time + 未來時間（next spring）→ 主要子句用未來完成式 will have p.p.。",
+    "zh": "等到合併案明年春天定案時，公司將已開設三間新的區域辦事處。"
+   },
+   {
+    "id": "d06",
+    "tag": "g-verb",
+    "part": "p5",
+    "q": "The conference room ______ while the new projector is being installed.",
+    "opts": [
+     "cannot use",
+     "cannot be used",
+     "could not using",
+     "is not using"
+    ],
+    "a": 1,
+    "exp": "主詞是「會議室」（物），空格後沒有受詞 → 被動 cannot be used。",
+    "zh": "新投影機安裝期間，會議室無法使用。"
+   },
+   {
+    "id": "d07",
+    "tag": "g-verb",
+    "part": "p5",
+    "q": "Since joining the firm in 2019, Mr. Ruiz ______ more than forty client accounts.",
+    "opts": [
+     "manages",
+     "managed",
+     "has managed",
+     "will manage"
+    ],
+    "a": 2,
+    "exp": "Since + 過去時間點，表示「從那時到現在」→ 現在完成式 has managed。",
+    "zh": "自從 2019 年加入公司以來，魯伊斯先生已經負責管理超過四十個客戶帳戶。"
+   },
+   {
+    "id": "d08",
+    "tag": "g-verb",
+    "part": "p5",
+    "q": "The manager insisted that every report ______ reviewed by two people before release.",
+    "opts": [
+     "is",
+     "be",
+     "was",
+     "being"
+    ],
+    "a": 1,
+    "exp": "insist / recommend / require that + 主詞 + 原形動詞（should 被省略）→ be reviewed。",
+    "zh": "經理堅持每份報告在發布前都要經過兩個人審閱。"
+   },
+   {
+    "id": "d09",
+    "tag": "g-conj",
+    "part": "p5",
+    "q": "______ the heavy rain, the outdoor product launch went ahead as scheduled.",
+    "opts": [
+     "Although",
+     "Despite",
+     "Because",
+     "Unless"
+    ],
+    "a": 1,
+    "exp": "空格後是名詞片語 the heavy rain（不是子句）→ 用介系詞 Despite；Although 後面要接子句。",
+    "zh": "儘管下大雨，戶外產品發表會仍照原定計畫舉行。"
+   },
+   {
+    "id": "d10",
+    "tag": "g-conj",
+    "part": "p5",
+    "q": "Please submit the form by Friday ______ your request can be processed before the holiday.",
+    "opts": [
+     "so that",
+     "in order to",
+     "as a result of",
+     "due to"
+    ],
+    "a": 0,
+    "exp": "空格後是完整子句（your request can be processed）→ 用連接詞 so that（以便）。in order to 後面接原形動詞。",
+    "zh": "請在週五前繳交表格，以便您的申請能在假期前處理完畢。"
+   },
+   {
+    "id": "d11",
+    "tag": "g-conj",
+    "part": "p5",
+    "q": "Participants may choose ______ the morning session or the afternoon workshop.",
+    "opts": [
+     "both",
+     "either",
+     "neither",
+     "whether"
+    ],
+    "a": 1,
+    "exp": "either A or B（A 或 B 擇一）。both 配 and，neither 配 nor。",
+    "zh": "參加者可以選擇上午場或下午的工作坊（二選一）。"
+   },
+   {
+    "id": "d12",
+    "tag": "g-conj",
+    "part": "p5",
+    "q": "The shipment was delayed ______ a shortage of packaging materials.",
+    "opts": [
+     "because",
+     "owing to",
+     "so",
+     "since"
+    ],
+    "a": 1,
+    "exp": "空格後是名詞片語 a shortage of… → 表原因的介系詞 owing to（= because of / due to）。because、since 表原因時要接子句。",
+    "zh": "由於包裝材料短缺，這批貨延遲出貨了。"
+   },
+   {
+    "id": "d13",
+    "tag": "g-adv",
+    "part": "p5",
+    "q": "______ you have any questions about the new policy, please contact the HR department.",
+    "opts": [
+     "Should",
+     "Would",
+     "Had",
+     "Were"
+    ],
+    "a": 0,
+    "exp": "If you should have… 省略 If 後倒裝成 Should you have…，是 Part 5 常考的商用信件句型。",
+    "zh": "如果您對新政策有任何問題，請聯絡人資部門。"
+   },
+   {
+    "id": "d14",
+    "tag": "g-adv",
+    "part": "p5",
+    "q": "The architect ______ design won the award will speak at tomorrow's ceremony.",
+    "opts": [
+     "who",
+     "whom",
+     "whose",
+     "which"
+    ],
+    "a": 2,
+    "exp": "空格後直接接名詞 design，表示「建築師的設計」→ 所有格關係代名詞 whose。",
+    "zh": "設計作品得獎的那位建築師將在明天的典禮上致詞。"
+   },
+   {
+    "id": "d15",
+    "tag": "g-adv",
+    "part": "p5",
+    "q": "Not only ______ the budget, but the team also finished the project two weeks early.",
+    "opts": [
+     "the team stayed within",
+     "did the team stay within",
+     "the team did stay within",
+     "stayed the team within"
+    ],
+    "a": 1,
+    "exp": "Not only 放句首要倒裝：Not only + 助動詞 + 主詞 + 原形動詞 → did the team stay。",
+    "zh": "團隊不只沒有超出預算，還提早兩週完成了專案。"
+   },
+   {
+    "id": "d16",
+    "tag": "vocab",
+    "part": "p5",
+    "q": "Because of the ______ in the figures, the auditors asked for the original receipts.",
+    "opts": [
+     "discrepancy",
+     "influx",
+     "brevity",
+     "surcharge"
+    ],
+    "a": 0,
+    "exp": "數字「不一致」所以要看原始收據 → discrepancy（差異、不符）。",
+    "zh": "由於數字有出入，稽核人員要求查看原始收據。",
+    "optsZh": [
+     "差異、不一致",
+     "湧入",
+     "簡潔",
+     "附加費"
+    ]
+   },
+   {
+    "id": "d17",
+    "tag": "vocab",
+    "part": "p5",
+    "q": "The hotel agreed to ______ the cancellation fee because the flight had been canceled.",
+    "opts": [
+     "waive",
+     "wind",
+     "urge",
+     "deem"
+    ],
+    "a": 0,
+    "exp": "waive a fee（免收費用）是固定搭配。",
+    "zh": "因為班機被取消，飯店同意免收取消費。",
+    "optsZh": [
+     "免除、放棄",
+     "蜿蜒",
+     "敦促",
+     "認為"
+    ]
+   },
+   {
+    "id": "d18",
+    "tag": "vocab",
+    "part": "p5",
+    "q": "Applicants should ______ all relevant documents to the personnel office by May 3.",
+    "opts": [
+     "forward",
+     "inform",
+     "notify",
+     "remind"
+    ],
+    "a": 0,
+    "exp": "forward A to B（把 A 寄送給 B）。inform / notify / remind 的受詞要是「人」。",
+    "zh": "應徵者應在 5 月 3 日前將所有相關文件寄送給人事室。",
+    "optsZh": [
+     "寄送、轉寄",
+     "通知（受詞是人）",
+     "通知（受詞是人）",
+     "提醒（受詞是人）"
+    ]
+   },
+   {
+    "id": "d19",
+    "tag": "vocab",
+    "part": "p5",
+    "q": "The new branch is expected to be highly ______, generating profits within its first year.",
+    "opts": [
+     "lucrative",
+     "legible",
+     "lukewarm",
+     "congenial"
+    ],
+    "a": 0,
+    "exp": "後半句說「第一年就獲利」→ lucrative（賺錢的）。",
+    "zh": "新分店預期會非常賺錢，第一年就能獲利。",
+    "optsZh": [
+     "賺錢的",
+     "字跡清楚的",
+     "微溫的、冷淡的",
+     "意氣相投的"
+    ]
+   },
+   {
+    "id": "d20",
+    "tag": "vocab",
+    "part": "p5",
+    "q": "Ms. Lee was ______ for her outstanding work on the client survey.",
+    "opts": [
+     "recognized",
+     "realized",
+     "recovered",
+     "reserved"
+    ],
+    "a": 0,
+    "exp": "be recognized for…（因……受到表揚）是表揚員工的常見說法。",
+    "zh": "李小姐因為在客戶調查上的傑出表現而受到表揚。",
+    "optsZh": [
+     "表揚、認可",
+     "了解、實現",
+     "恢復",
+     "預訂、保留"
+    ]
+   },
+   {
+    "id": "d21",
+    "tag": "p6",
+    "part": "p6",
+    "passage": "dp6",
+    "q": "[1]",
+    "opts": [
+     "refurbish",
+     "refurbishment",
+     "refurbished",
+     "refurbishes"
+    ],
+    "a": 1,
+    "exp": "介系詞 for 後面接名詞：closed for refurbishment（整修暫停開放）。",
+    "zh": "從下週一開始，三樓的茶水間將關閉整修。"
+   },
+   {
+    "id": "d22",
+    "tag": "p6",
+    "part": "p6",
+    "passage": "dp6",
+    "q": "[2] 哪一句最適合放在這裡？",
+    "opts": [
+     "Please remember to remove any personal items from the refrigerator by Friday.",
+     "The second floor has recently been sold to another company.",
+     "Our quarterly sales figures exceeded expectations.",
+     "Applications for the position close on Friday."
+    ],
+    "a": 0,
+    "exp": "前一句說廚房要關閉，這句提醒「週五前把冰箱私人物品拿走」最連貫。其他三句和廚房整修無關。",
+    "zh": "請記得在週五前把冰箱裡的私人物品拿走。"
+   },
+   {
+    "id": "d23",
+    "tag": "p6",
+    "part": "p6",
+    "passage": "dp6",
+    "q": "[3]",
+    "opts": [
+     "Following",
+     "Before",
+     "Despite",
+     "Instead of"
+    ],
+    "a": 0,
+    "exp": "整修「之後」會有新咖啡機和座位 → Following（= After）。",
+    "zh": "整修完成之後，會有新的咖啡機和更多座位。"
+   },
+   {
+    "id": "d24",
+    "tag": "p6",
+    "part": "p6",
+    "passage": "dp6",
+    "q": "[4]",
+    "opts": [
+     "patience",
+     "patient",
+     "patiently",
+     "patients"
+    ],
+    "a": 0,
+    "exp": "所有格 your 後面接名詞；appreciate your patience（感謝您的耐心）是公告結尾的固定說法。patients 是「病人」。",
+    "zh": "造成不便敬請見諒，並感謝您的耐心。"
+   },
+   {
+    "id": "d25",
+    "tag": "p7",
+    "part": "p7",
+    "passage": "dp7",
+    "q": "What is the main purpose of the email?",
+    "opts": [
+     "To confirm details of a speaking engagement",
+     "To invite Ms. Kim to apply for a job",
+     "To request payment for a conference pass",
+     "To announce a change of venue"
+    ],
+    "a": 0,
+    "exp": "第一段感謝她答應主持工作坊，並說明時段和講者福利 → 確認演講安排。",
+    "zh": "題目：這封 email 的主要目的是什麼？ ／ 答案：確認一場演講的細節。"
+   },
+   {
+    "id": "d26",
+    "tag": "p7",
+    "part": "p7",
+    "passage": "dp7",
+    "q": "What is Ms. Kim asked to do by October 10?",
+    "opts": [
+     "Reserve a hotel room",
+     "Submit her presentation materials",
+     "Choose a session time",
+     "Print the program"
+    ],
+    "a": 1,
+    "exp": "send your presentation slides ... no later than October 10 → 題目把 slides 改寫成 presentation materials（同義改寫）。",
+    "zh": "題目：金小姐被要求在 10 月 10 日前做什麼？ ／ 答案：繳交她的簡報資料。"
+   },
+   {
+    "id": "d27",
+    "tag": "p7",
+    "part": "p7",
+    "passage": "dp7",
+    "q": "What is indicated about the program?",
+    "opts": [
+     "It has already been printed.",
+     "It will be sent for printing after October 3.",
+     "It covers three days of sessions.",
+     "It was designed by Ms. Kim."
+    ],
+    "a": 1,
+    "exp": "after that date (October 3), the program will be sent to the printer → 10 月 3 日之後送印。",
+    "zh": "題目：關於議程，文中提到什麼？ ／ 答案：它會在 10 月 3 日之後送印。"
+   },
+   {
+    "id": "d28",
+    "tag": "p7",
+    "part": "p7",
+    "passage": "dp7",
+    "q": "Where will Ms. Kim most likely lead her workshop?",
+    "opts": [
+     "In Room A",
+     "In Room B",
+     "In the lobby",
+     "At the Harbor View Hotel"
+    ],
+    "a": 1,
+    "exp": "要兩篇對照：email 說她講 social media analytics，議程表上這一場在 Room B。",
+    "zh": "題目：金小姐最可能在哪裡主持她的工作坊？ ／ 答案：在 B 會議室。"
+   },
+   {
+    "id": "d29",
+    "tag": "p2",
+    "part": "p2",
+    "audio": [
+     "Who's in charge of ordering office supplies this month?",
+     "A. Yes, I ordered them yesterday.",
+     "B. I think it's Megan's turn.",
+     "C. On the third shelf."
+    ],
+    "q": "選出最適當的回應",
+    "opts": [
+     "A",
+     "B",
+     "C"
+    ],
+    "a": 1,
+    "exp": "Who 問「誰」→ B 回答人名。A 用 Yes 回答 Who 問句一定錯，而且重複 order 是陷阱；C 回答的是 Where。",
+    "zh": "問：這個月誰負責訂辦公用品？ ／ (A) 對，我昨天訂了。(B) 我想輪到梅根了。(C) 在第三層架子上。"
+   },
+   {
+    "id": "d30",
+    "tag": "p2",
+    "part": "p2",
+    "audio": [
+     "Shouldn't we leave for the airport soon?",
+     "A. The flight's been delayed an hour.",
+     "B. Yes, I left it there.",
+     "C. It's a large airport."
+    ],
+    "q": "選出最適當的回應",
+    "opts": [
+     "A",
+     "B",
+     "C"
+    ],
+    "a": 0,
+    "exp": "間接回答：不說 Yes / No，而是用「班機延誤一小時」暗示不用急著走。B 用 left 當陷阱，C 重複 airport。",
+    "zh": "問：我們不是該準備去機場了嗎？ ／ (A) 班機延誤一小時了。(B) 對，我把它留在那裡了。(C) 那是一座很大的機場。"
+   }
+  ]
+ },
+ "lessons": {
+  "p5g": {
+   "limit": 20,
+   "pass": 0.8,
+   "notes": [
+    {
+     "h": "作答策略與時間分配",
+     "p": [
+      "你在 Santa 的數據顯示，作答速度沒有問題：Part 5 平均每題 12 秒、Part 6 29 秒、Part 7 36 秒，都比建議時間快。真正失分的是「正確率」，尤其是詞彙（76%）和 Part 5（77%），是你五項能力和七個大題裡最低的。",
+      "所以 Part 5 的策略是：用省下來的時間多確認一次，不要因為快而粗心。下面是閱讀 75 分鐘的建議分配，你目前的速度已經在這個範圍內："
+     ],
+     "table": {
+      "head": [
+       "題型",
+       "題數",
+       "建議時間",
+       "平均每題"
+      ],
+      "rows": [
+       [
+        "Part 5 單句填空",
+        "30",
+        "約 10 分鐘",
+        "20 秒"
+       ],
+       [
+        "Part 6 段落填空",
+        "16",
+        "約 8 分鐘",
+        "30 秒"
+       ],
+       [
+        "Part 7 閱讀理解",
+        "54",
+        "約 55 分鐘",
+        "1 分鐘"
+       ],
+       [
+        "檢查／緩衝",
+        "",
+        "約 2 分鐘",
+        ""
+       ]
+      ]
+     },
+     "steps": [
+      "先看選項，判斷題型（3 秒內）。",
+      "文法題看空格前後就能作答；作答後花 2 到 3 秒把句子順一遍，確認沒有被陷阱騙。",
+      "詞彙題要讀整句。你的弱點在詞彙，遇到不確定的字，先排除詞性或搭配不合的選項，再比較語意。"
+     ],
+     "tip": "你的 Santa 預測分數是 870，正式考卻是 755。速度和實力都夠，落差多半來自考場狀況（緊張、後段疲勞、現場音響）。之後的「閱讀全真計時」會專門練這一塊。"
+    },
+    {
+     "h": "詞性題：看位置，不用看意思",
+     "p": [
+      "選項是同一個字根的不同字尾時，就是詞性題。這類題目只要判斷空格在句子裡的位置該放什麼詞性，幾乎不用懂句意。"
+     ],
+     "table": {
+      "head": [
+       "空格的位置",
+       "要填",
+       "例子"
+      ],
+      "rows": [
+       [
+        "a / the / 所有格 + ___ + 名詞",
+        "形容詞",
+        "a detailed report"
+       ],
+       [
+        "a / the / 所有格 / 介系詞 + ___（後面沒有名詞）",
+        "名詞",
+        "for approval、her contribution"
+       ],
+       [
+        "be 動詞 + ___ + p.p.",
+        "副詞",
+        "is carefully reviewed"
+       ],
+       [
+        "助動詞 + ___ + 原形動詞",
+        "副詞",
+        "will soon announce"
+       ],
+       [
+        "完整句子的最後，修飾動詞",
+        "副詞",
+        "work efficiently"
+       ],
+       [
+        "remain / become / seem / stay + ___",
+        "形容詞",
+        "remain seated"
+       ],
+       [
+        "___ + 比較級（more / -er）",
+        "副詞",
+        "considerably higher"
+       ],
+       [
+        "及物動詞 + ___（當受詞）",
+        "名詞",
+        "require approval"
+       ]
+      ]
+     },
+     "p2": [
+      "看不出詞性時，用字尾判斷："
+     ],
+     "table2": {
+      "head": [
+       "詞性",
+       "常見字尾"
+      ],
+      "rows": [
+       [
+        "名詞（事物）",
+        "-tion / -sion、-ment、-ness、-ity、-ance / -ence、-al（approval）"
+       ],
+       [
+        "名詞（人）",
+        "-er / -or、-ee、-ant / -ent（applicant、resident）、-ist"
+       ],
+       [
+        "形容詞",
+        "-able / -ible、-ive、-ous、-ful、-al、-ic、-ant / -ent"
+       ],
+       [
+        "副詞",
+        "形容詞 + -ly"
+       ],
+       [
+        "動詞",
+        "-ize、-ify、-en、-ate"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "The committee will review your proposal and notify you of its ______ within ten days.  (decide / decision / decisive / decisively)",
+       "所有格 its 後面接名詞 → decision。"
+      ],
+      [
+       "Sales have increased ______ since the new campaign began.  (steady / steadily / steadiness / steadied)",
+       "修飾動詞 increased → 副詞 steadily。"
+      ]
+     ],
+     "tip": "陷阱：friendly、timely、costly、orderly、likely 雖然是 -ly 結尾，卻是形容詞。另外 hard（努力地）和 hardly（幾乎不）、late（晚）和 lately（最近）意思完全不同。"
+    },
+    {
+     "h": "時態：找時間線索",
+     "p": [
+      "選項是同一個動詞的不同時態時，先在句子裡找「時間線索」。多益很少考需要細細體會的時態，幾乎都有明確的關鍵字。"
+     ],
+     "table": {
+      "head": [
+       "看到這個線索",
+       "用這個時態",
+       "例句"
+      ],
+      "rows": [
+       [
+        "since + 過去時間點、for + 一段時間、so far、recently",
+        "現在完成式 has / have p.p.",
+        "has worked here since 2020"
+       ],
+       [
+        "by the time / by + 未來時間、by next month",
+        "未來完成式 will have p.p.",
+        "will have finished by Friday"
+       ],
+       [
+        "by the time + 過去事件、before + 過去事件",
+        "過去完成式 had p.p.",
+        "had left before the meeting began"
+       ],
+       [
+        "yesterday、last week、ago、in 2019",
+        "過去式",
+        "launched last year"
+       ],
+       [
+        "next、upcoming、soon、tomorrow",
+        "未來式 will / be going to",
+        "will open next month"
+       ],
+       [
+        "every day、usually、always",
+        "現在簡單式",
+        "usually arrives at nine"
+       ],
+       [
+        "currently、at the moment、now",
+        "現在進行式",
+        "is currently reviewing"
+       ]
+      ]
+     },
+     "p2": [
+      "高分常考的例外：時間或條件子句（when、once、until、before、after、as soon as、if）裡面，要用現在式代替未來式。"
+     ],
+     "ex": [
+      [
+       "We will send the invoice as soon as the order ______.  (ships / will ship)",
+       "as soon as 是時間子句，用現在式 ships。主要子句才用 will。"
+      ],
+      [
+       "By the time the new manager arrives, the team ______ the report.  (completes / will have completed)",
+       "by the time + 未來事件 → will have completed。"
+      ]
+     ]
+    },
+    {
+     "h": "語態：主動還是被動",
+     "p": [
+      "選項裡同時有主動和被動（例如 review / is reviewed）時，看兩件事：空格後面有沒有受詞，以及主詞是人還是物。"
+     ],
+     "steps": [
+      "空格後面有受詞（名詞）→ 主動。",
+      "空格後面沒有受詞、直接接介系詞或句子結束 → 被動 be + p.p.。",
+      "主詞是物（report、package、room、product）時，被動的機率很高，但仍以「有沒有受詞」為準。"
+     ],
+     "table": {
+      "head": [
+       "分類",
+       "單字"
+      ],
+      "rows": [
+       [
+        "沒有被動的不及物動詞（常拿來當陷阱）",
+        "last、occur、happen、arrive、rise、remain、appear、emerge、function"
+       ],
+       [
+        "常考被動片語",
+        "be required to、be expected to、be scheduled to、be entitled to、be committed to、be dedicated to、be located in、be based in"
+       ],
+       [
+        "被動後面還接受詞的動詞（授與動詞）",
+        "be given、be offered、be awarded、be sent、be granted（例：was awarded a prize）"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "The new safety guidelines ______ to all employees last week.  (distributed / were distributed)",
+       "後面沒有受詞，指南是「被」發送 → were distributed。"
+      ],
+      [
+       "The price of raw materials ______ sharply this quarter.  (has risen / has been risen)",
+       "rise 是不及物動詞，沒有被動 → has risen。"
+      ]
+     ]
+    },
+    {
+     "h": "連接詞 vs 介系詞",
+     "p": [
+      "選項同時出現意思相近的連接詞和介系詞時（例如 although / despite），只要看空格後面接的是什麼：完整子句（有主詞和動詞）就用連接詞；名詞、名詞片語或 V-ing 就用介系詞。"
+     ],
+     "table": {
+      "head": [
+       "意思",
+       "連接詞（+ 子句）",
+       "介系詞（+ 名詞）"
+      ],
+      "rows": [
+       [
+        "雖然",
+        "although、though、even though、while",
+        "despite、in spite of、notwithstanding"
+       ],
+       [
+        "因為",
+        "because、since、as、now that",
+        "because of、due to、owing to、on account of"
+       ],
+       [
+        "在……期間",
+        "while",
+        "during、throughout"
+       ],
+       [
+        "為了、以便",
+        "so that、in order that",
+        "in order to + 原形動詞、for"
+       ],
+       [
+        "如果、除非",
+        "if、unless、provided that、as long as",
+        "in case of、in the event of"
+       ],
+       [
+        "在……之前／之後",
+        "before、after、until、once、as soon as",
+        "before、after、until、prior to、following、upon"
+       ]
+      ]
+     },
+     "p2": [
+      "成對出現的對等連接詞，看到其中一半就能選出另一半："
+     ],
+     "table2": {
+      "head": [
+       "句型",
+       "意思"
+      ],
+      "rows": [
+       [
+        "both A and B",
+        "A 和 B 都"
+       ],
+       [
+        "either A or B",
+        "A 或 B 其中一個"
+       ],
+       [
+        "neither A nor B",
+        "A 和 B 都不"
+       ],
+       [
+        "not only A but (also) B",
+        "不只 A，還有 B"
+       ],
+       [
+        "whether A or B",
+        "不論是 A 還是 B"
+       ],
+       [
+        "A as well as B",
+        "A 以及 B（動詞跟 A 一致）"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "______ the delay in shipping, the store opened on schedule.  (Although / Despite)",
+       "後面是名詞片語 the delay… → Despite。"
+      ],
+      [
+       "Please arrive early ______ we can begin promptly at nine.  (so that / in order to)",
+       "後面是子句 we can begin… → so that。"
+      ]
+     ],
+     "tip": "副詞 however、therefore、moreover 不能連接兩個子句。看到「子句, ___ 子句」時，要選連接詞，不能選這些副詞。"
+    },
+    {
+     "h": "關係詞",
+     "p": [
+      "選項是 who / which / whose / that 這類關係詞時，先看前面的先行詞是人還是物，再看空格後面缺什麼。"
+     ],
+     "table": {
+      "head": [
+       "空格後面",
+       "先行詞是人",
+       "先行詞是物"
+      ],
+      "rows": [
+       [
+        "缺主詞（直接接動詞）",
+        "who / that",
+        "which / that"
+       ],
+       [
+        "缺受詞（接主詞 + 動詞）",
+        "whom / who / that（可省略）",
+        "which / that（可省略）"
+       ],
+       [
+        "直接接名詞（表示「……的」）",
+        "whose",
+        "whose"
+       ],
+       [
+        "接完整句子，表地點／時間",
+        "where / when",
+        "where / when"
+       ]
+      ]
+     },
+     "steps": [
+      "逗號後面不能用 that：The CEO, who founded the company, …",
+      "介系詞後面不能用 that：the office in which she works",
+      "what 自己就包含先行詞（= the thing that），前面不能再有名詞。"
+     ],
+     "ex": [
+      [
+       "Applicants ______ résumés are incomplete will not be considered.  (who / whose)",
+       "空格後直接接名詞 résumés → whose。"
+      ],
+      [
+       "The conference, ______ is held every spring, attracts over 2,000 visitors.  (which / that)",
+       "逗號後面不能用 that → which。"
+      ]
+     ]
+    },
+    {
+     "h": "假設語氣與倒裝",
+     "p": [
+      "這是 800 分以上常卡住的題型。題目通常會把 if 省略，改成倒裝句，考你能不能認出來。"
+     ],
+     "table": {
+      "head": [
+       "假設類型",
+       "原本的句型",
+       "省略 if 的倒裝"
+      ],
+      "rows": [
+       [
+        "未來可能（商用信件最常見）",
+        "If you should have questions, …",
+        "Should you have questions, …"
+       ],
+       [
+        "與現在事實相反",
+        "If I were the manager, …",
+        "Were I the manager, …"
+       ],
+       [
+        "與過去事實相反",
+        "If we had known, we would have …",
+        "Had we known, we would have …"
+       ]
+      ]
+     },
+     "p2": [
+      "另一種倒裝是否定或限定的副詞放在句首：Never、Rarely、Seldom、Not only、Only after、Only when、Hardly。這時主要子句要改成「助動詞 + 主詞 + 動詞」。",
+      "還有一類是「要求、建議」的句型：insist、recommend、request、require、suggest、propose，以及 It is essential / important / necessary that…，後面的子句用原形動詞（should 被省略），主詞是單數也不加 s。"
+     ],
+     "ex": [
+      [
+       "______ the shipment arrive damaged, please contact us within 48 hours.  (If / Should)",
+       "後面是原形 arrive，是省略 if 的倒裝 → Should。"
+      ],
+      [
+       "Rarely ______ such strong sales in the first quarter.  (the company has seen / has the company seen)",
+       "Rarely 放句首要倒裝 → has the company seen。"
+      ],
+      [
+       "The supervisor requested that the report ______ by noon.  (is submitted / be submitted)",
+       "request that + 原形 → be submitted。"
+      ]
+     ]
+    },
+    {
+     "h": "虛構主詞 it（你的 Santa 弱點）",
+     "p": [
+      "Santa 分析你這個概念的正確率是 47.3%，750 分使用者平均是 65.7%，是目前最需要補的文法點。",
+      "英文不喜歡主詞太長，所以會先放一個 it 佔住主詞或受詞的位置，把真正的內容（to V、that 子句）移到句子後面。"
+     ],
+     "table": {
+      "head": [
+       "句型",
+       "真正的主詞／受詞",
+       "例句"
+      ],
+      "rows": [
+       [
+        "It is + 形容詞 + to V",
+        "to V",
+        "It is important to back up your files."
+       ],
+       [
+        "It is + 形容詞 + that 子句",
+        "that 子句",
+        "It is essential that everyone attend."
+       ],
+       [
+        "It is expected / said / reported that…",
+        "that 子句",
+        "It is expected that sales will rise."
+       ],
+       [
+        "It takes + 時間 + to V",
+        "to V",
+        "It takes two days to process an order."
+       ],
+       [
+        "find / make / consider + it + 形容詞 + to V",
+        "to V（it 是虛受詞）",
+        "We found it difficult to meet the deadline."
+       ]
+      ]
+     },
+     "steps": [
+      "空格在句首、後面接 is / was + 形容詞或 p.p.，再往後有 to V 或 that 子句 → 選 It。",
+      "There is / are 後面接的是名詞（There are three options），不能接 that 子句。",
+      "find / make / consider 後面直接接形容詞再接 to V 時，中間要補 it。"
+     ],
+     "ex": [
+      [
+       "______ is necessary to renew your parking permit every year.  (It / There / This)",
+       "後面有真正的主詞 to renew… → It。"
+      ],
+      [
+       "The new software makes ______ easier to track expenses.  (it / that / them)",
+       "make it + 形容詞 + to V → it。"
+      ]
+     ],
+     "tip": "看到選項裡有 It / There / This / What，先往後找有沒有 to V 或 that 子句；有的話幾乎都是 It。"
+    },
+    {
+     "h": "主詞動詞一致與比較級",
+     "p": [
+      "選項是 is / are、has / have 這種單複數變化時，要找出真正的主詞，不要被中間插入的修飾語騙了。"
+     ],
+     "table": {
+      "head": [
+       "主詞",
+       "動詞",
+       "例句"
+      ],
+      "rows": [
+       [
+        "the number of + 複數名詞",
+        "單數",
+        "The number of orders has increased."
+       ],
+       [
+        "a number of + 複數名詞",
+        "複數",
+        "A number of orders have been canceled."
+       ],
+       [
+        "each / every + 單數名詞",
+        "單數",
+        "Every employee is required to attend."
+       ],
+       [
+        "one of the + 複數名詞",
+        "單數",
+        "One of the printers is broken."
+       ],
+       [
+        "either / neither of + 複數名詞",
+        "單數",
+        "Neither of the candidates has experience."
+       ],
+       [
+        "A as well as B / A along with B",
+        "跟 A 一致",
+        "The manager, as well as her staff, is attending."
+       ]
+      ]
+     },
+     "p2": [
+      "比較級的三個常考點："
+     ],
+     "steps": [
+      "加強比較級用 much、far、even、still、considerably、significantly，不能用 very。",
+      "the + 比較級…, the + 比較級…：The earlier you register, the lower the fee.",
+      "as + 原級 + as：中間用原級，不用比較級（as quickly as possible）。"
+     ],
+     "ex": [
+      [
+       "The number of visitors to the museum ______ doubled since the renovation.  (has / have)",
+       "主詞是 The number → 單數 has。"
+      ],
+      [
+       "This year's profits are ______ higher than expected.  (very / significantly)",
+       "修飾比較級 higher → significantly。"
+      ]
+     ],
+     "tip": "做完這份講義，可以先看重點卡快速複習一次，再去做練習。練習答錯的題目會自動放進錯題本。"
+    }
+   ],
+   "cards": [
+    {
+     "title": "先看選項，3 秒判斷題型",
+     "points": [
+      "選項是同一個字的不同字尾 → 詞性題：只看空格前後，不用讀完整句。",
+      "選項是同一個動詞的不同形式 → 時態／語態題：找時間線索、看主詞是人還是物。",
+      "選項是 although / despite 這類 → 句構題：看後面接子句還是名詞。",
+      "選項是意思不同的字 → 詞彙題：要讀懂句意，最花時間，放最後處理。"
+     ],
+     "ex": [
+      "The proposal was reviewed ______ by the committee.  (careful / carefully / care / caring)",
+      "選項都是 care 的變化 → 詞性題。空格修飾動詞 reviewed → carefully。"
+     ]
+    },
+    {
+     "title": "詞性題：只看空格前後",
+     "points": [
+      "a / the / 所有格 + ____ + 名詞 → 形容詞",
+      "a / the / 所有格 / 介系詞 + ____ → 名詞",
+      "be 動詞 + ____ + p.p. / 動詞 → 副詞",
+      "連綴動詞 remain / become / seem + ____ → 形容詞",
+      "修飾比較級（much / far / considerably）→ 副詞"
+     ],
+     "ex": [
+      "The new system is ______ easier to use.",
+      "修飾比較級 easier → considerably / much / far。"
+     ]
+    },
+    {
+     "title": "時態：找時間線索",
+     "points": [
+      "since + 過去時間點、for + 一段時間 → 現在完成式 has / have p.p.",
+      "by the time / by + 未來時間 → 未來完成式 will have p.p.",
+      "by the time + 過去事件 → 過去完成式 had p.p.",
+      "next / upcoming / soon → 未來；last / ago / yesterday → 過去",
+      "時間或條件子句（when / once / until / before）用現在式代替未來式"
+     ],
+     "ex": [
+      "We will start the meeting once everyone ______.  (arrives / will arrive)",
+      "once 引導時間子句，用現在式 arrives。"
+     ]
+    },
+    {
+     "title": "語態：主動還是被動？",
+     "points": [
+      "空格後有受詞 → 主動；沒有受詞 → 多半是被動 be + p.p.",
+      "主詞是物（report、package、room）時特別注意被動",
+      "不及物動詞沒有被動：last、occur、happen、arrive、rise",
+      "be required to / be expected to / be scheduled to 是常考被動片語"
+     ],
+     "ex": [
+      "The workshop will ______ for two hours.  (last / be lasted)",
+      "last 是不及物動詞，沒有被動 → will last。"
+     ]
+    },
+    {
+     "title": "連接詞 vs 介系詞",
+     "points": [
+      "後面接子句（主詞 + 動詞）→ 連接詞；接名詞或 V-ing → 介系詞",
+      "雖然：although / even though（連）↔ despite / in spite of（介）",
+      "因為：because / since（連）↔ because of / due to / owing to（介）",
+      "在……期間：while（連）↔ during（介）",
+      "以便：so that + 子句 ↔ in order to + 原形動詞"
+     ],
+     "ex": [
+      "______ the delay, the shipment arrived in good condition.",
+      "後面是名詞 the delay → Despite。"
+     ]
+    },
+    {
+     "title": "高分陷阱題型",
+     "points": [
+      "Should you have… = If you should have…（省略 if 倒裝）",
+      "Had I known… = If I had known…（與過去事實相反）",
+      "insist / recommend / require / essential that + 主詞 + 原形動詞",
+      "Not only / Only after / Never 放句首 → 助動詞倒裝",
+      "the number of + 複數名詞 + 單數動詞；a number of + 複數動詞",
+      "whose + 名詞（所有格關係詞）；比較級前用 much / far / even 加強"
+     ],
+     "ex": [
+      "______ you need further assistance, please call us.",
+      "省略 If 的倒裝 → Should you need…"
+     ]
+    }
+   ],
+   "practice": [
+    {
+     "id": "g01",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "The marketing team presented a ______ analysis of last quarter's sales.",
+     "opts": [
+      "detail",
+      "detailed",
+      "detailing",
+      "details"
+     ],
+     "a": 1,
+     "exp": "冠詞 a + ____ + 名詞 analysis → 形容詞 detailed（詳細的）。",
+     "zh": "行銷團隊針對上一季的銷售做了一份詳細的分析。"
+    },
+    {
+     "id": "g02",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "Ms. Patel has worked at the firm ______ she graduated from university.",
+     "opts": [
+      "since",
+      "for",
+      "during",
+      "until"
+     ],
+     "a": 0,
+     "exp": "現在完成式 + since + 過去時間點（子句）。for 接一段時間，during 接名詞。",
+     "zh": "帕特爾小姐從大學畢業後就一直在這間公司工作。"
+    },
+    {
+     "id": "g03",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "The packages ______ to the wrong address because of a system error.",
+     "opts": [
+      "delivered",
+      "were delivered",
+      "have delivering",
+      "delivering"
+     ],
+     "a": 1,
+     "exp": "包裹是「被」寄送，空格後沒有受詞 → 被動 were delivered。",
+     "zh": "因為系統錯誤，包裹被送到錯誤的地址。"
+    },
+    {
+     "id": "g04",
+     "tag": "g-conj",
+     "part": "p5",
+     "q": "______ the high cost of the materials, the project stayed within budget.",
+     "opts": [
+      "Even though",
+      "Despite",
+      "However",
+      "Although"
+     ],
+     "a": 1,
+     "exp": "後面是名詞片語 the high cost… → 介系詞 Despite。",
+     "zh": "儘管材料成本很高，這個專案仍然沒有超出預算。"
+    },
+    {
+     "id": "g05",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "Employees are encouraged to communicate ______ with their supervisors.",
+     "opts": [
+      "regular",
+      "regularly",
+      "regularity",
+      "regulate"
+     ],
+     "a": 1,
+     "exp": "修飾動詞 communicate → 副詞 regularly。",
+     "zh": "公司鼓勵員工定期和主管溝通。"
+    },
+    {
+     "id": "g06",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "The CEO, ______ has led the company for ten years, will retire in June.",
+     "opts": [
+      "who",
+      "whom",
+      "whose",
+      "which"
+     ],
+     "a": 0,
+     "exp": "先行詞是人（CEO），空格後缺主詞（___ has led）→ who。",
+     "zh": "已經帶領公司十年的執行長將在六月退休。"
+    },
+    {
+     "id": "g07",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "By the end of next month, we ______ all of the old equipment.",
+     "opts": [
+      "replace",
+      "replaced",
+      "will have replaced",
+      "had replaced"
+     ],
+     "a": 2,
+     "exp": "By + 未來時間 → 未來完成式 will have replaced。",
+     "zh": "到下個月底前，我們將已經汰換所有舊設備。"
+    },
+    {
+     "id": "g08",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "The committee recommended that the deadline ______ by one week.",
+     "opts": [
+      "extends",
+      "be extended",
+      "is extended",
+      "extending"
+     ],
+     "a": 1,
+     "exp": "recommend that + 原形動詞；截止日是「被」延長 → be extended。",
+     "zh": "委員會建議把截止日延後一週。"
+    },
+    {
+     "id": "g09",
+     "tag": "g-conj",
+     "part": "p5",
+     "q": "The new policy will take effect ______ the board approves it.",
+     "opts": [
+      "once",
+      "during",
+      "despite",
+      "because of"
+     ],
+     "a": 0,
+     "exp": "後面是子句 the board approves it → 連接詞 once（一旦）。其他三個是介系詞。",
+     "zh": "新政策一經董事會核准就會生效。"
+    },
+    {
+     "id": "g10",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "The number of applicants for the position ______ increased sharply this year.",
+     "opts": [
+      "have",
+      "has",
+      "are",
+      "were"
+     ],
+     "a": 1,
+     "exp": "主詞是 The number（數量），單數 → has。a number of 才接複數動詞。",
+     "zh": "今年應徵這個職位的人數大幅增加。"
+    },
+    {
+     "id": "g26",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "The company found ______ difficult to complete all the orders by the end of the month.",
+     "opts": [
+      "it",
+      "that",
+      "this",
+      "what"
+     ],
+     "a": 0,
+     "exp": "find it + 形容詞 + to V：it 是虛受詞，真正的受詞是後面的 to complete all the orders。",
+     "zh": "公司發現要在月底前完成所有訂單很困難。"
+    },
+    {
+     "id": "g27",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "______ is expected that all department heads will attend the annual meeting.",
+     "opts": [
+      "It",
+      "There",
+      "This",
+      "What"
+     ],
+     "a": 0,
+     "exp": "It is expected that…：虛主詞 it 代替後面真正的主詞 that 子句。There 後面要接名詞。",
+     "zh": "預計所有部門主管都會出席年度會議。"
+    }
+   ],
+   "test": [
+    {
+     "id": "g11",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "Ms. Chen gave a very ______ presentation on the company's expansion plans.",
+     "opts": [
+      "inform",
+      "information",
+      "informative",
+      "informatively"
+     ],
+     "a": 2,
+     "exp": "a very + ____ + 名詞 → 形容詞 informative（資訊豐富的）。",
+     "zh": "陳小姐針對公司的擴張計畫做了一場很有內容的簡報。"
+    },
+    {
+     "id": "g12",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "The repairs were completed more ______ than the contractor had estimated.",
+     "opts": [
+      "quick",
+      "quickly",
+      "quickness",
+      "quicker"
+     ],
+     "a": 1,
+     "exp": "修飾動詞 were completed → 副詞 quickly；more quickly than 是副詞比較級。",
+     "zh": "維修完成的速度比承包商預估的還快。"
+    },
+    {
+     "id": "g13",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "The ______ of the new branch has been postponed until May.",
+     "opts": [
+      "open",
+      "opened",
+      "opening",
+      "openly"
+     ],
+     "a": 2,
+     "exp": "The + ____ + of → 名詞 opening（開幕）。",
+     "zh": "新分店的開幕已經延到五月。"
+    },
+    {
+     "id": "g14",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "Mr. Owen ______ the sales department since the previous manager left.",
+     "opts": [
+      "leads",
+      "led",
+      "has led",
+      "will lead"
+     ],
+     "a": 2,
+     "exp": "since + 子句（從那時到現在）→ 現在完成式 has led。",
+     "zh": "自從前任經理離職後，歐文先生就一直帶領業務部。"
+    },
+    {
+     "id": "g15",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "All passengers ______ to show their boarding passes at the gate.",
+     "opts": [
+      "require",
+      "are required",
+      "requiring",
+      "have required"
+     ],
+     "a": 1,
+     "exp": "be required to do（被要求做）→ are required。",
+     "zh": "所有乘客都必須在登機門出示登機證。"
+    },
+    {
+     "id": "g16",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "The seminar ______ for three hours, so lunch will be provided.",
+     "opts": [
+      "is lasted",
+      "will last",
+      "lasting",
+      "will be lasted"
+     ],
+     "a": 1,
+     "exp": "last 是不及物動詞，沒有被動 → will last。",
+     "zh": "研討會將持續三小時，所以會提供午餐。"
+    },
+    {
+     "id": "g17",
+     "tag": "g-conj",
+     "part": "p5",
+     "q": "______ the printer is repaired, please use the one on the fifth floor.",
+     "opts": [
+      "Until",
+      "By",
+      "During",
+      "Despite"
+     ],
+     "a": 0,
+     "exp": "後面是子句 → 連接詞 Until（在修好之前）。By、During、Despite 都是介系詞。",
+     "zh": "在印表機修好之前，請使用五樓的那台。"
+    },
+    {
+     "id": "g18",
+     "tag": "g-conj",
+     "part": "p5",
+     "q": "The event was a success ______ the poor weather.",
+     "opts": [
+      "although",
+      "in spite of",
+      "even if",
+      "whereas"
+     ],
+     "a": 1,
+     "exp": "後面是名詞片語 the poor weather → 介系詞 in spite of。",
+     "zh": "儘管天氣不好，活動還是很成功。"
+    },
+    {
+     "id": "g19",
+     "tag": "g-conj",
+     "part": "p5",
+     "q": "______ Ms. Garcia nor her assistant was available to answer the call.",
+     "opts": [
+      "Either",
+      "Both",
+      "Neither",
+      "Not only"
+     ],
+     "a": 2,
+     "exp": "看到 nor → neither A nor B（兩者都不）。",
+     "zh": "賈西亞小姐和她的助理都沒空接電話。"
+    },
+    {
+     "id": "g20",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "The supplier ______ products failed the inspection has been contacted.",
+     "opts": [
+      "who",
+      "whose",
+      "which",
+      "whom"
+     ],
+     "a": 1,
+     "exp": "空格後直接接名詞 products（供應商的產品）→ whose。",
+     "zh": "產品沒通過檢驗的那家供應商已經被聯絡了。"
+    },
+    {
+     "id": "g21",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "______ the proposal been submitted earlier, it would have been considered.",
+     "opts": [
+      "If",
+      "Had",
+      "Has",
+      "Should"
+     ],
+     "a": 1,
+     "exp": "If the proposal had been submitted… 省略 If 倒裝 → Had the proposal been submitted。",
+     "zh": "如果提案早一點提交，它就會被列入考慮了。"
+    },
+    {
+     "id": "g22",
+     "tag": "g-adv",
+     "part": "p5",
+     "q": "Only after the contract was signed ______ the details to the press.",
+     "opts": [
+      "the company released",
+      "did the company release",
+      "the company did release",
+      "released the company"
+     ],
+     "a": 1,
+     "exp": "Only after… 放句首，主要子句要倒裝 → did the company release。",
+     "zh": "直到合約簽好之後，公司才向媒體公布細節。"
+    },
+    {
+     "id": "g23",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "The manager requires that each team member ______ a weekly progress report.",
+     "opts": [
+      "submits",
+      "submit",
+      "submitted",
+      "will submit"
+     ],
+     "a": 1,
+     "exp": "require that + 主詞 + 原形動詞 → submit（即使主詞是單數也不加 s）。",
+     "zh": "經理要求每位組員都要繳交每週進度報告。"
+    },
+    {
+     "id": "g24",
+     "tag": "g-verb",
+     "part": "p5",
+     "q": "It is essential that the safety equipment ______ every morning.",
+     "opts": [
+      "checks",
+      "be checked",
+      "is checking",
+      "has checked"
+     ],
+     "a": 1,
+     "exp": "It is essential that + 原形動詞；設備是「被」檢查 → be checked。",
+     "zh": "安全設備必須每天早上檢查。"
+    },
+    {
+     "id": "g25",
+     "tag": "g-pos",
+     "part": "p5",
+     "q": "The new design is ______ more popular with customers than the old one.",
+     "opts": [
+      "much",
+      "very",
+      "more",
+      "most"
+     ],
+     "a": 0,
+     "exp": "比較級前加強語氣用 much / far / even，不能用 very。",
+     "zh": "新設計比舊設計受顧客歡迎得多。"
+    }
+   ]
+  },
+  "p5v": {
+   "limit": 20,
+   "pass": 0.8,
+   "notes": [
+    {
+     "h": "詞彙題的作答流程",
+     "p": [
+      "你的 Santa 數據裡，詞彙 76% 是五項能力中最低的。詞彙題和文法題不同：選項是四個意思不同的字，一定要讀懂整句。但「讀懂整句」不等於「每個字都要認識」，多數題目可以先用文法和搭配刪掉兩個選項，剩下的再比語意。"
+     ],
+     "table": {
+      "head": [
+       "詞彙題類型",
+       "判斷方法",
+       "例子"
+      ],
+      "rows": [
+       [
+        "文法限制",
+        "看空格後面接什麼（受詞、to V、that、介系詞）",
+        "inform + 人 + that…／announce that…"
+       ],
+       [
+        "固定搭配",
+        "看動詞和名詞、形容詞和名詞能不能放一起",
+        "meet the demand、place an order"
+       ],
+       [
+        "近義字辨析",
+        "意思接近，但使用情境不同",
+        "fare（車資）／fine（罰款）／fee（手續費）"
+       ],
+       [
+        "形近字",
+        "長得像，意思完全不同",
+        "complimentary（免費的）／complementary（互補的）"
+       ],
+       [
+        "句意邏輯",
+        "找 despite、because、but 這類線索決定正面或負面",
+        "Despite the unfavorable weather…"
+       ]
+      ]
+     },
+     "p2": [
+      "你的速度很夠（Part 5 每題 12 秒），所以詞彙題可以放心多花幾秒，照下面的順序做："
+     ],
+     "steps": [
+      "讀整句，圈出線索：空格前後的介系詞（to / for / with / from）、受詞是什麼、句子有沒有 although / despite / because 這類邏輯詞。",
+      "先用「文法限制」刪：這個動詞後面能不能接 to V、that 子句、from V-ing？這個形容詞搭的是哪個介系詞？",
+      "再用「固定搭配」刪：這個動詞能不能接這個名詞（meet a deadline 可以，reach a deadline 不行）。",
+      "最後比語意：剩下的選項代回句子，用中文順一遍，選最自然、最符合句意的。",
+      "兩個都說得通時，找句子裡更具體的線索（時間、原因、對比），不要選「看起來比較高級」的字。"
+     ],
+     "tip": "詞彙題答錯最常見的原因不是不認識答案，而是「選了一個中文意思對、英文用法不對的字」。所以第 2、3 步比第 4 步更重要。"
+    },
+    {
+     "h": "先用文法限制刪選項",
+     "p": [
+      "很多選項中文意思都對，但後面接的東西不對。多益很愛把意思相近、句型不同的動詞放在一起考。看到動詞選項，先看空格後面接的是「人」、「that 子句」、「to V」還是「介系詞」。"
+     ],
+     "table": {
+      "head": [
+       "句型",
+       "可以用",
+       "不能這樣用（常見陷阱）"
+      ],
+      "rows": [
+       [
+        "動詞 + 人 + that 子句",
+        "inform、notify、remind、assure、tell",
+        "announce、explain、say（要寫 announce that… / explain to + 人）"
+       ],
+       [
+        "動詞 + 人 + to V",
+        "urge、encourage、require、ask、allow、permit、persuade、remind",
+        "suggest、recommend（不能接「人 + to V」）"
+       ],
+       [
+        "動詞 + that + 主詞 + 原形動詞",
+        "suggest、recommend、request、insist、require、propose",
+        "persuade、encourage、allow（後面要接人）"
+       ],
+       [
+        "動詞 + 人 + from V-ing",
+        "prevent、prohibit、discourage、keep、stop、bar",
+        "urge、forbid（forbid 人 to V）"
+       ],
+       [
+        "動詞 + V-ing",
+        "avoid、postpone、consider、entail、mind、finish、recommend",
+        "decide、plan、hope、agree（這些接 to V）"
+       ],
+       [
+        "動詞直接接受詞（不加介系詞）",
+        "discuss、attend、enter、reach、approach、contact",
+        "discuss about、attend to the meeting（意思會變）"
+       ],
+       [
+        "動詞 + 介系詞",
+        "respond to、reply to、comply with、conform to、participate in、coincide with、culminate in",
+        "comply to、participate the event"
+       ],
+       [
+        "deem / consider + 受詞 + 形容詞",
+        "deem it necessary、consider the plan risky",
+        "regard / view / refer to 要加 as：regard it as risky"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "The supervisor ______ the staff that the system would be offline on Sunday.  (informed / announced / explained / said)",
+       "空格後面直接接人 the staff + that 子句，只有 inform 可以。announce / explain / say 都不能直接接人。"
+      ],
+      [
+       "The inspectors ______ the building unsafe for occupation.  (deemed / regarded / referred / viewed)",
+       "受詞後面直接接形容詞 unsafe → deemed。regarded / viewed 要加 as，referred 要用 referred to … as。"
+      ]
+     ],
+     "tip": "suggest 和 recommend 最常考：可以說 recommend that the team postpone…、recommend postponing…，但不能說 recommend the team to postpone。"
+    },
+    {
+     "h": "固定搭配：動詞＋名詞",
+     "p": [
+      "英文的動詞和名詞有固定組合，中文翻起來都一樣，英文卻只能用某一個。下面是多益最常出現的組合，建議整組背，不要只背單字。"
+     ],
+     "table": {
+      "head": [
+       "動詞",
+       "常接的名詞",
+       "中文"
+      ],
+      "rows": [
+       [
+        "meet",
+        "a deadline、the demand、requirements、expectations、a quota",
+        "趕上期限、滿足需求、符合要求"
+       ],
+       [
+        "place / fill",
+        "an order",
+        "下訂單／出貨（完成訂單）"
+       ],
+       [
+        "conduct",
+        "a survey、a study、an inspection、an interview",
+        "進行調查、研究、檢查、面試"
+       ],
+       [
+        "raise",
+        "funds、prices、awareness、concerns、questions",
+        "籌募資金、提高價格、提高意識、提出疑慮"
+       ],
+       [
+        "address",
+        "concerns、issues、complaints、a problem",
+        "處理（問題、疑慮）"
+       ],
+       [
+        "take",
+        "measures、effect、advantage of、place、precautions",
+        "採取措施、生效、利用、舉行、預防"
+       ],
+       [
+        "reach",
+        "an agreement、a decision、a consensus、a goal",
+        "達成協議、決定、共識、目標"
+       ],
+       [
+        "waive",
+        "a fee、a requirement、a penalty",
+        "免除費用、規定、罰款"
+       ],
+       [
+        "solicit",
+        "feedback、input、donations、proposals",
+        "徵求意見、募捐、徵求提案"
+       ],
+       [
+        "rectify",
+        "an error、a mistake、the situation",
+        "修正錯誤、改善狀況"
+       ],
+       [
+        "alleviate",
+        "congestion、pressure、concerns、pain",
+        "減輕擁塞、壓力、疑慮"
+       ],
+       [
+        "procure",
+        "supplies、materials、equipment",
+        "採購物資、設備"
+       ],
+       [
+        "dispatch",
+        "a technician、a shipment、a team",
+        "派遣技術人員、發貨"
+       ],
+       [
+        "exceed",
+        "expectations、the limit、the budget",
+        "超出預期、超過上限、超出預算"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "We hired extra staff so that we could ______ the holiday demand.  (meet / reach / achieve / gain)",
+       "demand 的動詞是 meet（或 satisfy）。reach 接 agreement / goal，achieve 接 goal / result。"
+      ],
+      [
+       "The airline will ______ the change fee for passengers affected by the strike.  (waive / solicit / procure / impede)",
+       "waive the fee 免除費用，是 Santa 收藏字裡最常考的搭配。"
+      ]
+     ]
+    },
+    {
+     "h": "be + 形容詞 + 介系詞",
+     "p": [
+      "形容詞題的另一個刪法：看空格後面的介系詞。下面這些形容詞和介系詞是綁在一起的，介系詞不對就可以直接刪掉。"
+     ],
+     "table": {
+      "head": [
+       "介系詞",
+       "形容詞",
+       "例子"
+      ],
+      "rows": [
+       [
+        "for",
+        "eligible、responsible、suitable、known、ideal",
+        "be eligible for a refund"
+       ],
+       [
+        "to",
+        "entitled、subject、accessible、equivalent、pertinent、comparable、committed",
+        "be subject to change、pertinent to the case"
+       ],
+       [
+        "with",
+        "compatible、consistent、familiar、satisfied、compliant",
+        "be compatible with the system"
+       ],
+       [
+        "of",
+        "aware、capable、representative、indicative、mindful",
+        "be aware of the risks"
+       ],
+       [
+        "in",
+        "involved、interested、experienced、instrumental",
+        "be instrumental in the success"
+       ],
+       [
+        "on",
+        "dependent、based、contingent",
+        "be contingent on approval"
+       ]
+      ]
+     },
+     "p2": [
+      "要注意：同一個字可以有兩種用法。eligible for + 名詞、eligible to + 原形動詞；entitled to + 名詞或原形動詞。看到 to 時，先確認後面是名詞還是動詞。"
+     ],
+     "ex": [
+      [
+       "Only full-time staff are ______ for the training subsidy.  (eligible / entitled / capable / aware)",
+       "後面是 for → eligible。entitled to、capable of、aware of 介系詞都不對。"
+      ],
+      [
+       "Please send us any information ______ to the investigation.  (pertinent / indigenous / insolvent / inconspicuous)",
+       "pertinent to（與……有關的），是 Santa 收藏字。"
+      ]
+     ]
+    },
+    {
+     "h": "近義字辨析：意思接近、情境不同",
+     "p": [
+      "下面幾組字中文都差不多，多益常放在同一題考。關鍵在「用在什麼情境」。"
+     ],
+     "table": {
+      "head": [
+       "一組字",
+       "差別"
+      ],
+      "rows": [
+       [
+        "fee / fare / fine / toll / surcharge / honorarium",
+        "fee 手續費、服務費；fare 交通工具的票價；fine 罰款；toll 過路費；surcharge 額外加收的費用（燃油附加費）；honorarium 給講者的酬金"
+       ],
+       [
+        "rise / raise / arise",
+        "rise 不及物（價格上漲）；raise 及物（提高價格、籌錢）；arise 問題「發生、出現」"
+       ],
+       [
+        "backlog / influx",
+        "backlog 累積未處理的工作（clear the backlog）；influx 大量湧入（an influx of tourists）"
+       ],
+       [
+        "coincide / conform / comply / culminate",
+        "coincide with 同時發生；conform to 符合（標準）；comply with 遵守（規定）；culminate in 以……告終、達到頂點"
+       ],
+       [
+        "impending / upcoming",
+        "impending 多半是不好的事即將發生（impending storm）；upcoming 中性（upcoming event）"
+       ],
+       [
+        "robust / lukewarm",
+        "robust 強勁的（robust sales）；lukewarm 冷淡、不熱烈的（lukewarm response）"
+       ],
+       [
+        "notice / notification / note",
+        "until further notice、on short notice 是固定說法，只能用 notice"
+       ],
+       [
+        "client / customer / patron",
+        "client 專業服務的客戶（律師、顧問）；customer 商店顧客；patron 餐廳、圖書館、劇院的常客"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "Due to rising oil prices, a fuel ______ will be added to all international shipments.  (surcharge / fare / toll / honorarium)",
+       "額外加收的燃油費 → fuel surcharge。"
+      ],
+      [
+       "The team worked overtime to clear the ______ of orders.  (backlog / influx / mishap / liaison)",
+       "clear the backlog（消化積壓的訂單）。influx 雖然也和數量多有關，但不能 clear。"
+      ]
+     ]
+    },
+    {
+     "h": "形近字：長得像，意思不同",
+     "p": [
+      "這類題目是在測你有沒有看清楚字。速度快的人（你就是）最容易在這裡看錯，選之前把字再看一次。"
+     ],
+     "table": {
+      "head": [
+       "字",
+       "意思",
+       "常見搭配"
+      ],
+      "rows": [
+       [
+        "complimentary / complementary",
+        "免費贈送的／互補的",
+        "complimentary breakfast／complementary skills"
+       ],
+       [
+        "confidential / confident",
+        "機密的／有自信的",
+        "confidential documents"
+       ],
+       [
+        "considerable / considerate",
+        "相當大的／體貼的",
+        "a considerable amount"
+       ],
+       [
+        "economic / economical",
+        "經濟（方面）的／節省的、划算的",
+        "economic growth／an economical car"
+       ],
+       [
+        "extensive / expensive / excessive",
+        "廣泛、豐富的／昂貴的／過多的",
+        "extensive experience、excessive noise"
+       ],
+       [
+        "successive / successful",
+        "連續的／成功的",
+        "three successive years"
+       ],
+       [
+        "reliable / reliant",
+        "可靠的／依賴的（on）",
+        "a reliable supplier"
+       ],
+       [
+        "respective / respectful / respectable",
+        "各自的／尊敬的／值得尊敬的",
+        "their respective departments"
+       ],
+       [
+        "sensible / sensitive",
+        "明智的／敏感的",
+        "sensitive information"
+       ],
+       [
+        "prosecute / persecute",
+        "起訴／迫害",
+        ""
+       ],
+       [
+        "adapt / adopt",
+        "適應、改編／採用",
+        "adopt a new policy"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "Hotel guests receive ______ access to the fitness center.  (complimentary / complementary / compliant / comprehensive)",
+       "免費使用 → complimentary。complementary 是「互補的」。"
+      ]
+     ]
+    },
+    {
+     "h": "副詞詞彙題",
+     "p": [
+      "副詞選項意思都不同時，看它修飾的是什麼，以及句子裡的時間或程度線索。下面是固定和某些字一起出現的副詞。"
+     ],
+     "table": {
+      "head": [
+       "副詞",
+       "常見搭配",
+       "線索"
+      ],
+      "rows": [
+       [
+        "readily",
+        "readily available、readily accessible",
+        "容易取得"
+       ],
+       [
+        "tentatively",
+        "tentatively scheduled / planned",
+        "後面有「日期可能改」之類的提示"
+       ],
+       [
+        "strictly",
+        "strictly prohibited / confidential",
+        "規定、禁止"
+       ],
+       [
+        "highly",
+        "highly recommended / competitive / qualified",
+        "程度很高（不能修飾動作）"
+       ],
+       [
+        "conveniently",
+        "conveniently located",
+        "地點方便"
+       ],
+       [
+        "temporarily",
+        "temporarily closed / unavailable",
+        "暫時的，常搭配 during renovations"
+       ],
+       [
+        "promptly",
+        "respond promptly、promptly at 9 a.m.",
+        "立刻、準時"
+       ],
+       [
+        "inadvertently",
+        "inadvertently deleted / omitted",
+        "不小心（做錯事）"
+       ],
+       [
+        "prudently",
+        "invest / spend prudently",
+        "謹慎地（用錢）"
+       ],
+       [
+        "utterly",
+        "utterly impossible / different",
+        "完全地，多修飾負面或極端的形容詞"
+       ],
+       [
+        "shortly",
+        "shortly after / before、will arrive shortly",
+        "不久；不是「簡短地」"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "The launch has been ______ scheduled for June 2, pending final approval.  (tentatively / exclusively / previously / utterly)",
+       "pending final approval（等待最終核准）表示還沒確定 → tentatively（暫定地）。"
+      ]
+     ],
+     "tip": "nearly / almost 修飾數字和 all / every：almost all employees，不能說 most all。"
+    },
+    {
+     "h": "Santa 收藏字的考法",
+     "p": [
+      "你在 Santa 收藏的單字裡，下面這些最常出現在 Part 5 的情境。背的時候連前後的字一起背，考試時看到搭配就能直接選。"
+     ],
+     "table": {
+      "head": [
+       "單字",
+       "多益常見的句子情境"
+      ],
+      "rows": [
+       [
+        "stipulate",
+        "The contract stipulates that…（合約規定）"
+       ],
+       [
+        "endorse",
+        "endorse a product / a candidate（代言、背書）"
+       ],
+       [
+        "deem",
+        "be deemed necessary / unsafe（被認為）"
+       ],
+       [
+        "entail",
+        "The job entails traveling…（需要、牽涉）"
+       ],
+       [
+        "impede",
+        "impede progress / traffic（阻礙）"
+       ],
+       [
+        "discrepancy",
+        "a discrepancy between the figures（不一致）"
+       ],
+       [
+        "consecutive",
+        "for the third consecutive year（連續第三年）"
+       ],
+       [
+        "contingency",
+        "a contingency plan（應變計畫）"
+       ],
+       [
+        "credentials",
+        "verify / present your credentials（資歷、證件）"
+       ],
+       [
+        "unprecedented",
+        "unprecedented demand / growth（前所未有的）"
+       ],
+       [
+        "undue",
+        "undue delay / pressure（過度的、不當的）"
+       ],
+       [
+        "strenuous",
+        "strenuous exercise / activity（費力的）"
+       ],
+       [
+        "explicit",
+        "explicit instructions / consent（明確的）"
+       ],
+       [
+        "legible",
+        "legible handwriting（字跡清楚的）"
+       ],
+       [
+        "subside",
+        "The noise / demand subsided.（平息、減退）"
+       ],
+       [
+        "lapse",
+        "let a membership lapse（失效）"
+       ]
+      ]
+     },
+     "tip": "練習和測驗的題目大多用到這些字，有些當答案，有些當干擾選項。答完記得看每個選項的中文，順便複習。"
+    }
+   ],
+   "cards": [
+    {
+     "title": "詞彙題 4 步驟",
+     "points": [
+      "讀整句，圈出介系詞、受詞、邏輯詞（despite / because）",
+      "先刪文法不對的：後面接 that、to V、from V-ing 對不對",
+      "再刪搭配不對的：meet a deadline，不是 reach a deadline",
+      "剩下的代回句子比語意，選最自然的，不是最高級的"
+     ],
+     "ex": [
+      "Despite the ______ weather, the concert drew a record crowd.",
+      "Despite 表示前後相反，後面是好結果，前面要選負面的 unfavorable。"
+     ]
+    },
+    {
+     "title": "動詞句型陷阱",
+     "points": [
+      "inform / notify / remind + 人 + that…；announce / explain 不能直接接人",
+      "urge / encourage / require / persuade + 人 + to V",
+      "suggest / recommend that + 主詞 + 原形動詞（不能接「人 + to V」）",
+      "prevent / prohibit / discourage + 人 + from V-ing",
+      "deem + 受詞 + 形容詞；regard / view + 受詞 + as"
+     ],
+     "ex": [
+      "The policy ______ visitors from parking here.  (prohibits / urges / permits)",
+      "from V-ing → prohibits。"
+     ]
+    },
+    {
+     "title": "動詞＋名詞固定搭配",
+     "points": [
+      "meet a deadline / the demand / requirements",
+      "place an order、conduct a survey、reach an agreement",
+      "raise funds / concerns、address concerns / issues",
+      "waive a fee、solicit feedback、rectify an error",
+      "alleviate congestion、procure supplies、dispatch a technician"
+     ],
+     "ex": [
+      "The council is ______ feedback from residents.",
+      "solicit feedback（徵求意見）。"
+     ]
+    },
+    {
+     "title": "形容詞＋介系詞",
+     "points": [
+      "eligible for、responsible for",
+      "entitled to、subject to、pertinent to、accessible to",
+      "compatible with、consistent with、familiar with",
+      "aware of、capable of",
+      "contingent on、dependent on"
+     ],
+     "ex": [
+      "Members are ______ to a 10% discount.  (entitled / eligible)",
+      "後面是 to + 名詞 → entitled。eligible 要接 for。"
+     ]
+    },
+    {
+     "title": "近義字、形近字",
+     "points": [
+      "fee 手續費、fare 票價、fine 罰款、toll 過路費、surcharge 附加費",
+      "rise 不及物、raise 及物（raise funds）、arise 問題發生",
+      "backlog 積壓、influx 湧入；impending 不好的事即將發生",
+      "complimentary 免費／complementary 互補",
+      "confidential 機密／confident 自信；extensive 豐富／excessive 過多"
+     ],
+     "ex": [
+      "Guests receive ______ breakfast.",
+      "免費早餐 → complimentary。"
+     ]
+    },
+    {
+     "title": "副詞與固定說法",
+     "points": [
+      "readily available、tentatively scheduled、strictly prohibited",
+      "highly recommended、conveniently located、temporarily closed",
+      "until further notice、on short notice（只能用 notice）",
+      "in accordance with（依照）、on behalf of（代表）、in charge of（負責）",
+      "for the third consecutive year（連續第三年）"
+     ],
+     "ex": [
+      "The gym will be closed until further ______.",
+      "固定說法 until further notice（直到另行通知）。"
+     ]
+    }
+   ],
+   "practice": [
+    {
+     "id": "v01",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Several well-known athletes have agreed to ______ the company's new line of running shoes.",
+     "opts": [
+      "endorse",
+      "procure",
+      "waive",
+      "impede"
+     ],
+     "a": 0,
+     "exp": "知名運動員和新款跑鞋 → 代言 endorse。procure 是公司去買，waive 接費用，impede 是阻礙，都不合句意。",
+     "zh": "幾位知名運動員已同意替這家公司的新系列跑鞋代言。",
+     "optsZh": [
+      "代言、背書",
+      "採購",
+      "免除（費用）",
+      "阻礙"
+     ]
+    },
+    {
+     "id": "v02",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "All employees are ______ to attend the safety briefing on Thursday morning.",
+     "opts": [
+      "required",
+      "mandatory",
+      "essential",
+      "imperative"
+     ],
+     "a": 0,
+     "exp": "主詞是人 employees，be required to V（被要求做）。mandatory / essential / imperative 形容的是事情，例如 Attendance is mandatory、It is essential that…，不能說 employees are mandatory to attend。",
+     "zh": "所有員工都必須參加星期四上午的安全說明會。",
+     "optsZh": [
+      "被要求（be required to）",
+      "強制的",
+      "不可或缺的",
+      "必要的、緊急的"
+     ]
+    },
+    {
+     "id": "v03",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The new warehouse will allow us to ______ the growing demand from overseas customers.",
+     "opts": [
+      "meet",
+      "reach",
+      "achieve",
+      "gain"
+     ],
+     "a": 0,
+     "exp": "固定搭配 meet the demand（滿足需求）。reach 接 agreement / goal，achieve 接 goal / success，gain 接 experience / profit。",
+     "zh": "新倉庫能讓我們滿足海外客戶日益增加的需求。",
+     "optsZh": [
+      "滿足（需求、期限）",
+      "達到（地點、協議）",
+      "達成（目標）",
+      "獲得"
+     ]
+    },
+    {
+     "id": "v04",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Due to rising oil prices, the shipping company has added a fuel ______ to all international orders.",
+     "opts": [
+      "surcharge",
+      "fare",
+      "honorarium",
+      "toll"
+     ],
+     "a": 0,
+     "exp": "油價上漲而「額外加收」的費用 → fuel surcharge（燃油附加費）。fare 是乘客的票價，toll 是過路費，honorarium 是給講者的酬金。",
+     "zh": "由於油價上漲，貨運公司對所有國際訂單加收燃油附加費。",
+     "optsZh": [
+      "附加費",
+      "車資、票價",
+      "（講者的）酬金",
+      "過路費"
+     ]
+    },
+    {
+     "id": "v05",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The manager ______ the staff that the office would be closed on Friday for maintenance.",
+     "opts": [
+      "informed",
+      "announced",
+      "explained",
+      "said"
+     ],
+     "a": 0,
+     "exp": "空格後面直接接人 the staff，再接 that 子句 → inform + 人 + that。announce / explain / say 都不能直接接人（要寫 announced to the staff that…）。",
+     "zh": "經理通知員工，辦公室星期五因維修會關閉。",
+     "optsZh": [
+      "通知",
+      "宣布",
+      "解釋",
+      "說"
+     ]
+    },
+    {
+     "id": "v06",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Guests staying in the executive suites receive ______ breakfast and free access to the business lounge.",
+     "opts": [
+      "complimentary",
+      "complementary",
+      "compliant",
+      "comprehensive"
+     ],
+     "a": 0,
+     "exp": "後面的 free access 是線索，早餐也是免費的 → complimentary。complementary（互補的）只差一個字母，是最常見的形近字陷阱。",
+     "zh": "入住行政套房的房客可享免費早餐，並可免費使用商務貴賓室。",
+     "optsZh": [
+      "免費贈送的",
+      "互補的",
+      "遵守規定的",
+      "全面的、詳盡的"
+     ]
+    },
+    {
+     "id": "v07",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The accounting team worked over the weekend to ______ the billing error before the invoices were sent.",
+     "opts": [
+      "rectify",
+      "deem",
+      "stipulate",
+      "coincide"
+     ],
+     "a": 0,
+     "exp": "rectify an error（修正錯誤）是固定搭配。deem 要接受詞 + 形容詞，stipulate 接 that 子句，coincide 是不及物動詞（coincide with）。",
+     "zh": "會計團隊週末加班，要在寄出發票前修正帳單錯誤。",
+     "optsZh": [
+      "修正、矯正",
+      "認為",
+      "（合約）規定",
+      "同時發生"
+     ]
+    },
+    {
+     "id": "v08",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The updated user manual is ______ available on our Web site in five languages.",
+     "opts": [
+      "readily",
+      "utterly",
+      "prudently",
+      "inadvertently"
+     ],
+     "a": 0,
+     "exp": "readily available（隨時可取得）是固定搭配。utterly 多修飾負面、極端的字，prudently 修飾花錢、投資，inadvertently 是不小心做錯事。",
+     "zh": "更新後的使用手冊可以在我們的網站上隨時取得，共有五種語言。",
+     "optsZh": [
+      "容易地、隨時",
+      "完全地",
+      "謹慎地",
+      "不小心地"
+     ]
+    },
+    {
+     "id": "v09",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Despite the ______ weather conditions, the outdoor concert drew a record crowd.",
+     "opts": [
+      "unfavorable",
+      "congenial",
+      "unassuming",
+      "legible"
+     ],
+     "a": 0,
+     "exp": "Despite 表示前後相反：後面是好結果（創紀錄的人潮），前面要是負面的 → unfavorable。congenial 是正面的，用 despite 邏輯不通；unassuming 形容人，legible 形容字跡。",
+     "zh": "儘管天氣狀況不佳，這場戶外音樂會仍吸引了創紀錄的人潮。",
+     "optsZh": [
+      "不利的、不好的",
+      "宜人的、意氣相投的",
+      "謙虛的、不張揚的",
+      "（字跡）清楚的"
+     ]
+    },
+    {
+     "id": "v10",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Only employees who have worked here for at least six months are ______ for the annual bonus.",
+     "opts": [
+      "eligible",
+      "capable",
+      "entitled",
+      "aware"
+     ],
+     "a": 0,
+     "exp": "看介系詞：be eligible for（有資格獲得）。entitled 要接 to，capable 接 of，aware 接 of。",
+     "zh": "只有在這裡工作滿六個月的員工才有資格領年終獎金。",
+     "optsZh": [
+      "有資格的",
+      "有能力的",
+      "有權利的",
+      "意識到的"
+     ]
+    },
+    {
+     "id": "v11",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The new parking policy will ______ visitors from leaving their cars in the loading zone.",
+     "opts": [
+      "prohibit",
+      "urge",
+      "permit",
+      "encourage"
+     ],
+     "a": 0,
+     "exp": "句型是「動詞 + 人 + from V-ing」→ prohibit（禁止）。urge / permit / encourage 都是「+ 人 + to V」。",
+     "zh": "新的停車規定將禁止訪客把車停在裝卸區。",
+     "optsZh": [
+      "禁止",
+      "敦促",
+      "允許",
+      "鼓勵"
+     ]
+    },
+    {
+     "id": "v12",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Sales at the Busan branch have increased for five ______ quarters, making it the company's top-performing location.",
+     "opts": [
+      "consecutive",
+      "impending",
+      "lucrative",
+      "explicit"
+     ],
+     "a": 0,
+     "exp": "for five consecutive quarters（連續五季）。impending 指即將到來（多半是壞事），lucrative 形容生意，explicit 形容說明、指示。",
+     "zh": "釜山分店的業績已連續五季成長，成為公司表現最好的據點。",
+     "optsZh": [
+      "連續的",
+      "即將發生的",
+      "獲利豐厚的",
+      "明確的"
+     ]
+    }
+   ],
+   "test": [
+    {
+     "id": "v13",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The contract ______ that all deliveries must be made within 30 days of the order date.",
+     "opts": [
+      "stipulates",
+      "endorses",
+      "solicits",
+      "alleviates"
+     ],
+     "a": 0,
+     "exp": "主詞是合約，後面接 that 子句寫條件 → stipulates（明文規定）。endorse / solicit / alleviate 都不接 that 子句。",
+     "zh": "合約規定所有貨品都必須在訂單日起 30 天內送達。",
+     "optsZh": [
+      "規定",
+      "背書、代言",
+      "徵求",
+      "減輕"
+     ]
+    },
+    {
+     "id": "v14",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "To ______ congestion during the morning rush hour, the city will add more buses to its downtown routes.",
+     "opts": [
+      "alleviate",
+      "impede",
+      "revitalize",
+      "dispatch"
+     ],
+     "a": 0,
+     "exp": "加開公車是為了「減輕」塞車 → alleviate congestion。impede 是阻礙，和塞車放在一起邏輯不通；revitalize 接 the economy / a neighborhood，dispatch 接人員或貨物。",
+     "zh": "為了緩解早上尖峰時段的交通壅塞，市政府將在市中心路線加開公車。",
+     "optsZh": [
+      "減輕、緩和",
+      "阻礙",
+      "使恢復活力",
+      "派遣、發送"
+     ]
+    },
+    {
+     "id": "v15",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Ms. Romero ______ that the team postpone the product launch until the software issues are resolved.",
+     "opts": [
+      "recommended",
+      "persuaded",
+      "encouraged",
+      "allowed"
+     ],
+     "a": 0,
+     "exp": "空格後面是 that + 主詞 + 原形動詞（postpone 沒加 s）→ recommend that…。persuade / encourage / allow 要接「人 + to V」。",
+     "zh": "羅梅洛小姐建議團隊延後產品上市，直到軟體問題解決為止。",
+     "optsZh": [
+      "建議",
+      "說服",
+      "鼓勵",
+      "允許"
+     ]
+    },
+    {
+     "id": "v16",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The marketing department will ______ a survey to find out how customers feel about the new packaging.",
+     "opts": [
+      "conduct",
+      "undergo",
+      "attend",
+      "proceed"
+     ],
+     "a": 0,
+     "exp": "conduct a survey（進行調查）是固定搭配。undergo 是「接受」檢查或改變，attend 接會議，proceed 是不及物動詞（proceed with）。",
+     "zh": "行銷部將進行一項調查，了解顧客對新包裝的看法。",
+     "optsZh": [
+      "進行、執行",
+      "經歷、接受（檢查、手術）",
+      "出席",
+      "繼續進行"
+     ]
+    },
+    {
+     "id": "v17",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Because the documents contain ______ financial information, they must be stored in a locked cabinet.",
+     "opts": [
+      "confidential",
+      "confident",
+      "considerate",
+      "conditional"
+     ],
+     "a": 0,
+     "exp": "要鎖起來保存的財務資料 → confidential（機密的）。confident 形容人有自信，considerate 是體貼，都是形近字陷阱。",
+     "zh": "因為這些文件含有機密的財務資訊，必須存放在上鎖的櫃子裡。",
+     "optsZh": [
+      "機密的",
+      "有自信的",
+      "體貼的",
+      "有條件的"
+     ]
+    },
+    {
+     "id": "v18",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Despite a slowdown in other sectors, demand for electric vehicles remained ______ throughout the year.",
+     "opts": [
+      "robust",
+      "lukewarm",
+      "strenuous",
+      "legible"
+     ],
+     "a": 0,
+     "exp": "Despite 表示對比：其他產業放緩，電動車需求卻「依然強勁」→ robust。lukewarm demand 雖然是真的搭配，但和 despite 的對比邏輯相反。",
+     "zh": "儘管其他產業放緩，電動車的需求一整年都依然強勁。",
+     "optsZh": [
+      "強勁的",
+      "冷淡的、不熱烈的",
+      "費力的",
+      "（字跡）清楚的"
+     ]
+    },
+    {
+     "id": "v19",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "______ the company's travel policy, employees must book economy-class tickets for flights under five hours.",
+     "opts": [
+      "In accordance with",
+      "On behalf of",
+      "In charge of",
+      "In favor of"
+     ],
+     "a": 0,
+     "exp": "「依照」公司差旅規定 → in accordance with。on behalf of 是代表某人，in charge of 是負責某事，in favor of 是贊成，放在這裡句意不通。",
+     "zh": "依照公司的差旅規定，五小時以內的航班員工必須訂經濟艙。",
+     "optsZh": [
+      "依照",
+      "代表",
+      "負責",
+      "贊成"
+     ]
+    },
+    {
+     "id": "v20",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The customer service team has hired temporary staff to clear the ______ of unanswered e-mails.",
+     "opts": [
+      "backlog",
+      "influx",
+      "mishap",
+      "liaison"
+     ],
+     "a": 0,
+     "exp": "clear the backlog（消化積壓的工作）。influx 雖然也是「很多」，但指湧入的過程，不能 clear；mishap 是小意外，liaison 是聯絡人。",
+     "zh": "客服團隊聘請了臨時人員來消化積壓的未回覆電子郵件。",
+     "optsZh": [
+      "積壓（未處理的工作）",
+      "湧入",
+      "小意外",
+      "聯絡人、聯繫"
+     ]
+    },
+    {
+     "id": "v21",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The opening of the new branch has been ______ scheduled for May 3, but the date may change depending on construction progress.",
+     "opts": [
+      "tentatively",
+      "exclusively",
+      "previously",
+      "utterly"
+     ],
+     "a": 0,
+     "exp": "後半句說日期可能會變 → 暫定 tentatively scheduled。exclusively、previously、utterly 都和「可能改期」接不上。",
+     "zh": "新分店的開幕暫定在 5 月 3 日，但日期可能依工程進度調整。",
+     "optsZh": [
+      "暫定地",
+      "專門地、獨家地",
+      "先前地",
+      "完全地"
+     ]
+    },
+    {
+     "id": "v22",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The release of the band's new album was timed to ______ with the start of its world tour.",
+     "opts": [
+      "coincide",
+      "conform",
+      "culminate",
+      "comply"
+     ],
+     "a": 0,
+     "exp": "專輯發行時間安排成和巡演「同時」→ coincide with。conform 接 to，culminate 接 in；comply with 雖然介系詞對，但意思是遵守規定，不合句意。",
+     "zh": "樂團新專輯的發行時間，特意安排在世界巡演開始時。",
+     "optsZh": [
+      "同時發生",
+      "符合（標準）",
+      "達到頂點、以……告終",
+      "遵守"
+     ]
+    },
+    {
+     "id": "v23",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Please attach any documents ______ to your claim, such as receipts or repair estimates.",
+     "opts": [
+      "pertinent",
+      "indigenous",
+      "inconspicuous",
+      "insolvent"
+     ],
+     "a": 0,
+     "exp": "documents pertinent to your claim（與你的申請相關的文件）。pertinent to 是固定用法，其他三個字意思都不合。",
+     "zh": "請附上所有與你的理賠申請相關的文件，例如收據或維修估價單。",
+     "optsZh": [
+      "相關的、切題的",
+      "本土的、原生的",
+      "不顯眼的",
+      "無力償債的"
+     ]
+    },
+    {
+     "id": "v24",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The east entrance will remain closed until further ______ while the elevators are being replaced.",
+     "opts": [
+      "notice",
+      "note",
+      "notification",
+      "announcement"
+     ],
+     "a": 0,
+     "exp": "until further notice（直到另行通知）是固定說法，只能用 notice。notification、announcement 意思接近，但不能放進這個片語。",
+     "zh": "電梯更換期間，東側入口將關閉，直到另行通知為止。",
+     "optsZh": [
+      "通知（固定說法）",
+      "筆記、便條",
+      "通知（正式用語）",
+      "公告"
+     ]
+    },
+    {
+     "id": "v25",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The safety inspector ______ the old bridge unsafe and ordered it closed to traffic.",
+     "opts": [
+      "deemed",
+      "regarded",
+      "viewed",
+      "referred"
+     ],
+     "a": 0,
+     "exp": "受詞 the old bridge 後面直接接形容詞 unsafe → deem + 受詞 + 形容詞。regard / view 要加 as，refer 要用 refer to … as。",
+     "zh": "安全檢查員判定這座舊橋不安全，下令禁止車輛通行。",
+     "optsZh": [
+      "認為、判定",
+      "看作（+ as）",
+      "看待（+ as）",
+      "提到（+ to）"
+     ]
+    },
+    {
+     "id": "v26",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "The city council is ______ feedback from residents on the proposed changes to the park.",
+     "opts": [
+      "soliciting",
+      "engraving",
+      "irrigating",
+      "reclaiming"
+     ],
+     "a": 0,
+     "exp": "solicit feedback（徵求意見）是固定搭配。engrave 是刻字，irrigate 是灌溉，reclaim 是收回（行李、土地）。",
+     "zh": "市議會正在徵求居民對公園改建提案的意見。",
+     "optsZh": [
+      "徵求",
+      "雕刻",
+      "灌溉",
+      "收回、開墾"
+     ]
+    },
+    {
+     "id": "v27",
+     "tag": "vocab",
+     "part": "p5",
+     "q": "Applicants for the position should have ______ experience in project management, preferably in the construction industry.",
+     "opts": [
+      "extensive",
+      "expensive",
+      "excessive",
+      "exclusive"
+     ],
+     "a": 0,
+     "exp": "徵才條件 → extensive experience（豐富的經驗）。excessive 是「過多」，帶負面意思，不會當成應徵條件；expensive、exclusive 是形近字陷阱。",
+     "zh": "應徵這個職位的人應具備豐富的專案管理經驗，最好是在營建業。",
+     "optsZh": [
+      "豐富的、廣泛的",
+      "昂貴的",
+      "過多的",
+      "獨家的、專屬的"
+     ]
+    }
+   ]
+  }
+ },
+ "santa": {
+  "date": "2026-11-20",
+  "predicted": 870,
+  "lc": 450,
+  "rc": 420,
+  "skills": [
+   [
+    "聽力",
+    83,
+    76
+   ],
+   [
+    "詞彙",
+    76,
+    57
+   ],
+   [
+    "結構",
+    80,
+    68
+   ],
+   [
+    "文法",
+    79,
+    64
+   ],
+   [
+    "閱讀",
+    83,
+    63
+   ]
+  ],
+  "parts": [
+   [
+    "Part 1",
+    79,
+    75
+   ],
+   [
+    "Part 2",
+    82,
+    70
+   ],
+   [
+    "Part 3",
+    83,
+    70
+   ],
+   [
+    "Part 4",
+    84,
+    57
+   ],
+   [
+    "Part 5",
+    77,
+    60
+   ],
+   [
+    "Part 6",
+    80,
+    59
+   ],
+   [
+    "Part 7",
+    83,
+    57
+   ]
+  ],
+  "time": [
+   [
+    "Part 5",
+    12,
+    20
+   ],
+   [
+    "Part 6",
+    29,
+    37
+   ],
+   [
+    "Part 7",
+    36,
+    60
+   ]
+  ],
+  "weak": [
+   [
+    "文章類型：心得感想",
+    47.3,
+    53.0,
+    "p7s"
+   ],
+   [
+    "虛構主詞 it",
+    47.3,
+    65.7,
+    "p5g"
+   ],
+   [
+    "簡述語意（同義改寫）",
+    47.3,
+    null,
+    "p7s"
+   ],
+   [
+    "3 人對話",
+    47.3,
+    67.5,
+    "p34"
+   ]
+  ],
+  "focus": [
+   "p5v",
+   "p5g",
+   "p7s",
+   "p34"
+  ]
+ }
+}
