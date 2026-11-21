@@ -360,7 +360,9 @@
         .q-sec { font-family: var(--font-pixel); font-size: 11px; min-width: 30px; text-align: right; color: var(--cream); }
         .q-passage { white-space: pre-wrap; background: rgba(29, 43, 83, 0.85); padding: 14px 16px; margin: 0 3px 18px; font-size: 15px; line-height: 1.65; max-height: 38vh; overflow-y: auto; --p: 3px; --bd: var(--lav); --sh: transparent; box-shadow: 0 -3px 0 0 var(--lav), 0 3px 0 0 var(--lav), -3px 0 0 0 var(--lav), 3px 0 0 0 var(--lav); }
         .q-passage .blank { background: var(--yellow); color: var(--black); padding: 0 4px; }
-        .q-text { font-size: 18px; color: var(--cream); margin: 0 0 18px; }
+        .q-passage .mark { color: var(--yellow); }
+        .q-passage .p-title { display: block; color: var(--blue); font-size: 13px; margin-bottom: 6px; }
+        .q-text { font-size: 18px; color: var(--cream); margin: 0 0 18px; white-space: pre-line; }
         .q-play { --p: 3px; --sh: transparent; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px 3px; padding: 10px 14px; background: var(--blue); color: var(--black); cursor: pointer; font-size: 15px; }
         .opts { display: flex; flex-direction: column; gap: 4px; }
         .opt { --p: 3px; --bd: var(--cream); --sh: transparent; width: calc(100% - 6px); margin: 0 3px 12px; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--black); color: var(--text); text-align: left; cursor: pointer; font-family: var(--font-word); font-size: 17px; line-height: 1.45; }
@@ -1604,7 +1606,8 @@
             const t = scene.still ? 0 : (now - scene.t0) / 1000;
             const offs = layers.map(l => Math.floor(t * l.speed) % TW);
             const key = offs.join();
-            if (key !== scene.last) {
+            // 視窗大小是 0 時（例如頁面在背景載入）先不畫，等 resize 重建；迴圈不能因此中斷
+            if (key !== scene.last && scene.sky.width && scene.sky.height) {
                 scene.last = key;
                 const ctx = $('scene').getContext('2d');
                 ctx.drawImage(scene.sky, 0, 0);
@@ -2532,7 +2535,7 @@
         function shuffleOpts(q) {
             // 聽力題的 A/B/C 對應語音，不洗；其他題目每次打亂選項順序
             const order = q.opts.map((_, i) => i);
-            if (q.part !== 'p2') for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+            if (q.part !== 'p2' && !q.fixed) for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
             return order;
         }
 
@@ -2541,7 +2544,12 @@
             if (mode === 'diag') qs = COURSE.diagnostic.questions.slice();
             else if (mode === 'wrong') qs = list;
             else { const L = COURSE.lessons[chapterId]; qs = L[mode].slice(); limit = L.limit; }
-            if (mode !== 'diag') qs = shuffleArray(qs);
+            if (mode !== 'diag') {
+                // 同一篇文章的題目要排在一起、照原本順序；文章和文章之間再打亂
+                const groups = [], byKey = {};
+                qs.forEach(q => { const key = q.passage || q.id; if (!byKey[key]) groups.push(byKey[key] = []); byKey[key].push(q); });
+                qs = shuffleArray(groups).flat();
+            }
             ui.sceneCh = mode === 'practice' || mode === 'test' ? chapterId : null;
             quiz = { mode, chapterId, qs, limit, i: 0, results: [], answered: false, order: [], t0: 0, dur: 0 };
             renderQuestion();
@@ -2565,7 +2573,11 @@
             if (q.passage) {
                 const p = COURSE.passages[q.passage];
                 const blankNo = (q.q.match(/^\[(\d)\]/) || [])[1];
-                passage = `<div class="q-passage">${escHtml(p.text).replace(/\[(\d)\]/g, (m, d) => d === blankNo ? `<span class="blank">(${d}) ____</span>` : `(${d}) ____`)}</div>`;
+                // Part 6 的 [n] 是空格；Part 7 的 [n] 是插入句的位置標記
+                const body = q.part === 'p6'
+                    ? escHtml(p.text).replace(/\[(\d)\]/g, (m, d) => d === blankNo ? `<span class="blank">(${d}) ____</span>` : `(${d}) ____`)
+                    : escHtml(p.text).replace(/\[(\d)\]/g, '<span class="mark">[$1]</span>');
+                passage = `<div class="q-passage">${p.title ? `<span class="p-title">${escHtml(p.title)}</span>` : ''}${body}</div>`;
             }
             const keys = ['A', 'B', 'C', 'D'];
             const qText = q.passage && /^\[\d\]$/.test(q.q) ? `空格 ${q.q.slice(1, 2)} 該填哪一個？` : q.q.replace(/^\[\d\]\s*/, '');

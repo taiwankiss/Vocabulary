@@ -32,6 +32,18 @@
   "p2": {
    "name": "聽力應答",
    "chapter": "p2"
+  },
+  "p7-para": {
+   "name": "同義改寫",
+   "chapter": "p7s"
+  },
+  "p7-review": {
+   "name": "心得感想文章",
+   "chapter": "p7s"
+  },
+  "p7-infer": {
+   "name": "推論與意圖",
+   "chapter": "p7s"
   }
  },
  "regions": [
@@ -102,9 +114,9 @@
   {
    "id": "p7s",
    "region": "castle",
-   "kind": "soon",
+   "kind": "lesson",
    "title": "Part 7 單篇閱讀",
-   "sub": "同義改寫、何者為非"
+   "sub": "同義改寫・心得評論・推論"
   },
   {
    "id": "p7m",
@@ -150,6 +162,34 @@
   "dp7": {
    "title": "Email + Program",
    "text": "From: Daniel Ortiz, Brightwave Conferences\nTo: Hana Kim\nSubject: Regional Marketing Summit\n\nDear Ms. Kim,\n\nThank you for agreeing to lead a workshop at the Regional Marketing Summit. As discussed, your session on social media analytics has been scheduled for the second day. Speakers receive a complimentary pass for the full event as well as two nights' accommodation at the Harbor View Hotel.\n\nPlease send your presentation slides to me no later than October 10 so that our technical team can test them in advance. If you would prefer a different time slot, let me know by October 3; after that date, the program will be sent to the printer.\n\nBest regards,\nDaniel Ortiz\n\n──────────\nRegional Marketing Summit — Day 2 (October 18)\n 9:00  Opening Remarks ........ Room A\n10:00  Social Media Analytics (H. Kim) ... Room B\n13:00  Panel: The Future of Retail ... Room A\n15:00  Networking Reception ... Lobby"
+  },
+  "p7a": {
+   "title": "Online Review",
+   "text": "★★★★☆  Riverton Suites\nReviewed by Daniel Okafor · March 14\n\nI stayed at the Riverton Suites for three nights while attending a trade fair downtown. The location could not have been better: the convention center is a five-minute walk away, and there are plenty of restaurants nearby. My room was spacious and spotless, and the bed was extremely comfortable.\n\nThe staff deserve special mention. When I realized I had left my laptop charger at home, the front desk lent me one within minutes, free of charge.\n\nMy only real complaint concerns the fitness center. It closes at 8 P.M., which is far too early for business travelers who spend the whole day in meetings. I also found the Wi-Fi in my room somewhat slow, although it worked well enough in the lobby.\n\nOverall, I would happily stay here again on my next business trip, and I have already recommended it to two colleagues."
+  },
+  "p7b": {
+   "title": "E-mail",
+   "text": "To: All Harlow Design employees\nFrom: Priya Nair, Office Manager\nSubject: Office move\nDate: May 6\n\nAs many of you know, our lease at 220 Bank Street ends this summer. I am pleased to confirm that we will relocate to the fourth floor of the Weston Building at 85 Pine Avenue on Monday, June 23. [1] The new space is larger and includes a dedicated room for client presentations.\n\nMovers will pack the shared areas, such as the kitchen and the supply room, on Friday, June 20. However, each employee is responsible for packing the contents of his or her own desk. Boxes and labels will be delivered to each department by June 16. [2]\n\nPlease note that the Weston Building has limited parking. [3] Staff who drive to work can apply for a monthly permit through the building's management office; the cost will be reimbursed by the company. [4]\n\nIf you have any questions, please contact me at extension 214."
+  },
+  "p7c": {
+   "title": "Text-Message Chain",
+   "text": "Mina Cho [9:12 A.M.]\nHi Raj, are you still at the warehouse? The client just called. They want 200 more blue folders added to Friday's shipment.\n\nRaj Patel [9:14 A.M.]\nI am. Let me check the stock.\n\nRaj Patel [9:20 A.M.]\nWe only have 120 in blue. We have plenty in black, though.\n\nMina Cho [9:21 A.M.]\nHmm. I'll ask if they'd accept black for the rest.\n\nMina Cho [9:35 A.M.]\nThey said that's fine, as long as the whole order arrives by Friday.\n\nRaj Patel [9:36 A.M.]\nConsider it done. I'll update the packing list now."
+  },
+  "p7d": {
+   "title": "Web Page",
+   "text": "What Our Graduates Say\nNorthbridge Business Writing Workshop\n\n\"Before taking this workshop, I spent hours on every report. The sessions on structuring long documents were exactly what I needed, and my manager has noticed the difference. My only wish is that the course had been a week longer.\"\n— Teresa Lindqvist, logistics coordinator\n\n\"I signed up mainly for the e-mail module, and it did not disappoint. That said, I found the grammar review in the first week too basic for most participants. The instructor, Mr. Adeyemi, was always willing to stay after class to answer questions.\"\n— Kenji Mori, sales representative\n\n\"I was doubtful about taking a course online, but the small class size meant everyone got individual feedback on every assignment. I have already enrolled in the advanced level, which starts in September.\"\n— Laura Petit, freelance translator"
+  },
+  "p7e": {
+   "title": "Article",
+   "text": "GREENFIELD (April 2) — Halvorsen Foods, the region's largest producer of frozen meals, announced yesterday that it will build a second factory on the outskirts of Greenfield. Construction is scheduled to begin in July, and the facility is expected to be fully operational within eighteen months.\n\nThe decision follows two years of record sales, driven largely by the company's line of ready-made vegetarian dishes. \"Our current plant is running at full capacity,\" said CEO Margaret Halvorsen. \"The new site will allow us to meet demand and to introduce products we have been developing for some time.\" [1]\n\nThe factory will create approximately 350 jobs. [2] Halvorsen Foods plans to recruit locally and will hold an information session for job seekers at the Greenfield Community Center on May 15. [3]\n\nNot everyone welcomes the project. Some residents have raised concerns about increased truck traffic on Route 9. [4] In response, the company has agreed to fund improvements to the road before the factory opens."
+  },
+  "p7f": {
+   "title": "Online Chat Discussion",
+   "text": "Alan Brooks [2:02 P.M.]\nQuick update: the projector in Conference Room B stopped working again this morning.\n\nSofia Reyes [2:03 P.M.]\nAgain?\n\nAlan Brooks [2:04 P.M.]\nI know. I've moved the 3:00 client meeting to Room D for now.\n\nGrace Lin [2:06 P.M.]\nRoom D only seats eight people. Isn't the client bringing a team of ten?\n\nAlan Brooks [2:07 P.M.]\nGood point. Sofia, is the boardroom free at 3:00?\n\nSofia Reyes [2:08 P.M.]\nLet me look... Yes, it's open until 5:00.\n\nAlan Brooks [2:09 P.M.]\nPerfect. I'll book it and let reception know. Grace, could you contact IT about replacing that projector rather than repairing it again?\n\nGrace Lin [2:10 P.M.]\nWill do."
+  },
+  "p7g": {
+   "title": "Product Review",
+   "text": "Voxa Q7 Wireless Headphones\nPosted by Hannah Weber\n\nI bought the Q7 to use on my daily train commute, and for that purpose they have been excellent. The noise cancellation blocks out almost all background sound, and the battery easily lasts a full week of commuting on a single charge.\n\nThat said, the Q7 is not perfect. The headband becomes uncomfortable after about two hours, so I would not recommend these headphones for long flights. I was also disappointed that a carrying case is not included, considering the price.\n\nWhen one of the ear cushions came loose after a month, I contacted Voxa's customer service. A replacement arrived within three days, and I was not charged anything.\n\nWould I buy them again? For commuting, absolutely. For anything longer, I would look at other models."
   }
  },
  "diagnostic": {
@@ -2929,6 +2969,1044 @@
       "昂貴的",
       "過多的",
       "獨家的、專屬的"
+     ]
+    }
+   ]
+  },
+  "p7s": {
+   "limit": 60,
+   "pass": 0.8,
+   "notes": [
+    {
+     "h": "Part 7 單篇的作答策略",
+     "p": [
+      "Part 7 共 54 題，其中單篇約 29 題（10 篇左右），多篇 25 題。你的 Santa 數據顯示 Part 7 平均每題 36 秒，比建議的 1 分鐘快很多，正確率 83% 也不差。所以這一章的重點不是加速，而是你兩個 47.3% 的弱點：「心得感想類文章」和「簡述語意（同義改寫）」。",
+      "先認出文章類型，就知道該注意什麼："
+     ],
+     "p2": [
+      "單篇建議的做法："
+     ],
+     "steps": [
+      "先看文章類型（標題、格式）：email、公告、廣告、評論、簡訊聊天、文章。知道類型就知道重點在哪。",
+      "看第一題，帶著問題讀文章。題目順序大致跟文章順序一致。",
+      "找到答案所在的句子後，回選項找「意思相同、用字不同」的那一個。",
+      "NOT 題和推論題比較花時間，可以先做完同一篇的其他題再回來。",
+      "選之前問自己：這個答案文章裡找得到根據嗎？找不到就不選。"
+     ],
+     "table": {
+      "head": [
+       "文章類型",
+       "常考什麼"
+      ],
+      "rows": [
+       [
+        "Email／信件",
+        "寫信目的、對方要做什麼、附件、期限"
+       ],
+       [
+        "公告／備忘錄",
+        "對誰說、要改變什麼、什麼時候開始"
+       ],
+       [
+        "廣告",
+        "優惠內容、限制條件、怎麼取得"
+       ],
+       [
+        "評論／推薦文",
+        "喜歡什麼、不滿什麼、會不會推薦（你的弱點）"
+       ],
+       [
+        "簡訊／線上聊天",
+        "說話者意圖、下一步誰做什麼"
+       ],
+       [
+        "新聞文章",
+        "主旨、原因、引述的人說了什麼"
+       ]
+      ]
+     },
+     "tip": "題目問 mainly about / purpose 時看第一段；問細節時用題目裡的人名、數字、日期當關鍵字回文章找。"
+    },
+    {
+     "h": "同義改寫：正確答案很少照抄原文",
+     "p": [
+      "這是你 Santa 的弱點（簡述語意 47.3%）。Part 7 的正確答案幾乎都會把原文「換句話說」，而照抄原文字詞的選項，常常是陷阱：字對了，但講的是另一件事。",
+      "下面是多益最常見的改寫，左邊是文章的寫法，右邊是選項的寫法："
+     ],
+     "table": {
+      "head": [
+       "文章裡",
+       "選項裡"
+      ],
+      "rows": [
+       [
+        "send the slides / attach the document",
+        "submit materials"
+       ],
+       [
+        "no later than Friday",
+        "by Friday"
+       ],
+       [
+        "free of charge / at no cost / complimentary",
+        "free / without paying"
+       ],
+       [
+        "reimburse",
+        "pay back / cover the cost"
+       ],
+       [
+        "relocate / move to a new site",
+        "change locations"
+       ],
+       [
+        "postpone / push back",
+        "delay / reschedule"
+       ],
+       [
+        "running at full capacity",
+        "cannot produce more"
+       ],
+       [
+        "sold out / out of stock",
+        "no longer available"
+       ],
+       [
+        "launch / roll out",
+        "introduce / release"
+       ],
+       [
+        "recruit / take on staff",
+        "hire employees"
+       ],
+       [
+        "fill out the form",
+        "complete a form"
+       ],
+       [
+        "lent me a charger I forgot",
+        "provided an item he had forgotten"
+       ],
+       [
+        "too basic",
+        "too elementary / not challenging"
+       ],
+       [
+        "expire / no longer valid",
+        "end / run out"
+       ]
+      ]
+     },
+     "p2": [
+      "改寫有三種方式：換同義字（reimburse → pay back）、換說法（lasts a week on a single charge → does not need to be charged often），以及抽象化（laptop charger → an item）。第三種最常讓人選錯，因為選項看起來跟原文「不像」。"
+     ],
+     "ex": [
+      [
+       "Article: \"Our current plant is running at full capacity.\"  Option: Its existing plant cannot produce any more.",
+       "running at full capacity（滿載運轉）＝ cannot produce any more。用字完全不同，意思相同。"
+      ]
+     ],
+     "tip": "練習方法：每次答對後，回頭找出原文那一句，在心裡把「原文 → 選項」配對一次。這一章每題的解析都會寫出這組對照。"
+    },
+    {
+     "h": "心得感想類文章（你的 Santa 弱點）",
+     "p": [
+      "這類文章包括：顧客評論（review）、推薦文（testimonial）、問卷意見、部落格心得，以及新聞裡引述的個人看法。難的地方是：同一篇裡正面和負面混在一起，而且負面常常講得很委婉。",
+      "讀的時候在心裡把每一句標成「＋」或「－」，特別注意下面這些轉折訊號："
+     ],
+     "table": {
+      "head": [
+       "訊號",
+       "後面通常接"
+      ],
+      "rows": [
+       [
+        "That said / Having said that",
+        "缺點（前面先稱讚）"
+       ],
+       [
+        "However / But / Although / Though",
+        "相反的意見"
+       ],
+       [
+        "My only complaint / The only drawback",
+        "唯一的缺點（其他都好）"
+       ],
+       [
+        "My only wish is… / I wish…",
+        "希望改進的地方（委婉的批評）"
+       ],
+       [
+        "I was disappointed that… / Unfortunately",
+        "不滿"
+       ],
+       [
+        "did not disappoint / could not have been better",
+        "強烈稱讚（雙重否定）"
+       ],
+       [
+        "I was doubtful / skeptical at first, but…",
+        "最後是正面"
+       ],
+       [
+        "For X, absolutely. For Y, …",
+        "推薦給 X，不推薦給 Y"
+       ]
+      ]
+     },
+     "p2": [
+      "常考的題目：reviewer 喜歡什麼、抱怨什麼、對誰推薦、下次會不會再用、關於 reviewer 本人可以推論什麼（出差？常客？）。"
+     ],
+     "steps": [
+      "先看評論是誰寫的、身分是什麼（職業、為什麼使用這個產品）。",
+      "每段找出「＋」和「－」，轉折詞後面特別小心。",
+      "選項說「做得差」時，回去確認原文是「做得差」還是「沒有提供」。這是最常見的陷阱。"
+     ],
+     "ex": [
+      [
+       "\"I signed up mainly for the e-mail module, and it did not disappoint.\"",
+       "did not disappoint 是雙重否定＝很滿意。不要看到 disappoint 就以為是負面。"
+      ]
+     ]
+    },
+    {
+     "h": "NOT 題與 true 題",
+     "p": [
+      "題目有 NOT 時（What is NOT mentioned / NOT true / NOT included），四個選項裡有三個文章裡找得到，要選找不到或相反的那個。題目問 What is indicated / stated / true about… 時則相反，四個裡只有一個找得到。"
+     ],
+     "steps": [
+      "先把四個選項的關鍵字記下來。",
+      "回文章逐一打勾，找到一個刪一個。",
+      "NOT 題的答案常是「看起來很合理、但文章沒寫」的東西（例如飯店的免費早餐）。不要用常識判斷。"
+     ],
+     "tip": "NOT 題比較花時間，你的速度有餘裕，值得每個選項都確實對照。"
+    },
+    {
+     "h": "推論題：most likely、suggested、implied",
+     "p": [
+      "推論題的答案文章沒有直接寫，但一定可以從某一兩句「推得出來」。錯誤選項通常是推過頭，或用了文章裡的字卻講錯對象。"
+     ],
+     "table": {
+      "head": [
+       "題目問法",
+       "怎麼找"
+      ],
+      "rows": [
+       [
+        "What is suggested about Mr. X?",
+        "找所有提到 X 的句子，看能合理推出什麼（身分、目的、下一步）"
+       ],
+       [
+        "Who most likely is Ms. Y?",
+        "看她的職稱、做的事、說話對象"
+       ],
+       [
+        "What will Z most likely do next?",
+        "看最後幾句：誰答應做什麼（Will do、I'll…）"
+       ],
+       [
+        "How many… most likely?",
+        "把兩處數字合起來算（要 200、有 120 → 補 80）"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "\"I stayed here while attending a trade fair… I would happily stay here again on my next business trip.\"",
+       "推得出：他是出差。推不出：他以前住過（would stay again 是未來）。"
+      ]
+     ]
+    },
+    {
+     "h": "意圖題：簡訊和線上聊天",
+     "p": [
+      "題目引用一句話問「寫這句是什麼意思」（What does X mean when she writes, \"…\"?）。這句話單獨看通常有好幾種意思，一定要看前一句和後一句。"
+     ],
+     "table": {
+      "head": [
+       "常考的句子",
+       "常見的意思"
+      ],
+      "rows": [
+       [
+        "Consider it done. / I'm on it. / Will do.",
+        "我會處理（答應對方的要求）"
+       ],
+       [
+        "Again? / Not again.",
+        "問題重複發生，感到無奈"
+       ],
+       [
+        "That works. / Works for me.",
+        "同意提議的時間或做法"
+       ],
+       [
+        "Good point.",
+        "對方提醒了自己沒想到的事"
+       ],
+       [
+        "No wonder.",
+        "難怪（終於知道原因）"
+       ],
+       [
+        "I'll take care of it. / Leave it to me.",
+        "我來負責"
+       ],
+       [
+        "Let me look. / Let me check.",
+        "我去確認一下（還不知道答案）"
+       ]
+      ]
+     },
+     "tip": "多人聊天（三人以上）要特別記清楚誰答應做什麼。「下一步誰做什麼」是必考題，你的 3 人對話也是 Santa 弱點。"
+    },
+    {
+     "h": "同義字題與插入句題",
+     "p": [
+      "同義字題：The word \"raised\" in paragraph 4 is closest in meaning to…。這類題目考的幾乎都是多義字，四個選項通常都是這個字的某個意思，只有一個放回原句是通的。一定要把選項代回原句。"
+     ],
+     "table": {
+      "head": [
+       "字",
+       "常考的意思",
+       "例子"
+      ],
+      "rows": [
+       [
+        "raise",
+        "提出（concerns）、籌措（funds）",
+        "raised concerns → expressed"
+       ],
+       [
+        "address",
+        "處理（issue）、對……演講",
+        "address the problem → deal with"
+       ],
+       [
+        "carry",
+        "販售、有庫存",
+        "we carry that brand → sell"
+       ],
+       [
+        "cover",
+        "支付（cost）、報導、涵蓋",
+        "cover the expenses → pay for"
+       ],
+       [
+        "reflect",
+        "反映、顯示",
+        "reflects the change → shows"
+       ],
+       [
+        "assume",
+        "承擔（a role）",
+        "assume the position → take on"
+       ],
+       [
+        "figure",
+        "數字、人物",
+        "sales figures → numbers"
+       ],
+       [
+        "term",
+        "期間、條件",
+        "the terms of the contract → conditions"
+       ]
+      ]
+     },
+     "p2": [
+      "插入句題：In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong? 要找句子裡「指向前文」的線索：代名詞（it、they、each one）、指示詞（this、these、such）、連接副詞（also、however、as a result、in addition），然後找它指的東西在哪一句。"
+     ],
+     "ex": [
+      [
+       "\"Most of these positions will be in production and packaging.\"",
+       "these positions 要接在提到工作的句子後面：The factory will create approximately 350 jobs. [2]"
+      ]
+     ]
+    }
+   ],
+   "cards": [
+    {
+     "title": "單篇閱讀 4 步驟",
+     "points": [
+      "先看文章類型：email、公告、評論、聊天、文章",
+      "帶著題目讀，題目順序大致跟文章順序一致",
+      "找到根據句，再找「意思相同、用字不同」的選項",
+      "照抄原文字詞的選項要小心，常是陷阱"
+     ],
+     "ex": [
+      "Option: \"They provided an item he had forgotten.\"",
+      "原文是 lent me a laptop charger I had left at home。抽象化改寫最常被忽略。"
+     ]
+    },
+    {
+     "title": "同義改寫對照",
+     "points": [
+      "no later than → by；postpone → delay",
+      "free of charge / complimentary → at no cost",
+      "reimburse → pay back；relocate → move",
+      "running at full capacity → cannot produce more",
+      "sold out → no longer available；recruit → hire"
+     ],
+     "ex": [
+      "the battery lasts a full week on a single charge",
+      "＝ It does not need to be charged often."
+     ]
+    },
+    {
+     "title": "心得感想文章",
+     "points": [
+      "每句標「＋」或「－」",
+      "That said / However / Although 後面是相反意見",
+      "My only complaint / My only wish → 唯一的缺點",
+      "did not disappoint / could not have been better → 很滿意",
+      "「沒有提供」不等於「做得很差」"
+     ],
+     "ex": [
+      "For commuting, absolutely. For anything longer, I would look at other models.",
+      "推薦給通勤族，不推薦長途使用。"
+     ]
+    },
+    {
+     "title": "NOT 題與推論題",
+     "points": [
+      "NOT：三個找得到，選找不到的",
+      "選項逐一回文章打勾，不用常識判斷",
+      "推論：答案要能從一兩句推得出來",
+      "推過頭、或用對字講錯對象的選項是陷阱",
+      "數字題可能要把兩處資訊合起來算"
+     ],
+     "ex": [
+      "要 200 個藍色，只有 120 個，剩下用黑色",
+      "→ 黑色會補 80 個"
+     ]
+    },
+    {
+     "title": "意圖題（簡訊、聊天）",
+     "points": [
+      "一定看前一句和後一句",
+      "Consider it done / Will do / I'm on it → 答應處理",
+      "Again? → 問題重複發生",
+      "Good point → 對方提醒了沒想到的事",
+      "多人聊天：記清楚誰答應做什麼"
+     ],
+     "ex": [
+      "Grace, could you contact IT?  —  Will do.",
+      "下一步：Grace 聯絡 IT。"
+     ]
+    },
+    {
+     "title": "同義字與插入句",
+     "points": [
+      "同義字題考多義字，選項代回原句",
+      "raised concerns → expressed；address an issue → deal with",
+      "插入句找代名詞、指示詞：it、these、such、each one",
+      "也看連接副詞：also、however、as a result",
+      "找到它指的東西，句子就放在那句後面"
+     ],
+     "ex": [
+      "\"Most of these positions…\"",
+      "these positions → 放在 350 jobs 那句後面。"
+     ]
+    }
+   ],
+   "practice": [
+    {
+     "id": "s01",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7a",
+     "q": "What does Mr. Okafor say about the hotel staff?",
+     "opts": [
+      "They provided an item he had forgotten.",
+      "They upgraded his room at no cost.",
+      "They recommended some nearby restaurants.",
+      "They helped him carry his luggage."
+     ],
+     "a": 0,
+     "exp": "原文：I had left my laptop charger at home, the front desk lent me one → 改寫成 provided an item he had forgotten。free of charge 出現在原文，但指的是借充電器，不是升級房間；照抄原文字的選項常是陷阱。",
+     "zh": "題目：歐卡佛先生對飯店員工有什麼評價？ ／ 答案：他們提供了一樣他忘了帶的東西。",
+     "optsZh": [
+      "他們提供了一樣他忘了帶的東西。",
+      "他們免費幫他升級房間。",
+      "他們推薦了附近的餐廳。",
+      "他們幫他搬行李。"
+     ]
+    },
+    {
+     "id": "s02",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7a",
+     "q": "What is one of Mr. Okafor's complaints?",
+     "opts": [
+      "The fitness center closes too early.",
+      "The room was smaller than expected.",
+      "The hotel is far from the convention center.",
+      "The Internet did not work in the lobby."
+     ],
+     "a": 0,
+     "exp": "My only real complaint concerns the fitness center. It closes at 8 P.M., which is far too early。Wi-Fi 慢的是房間，大廳反而 worked well enough，所以 D 錯。",
+     "zh": "題目：歐卡佛先生的抱怨之一是什麼？ ／ 答案：健身中心太早關門。",
+     "optsZh": [
+      "健身中心太早關門。",
+      "房間比預期的小。",
+      "飯店離會議中心很遠。",
+      "大廳的網路不能用。"
+     ]
+    },
+    {
+     "id": "s03",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7a",
+     "q": "What is suggested about Mr. Okafor?",
+     "opts": [
+      "He was traveling for work.",
+      "He has stayed at the hotel before.",
+      "He works at the convention center.",
+      "He ate all of his meals at the hotel."
+     ],
+     "a": 0,
+     "exp": "attending a trade fair（參加商展）、my next business trip → 推論他是出差。would stay here again 是「會再住」，不代表以前住過。",
+     "zh": "題目：關於歐卡佛先生，文中暗示了什麼？ ／ 答案：他是來出差的。",
+     "optsZh": [
+      "他是出差。",
+      "他以前住過這間飯店。",
+      "他在會議中心工作。",
+      "他三餐都在飯店吃。"
+     ]
+    },
+    {
+     "id": "s04",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7a",
+     "q": "What is NOT mentioned as a positive feature of the hotel?",
+     "opts": [
+      "Its free breakfast",
+      "Its location",
+      "The cleanliness of the rooms",
+      "The comfort of the beds"
+     ],
+     "a": 0,
+     "exp": "NOT 題要逐一對照：location could not have been better（地點）、spotless（整潔）、bed was extremely comfortable（床）。早餐完全沒提到。",
+     "zh": "題目：哪一項「沒有」被提到是飯店的優點？ ／ 答案：免費早餐。",
+     "optsZh": [
+      "免費早餐",
+      "地點",
+      "房間的整潔",
+      "床的舒適度"
+     ]
+    },
+    {
+     "id": "s05",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7b",
+     "q": "What is the purpose of the e-mail?",
+     "opts": [
+      "To give staff information about an office move",
+      "To announce the opening of a new branch",
+      "To ask employees to vote on a new location",
+      "To explain changes to a lease agreement"
+     ],
+     "a": 0,
+     "exp": "主旨題看第一段和標題：Subject: Office move、we will relocate to… 後面整封信都在講打包和停車 → 說明搬遷安排。lease 只是搬家的原因。",
+     "zh": "題目：這封 email 的目的是什麼？ ／ 答案：向員工說明搬遷辦公室的相關資訊。",
+     "optsZh": [
+      "向員工說明搬辦公室的安排",
+      "宣布新分公司開幕",
+      "請員工投票選新地點",
+      "說明租約的變更"
+     ]
+    },
+    {
+     "id": "s06",
+     "tag": "p7-para",
+     "part": "p7",
+     "passage": "p7b",
+     "q": "What are employees asked to do?",
+     "opts": [
+      "Pack the items at their own workstations",
+      "Pack the supplies in the kitchen",
+      "Order boxes from a moving company",
+      "Visit the new office before June 23"
+     ],
+     "a": 0,
+     "exp": "each employee is responsible for packing the contents of his or her own desk → 改寫成 items at their own workstations。廚房是搬家工人負責；箱子會送到各部門，不用自己訂。",
+     "zh": "題目：員工被要求做什麼？ ／ 答案：打包自己座位上的物品。",
+     "optsZh": [
+      "打包自己座位上的物品",
+      "打包茶水間的用品",
+      "向搬家公司訂箱子",
+      "在 6 月 23 日前參觀新辦公室"
+     ]
+    },
+    {
+     "id": "s07",
+     "tag": "p7-para",
+     "part": "p7",
+     "passage": "p7b",
+     "q": "What is indicated about parking permits?",
+     "opts": [
+      "Employees will be paid back for them.",
+      "They are free for building tenants.",
+      "They are issued by Ms. Nair.",
+      "They must be shared by two employees."
+     ],
+     "a": 0,
+     "exp": "the cost will be reimbursed by the company → reimburse（報銷）改寫成 be paid back。許可證是向大樓管理處申請，不是奈爾小姐。",
+     "zh": "題目：關於停車許可證，文中提到什麼？ ／ 答案：公司會把費用退還給員工。",
+     "optsZh": [
+      "公司會把費用還給員工。",
+      "大樓的承租戶可以免費取得。",
+      "由奈爾小姐核發。",
+      "必須兩位員工共用。"
+     ]
+    },
+    {
+     "id": "s08",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7b",
+     "q": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong?\n\"Please make sure each one is clearly marked with your name and department.\"",
+     "opts": [
+      "[1]",
+      "[2]",
+      "[3]",
+      "[4]"
+     ],
+     "a": 1,
+     "exp": "句子裡的 each one 要指前面剛提到的東西：Boxes and labels will be delivered… 之後接「請確認每個箱子都標上姓名和部門」最順，所以放 [2]。插入句題先找代名詞和指示詞（it、this、each one、these）指的是什麼。",
+     "zh": "插入句：「請確認每一個（箱子）都清楚標上你的姓名和部門。」",
+     "optsZh": [
+      "第 1 個位置",
+      "第 2 個位置",
+      "第 3 個位置",
+      "第 4 個位置"
+     ],
+     "fixed": true
+    },
+    {
+     "id": "s09",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7c",
+     "q": "At 9:36 A.M., what does Mr. Patel most likely mean when he writes, \"Consider it done\"?",
+     "opts": [
+      "He will make sure the order is prepared as requested.",
+      "He has already shipped the order.",
+      "He thinks the client's request is unreasonable.",
+      "He wants Ms. Cho to update the packing list."
+     ],
+     "a": 0,
+     "exp": "意圖題看前後句：前一句客戶同意用黑色補足、只要週五前送達；後面他說 I'll update the packing list now → 表示「交給我，會照辦」。done 不是真的已經寄出。",
+     "zh": "題目：上午 9:36，帕特爾先生寫「就當作已經辦好了」最可能是什麼意思？ ／ 答案：他會確保訂單照要求準備好。",
+     "optsZh": [
+      "他會確保訂單照要求準備好。",
+      "他已經把訂單寄出了。",
+      "他覺得客戶的要求不合理。",
+      "他要趙小姐更新裝箱單。"
+     ]
+    },
+    {
+     "id": "s10",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7c",
+     "q": "Why did Ms. Cho contact Mr. Patel?",
+     "opts": [
+      "To tell him about a change to an order",
+      "To ask him to deliver folders to a client",
+      "To report a damaged shipment",
+      "To confirm the price of some folders"
+     ],
+     "a": 0,
+     "exp": "第一則訊息：They want 200 more blue folders added to Friday's shipment → 訂單內容改變（加量）。",
+     "zh": "題目：趙小姐為什麼聯絡帕特爾先生？ ／ 答案：告訴他訂單有變動。",
+     "optsZh": [
+      "告訴他訂單有變動",
+      "請他把資料夾送去給客戶",
+      "回報一批貨有損壞",
+      "確認資料夾的價格"
+     ]
+    },
+    {
+     "id": "s11",
+     "tag": "p7-para",
+     "part": "p7",
+     "passage": "p7c",
+     "q": "What did the client agree to?",
+     "opts": [
+      "Receiving some items in a different color",
+      "Accepting a later delivery date",
+      "Reducing the size of the order",
+      "Paying an extra shipping fee"
+     ],
+     "a": 0,
+     "exp": "I'll ask if they'd accept black for the rest → They said that's fine → 同意剩下的用黑色（different color）。日期反而堅持要週五前到。",
+     "zh": "題目：客戶同意了什麼？ ／ 答案：收到部分不同顏色的商品。",
+     "optsZh": [
+      "收到部分不同顏色的商品",
+      "接受較晚的交貨日期",
+      "減少訂單數量",
+      "支付額外運費"
+     ]
+    },
+    {
+     "id": "s12",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7c",
+     "q": "How many black folders will most likely be added to the shipment?",
+     "opts": [
+      "80",
+      "120",
+      "200",
+      "320"
+     ],
+     "a": 0,
+     "exp": "要 200 個，藍色只有 120 個，剩下的用黑色補：200 − 120 = 80。Part 7 偶爾會考這種要把兩句資訊合起來的推論。",
+     "zh": "題目：這批貨最可能會加進多少個黑色資料夾？ ／ 答案：80 個。",
+     "optsZh": [
+      "80 個",
+      "120 個",
+      "200 個",
+      "320 個"
+     ]
+    }
+   ],
+   "test": [
+    {
+     "id": "s13",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7d",
+     "q": "What does Ms. Lindqvist suggest about the workshop?",
+     "opts": [
+      "She would have liked it to last longer.",
+      "It was too difficult for her.",
+      "Her manager recommended it to her.",
+      "It focused mainly on e-mail writing."
+     ],
+     "a": 0,
+     "exp": "My only wish is that the course had been a week longer → 希望課程更長。manager 只是「注意到她的進步」，不是推薦她上課。",
+     "zh": "題目：林德奎斯特小姐對這個工作坊有什麼看法？ ／ 答案：她希望課程能再長一點。",
+     "optsZh": [
+      "她希望課程能再長一點。",
+      "課程對她來說太難。",
+      "是她的主管推薦她來上的。",
+      "課程主要教寫 email。"
+     ]
+    },
+    {
+     "id": "s14",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7d",
+     "q": "What criticism does Mr. Mori make?",
+     "opts": [
+      "Part of the content was too elementary.",
+      "The instructor was not available after class.",
+      "The e-mail module was disappointing.",
+      "The class size was too large."
+     ],
+     "a": 0,
+     "exp": "That said（話雖如此）是轉折訊號，後面才是批評：the grammar review… too basic → 改寫成 too elementary。it did not disappoint 是稱讚 email 單元，C 剛好相反。",
+     "zh": "題目：森先生提出了什麼批評？ ／ 答案：部分內容太基礎。",
+     "optsZh": [
+      "部分內容太基礎。",
+      "下課後找不到講師。",
+      "email 單元令人失望。",
+      "班級人數太多。"
+     ]
+    },
+    {
+     "id": "s15",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7d",
+     "q": "What is indicated about Ms. Petit?",
+     "opts": [
+      "She plans to continue studying at Northbridge.",
+      "She works for a translation company.",
+      "She preferred in-person classes.",
+      "She took the workshop in September."
+     ],
+     "a": 0,
+     "exp": "I have already enrolled in the advanced level → 會繼續上進階課。她是 freelance（自由接案）譯者，不屬於公司；九月是進階班開課時間。",
+     "zh": "題目：關於佩蒂小姐，文中提到什麼？ ／ 答案：她打算繼續在 Northbridge 進修。",
+     "optsZh": [
+      "她打算繼續在 Northbridge 進修。",
+      "她在翻譯公司上班。",
+      "她比較喜歡實體課。",
+      "她是在九月上這個工作坊。"
+     ]
+    },
+    {
+     "id": "s16",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7d",
+     "q": "What is NOT mentioned as a benefit of the workshop?",
+     "opts": [
+      "A certificate upon completion",
+      "Individual feedback on assignments",
+      "Help with organizing long documents",
+      "Extra support from the instructor"
+     ],
+     "a": 0,
+     "exp": "逐一對照：individual feedback on every assignment（B）、structuring long documents（C）、stay after class to answer questions（D）。證書沒有提到。",
+     "zh": "題目：哪一項「沒有」被提到是這個工作坊的好處？ ／ 答案：結業證書。",
+     "optsZh": [
+      "結業時發證書",
+      "每份作業都有個別回饋",
+      "幫助組織長篇文件",
+      "講師額外的協助"
+     ]
+    },
+    {
+     "id": "s17",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7e",
+     "q": "What is the article mainly about?",
+     "opts": [
+      "A company's plan to increase its production",
+      "The opening of a vegetarian restaurant",
+      "A change in a company's leadership",
+      "Road repairs planned by the city"
+     ],
+     "a": 0,
+     "exp": "第一段：will build a second factory → 蓋第二座工廠＝提高產能。素食料理和道路改善都只是細節。",
+     "zh": "題目：這篇文章主要在講什麼？ ／ 答案：一家公司提高產能的計畫。",
+     "optsZh": [
+      "一家公司提高產能的計畫",
+      "一家素食餐廳開幕",
+      "公司領導階層異動",
+      "市政府規劃的道路整修"
+     ]
+    },
+    {
+     "id": "s18",
+     "tag": "p7-para",
+     "part": "p7",
+     "passage": "p7e",
+     "q": "Why is Halvorsen Foods building a new factory?",
+     "opts": [
+      "Its existing plant cannot produce any more.",
+      "The lease on its current plant is ending.",
+      "It wants to lower its transportation costs.",
+      "Local officials asked it to move."
+     ],
+     "a": 0,
+     "exp": "Our current plant is running at full capacity（現有工廠已滿載）→ 改寫成 cannot produce any more。",
+     "zh": "題目：Halvorsen 食品為什麼要蓋新工廠？ ／ 答案：現有的工廠已經無法再增加產量。",
+     "optsZh": [
+      "現有的工廠已經無法再增加產量。",
+      "現在工廠的租約快到期了。",
+      "想降低運輸成本。",
+      "地方官員要求它搬遷。"
+     ]
+    },
+    {
+     "id": "s19",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7e",
+     "q": "The word \"raised\" in paragraph 4, line 1, is closest in meaning to",
+     "opts": [
+      "expressed",
+      "increased",
+      "lifted",
+      "grown"
+     ],
+     "a": 0,
+     "exp": "同義字題要代回原句看意思：raised concerns 是「提出疑慮」→ expressed。increased、lifted 是 raise 的其他意思，放進句子不通。",
+     "zh": "題目：第 4 段第 1 行的 raised 意思最接近哪個字？ ／ 答案：expressed（提出）。",
+     "optsZh": [
+      "表達、提出",
+      "增加",
+      "舉起",
+      "種植、長大"
+     ]
+    },
+    {
+     "id": "s20",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7e",
+     "q": "In which of the positions marked [1], [2], [3], and [4] does the following sentence best belong?\n\"Most of these positions will be in production and packaging.\"",
+     "opts": [
+      "[1]",
+      "[2]",
+      "[3]",
+      "[4]"
+     ],
+     "a": 1,
+     "exp": "these positions（這些職缺）要接在提到工作的句子後面：The factory will create approximately 350 jobs. [2] → 放 [2]。",
+     "zh": "插入句：「這些職缺大多是在生產和包裝部門。」",
+     "optsZh": [
+      "第 1 個位置",
+      "第 2 個位置",
+      "第 3 個位置",
+      "第 4 個位置"
+     ],
+     "fixed": true
+    },
+    {
+     "id": "s21",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7f",
+     "q": "At 2:03 P.M., what does Ms. Reyes most likely mean when she writes, \"Again?\"",
+     "opts": [
+      "She is frustrated that the problem keeps happening.",
+      "She did not hear what Mr. Brooks said.",
+      "She thinks the meeting should be canceled.",
+      "She believes the projector was just replaced."
+     ],
+     "a": 0,
+     "exp": "前一句是 stopped working again，接著布魯克斯說 I know，後面還要請 IT 換掉而不是 repairing it again → 問題反覆發生，Again? 表示無奈。",
+     "zh": "題目：下午 2:03，雷耶斯小姐寫「又壞了？」最可能是什麼意思？ ／ 答案：她對問題一再發生感到無奈。",
+     "optsZh": [
+      "她對問題一再發生感到無奈。",
+      "她沒聽到布魯克斯先生說什麼。",
+      "她覺得會議應該取消。",
+      "她認為投影機才剛換過。"
+     ]
+    },
+    {
+     "id": "s22",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7f",
+     "q": "Why is Room D unsuitable for the meeting?",
+     "opts": [
+      "It cannot hold all of the expected attendees.",
+      "It does not have a projector.",
+      "It has already been reserved.",
+      "It is not available until 5:00."
+     ],
+     "a": 0,
+     "exp": "Room D only seats eight people… a team of ten → 人數超過容量。open until 5:00 講的是董事會議室。",
+     "zh": "題目：為什麼 D 會議室不適合開這場會？ ／ 答案：容納不下所有預計出席的人。",
+     "optsZh": [
+      "容納不下所有預計出席的人。",
+      "裡面沒有投影機。",
+      "已經被預約了。",
+      "要到五點才能用。"
+     ]
+    },
+    {
+     "id": "s23",
+     "tag": "p7",
+     "part": "p7",
+     "passage": "p7f",
+     "q": "What will Ms. Lin most likely do next?",
+     "opts": [
+      "Ask the technology department to replace some equipment",
+      "Book the boardroom",
+      "Inform the reception desk",
+      "Repair a projector herself"
+     ],
+     "a": 0,
+     "exp": "布魯克斯請她 contact IT about replacing that projector，她回 Will do。預約和通知櫃檯是布魯克斯自己要做的事。",
+     "zh": "題目：林小姐接下來最可能做什麼？ ／ 答案：請 IT 部門更換設備。",
+     "optsZh": [
+      "請 IT 部門更換設備",
+      "預約董事會議室",
+      "通知櫃檯",
+      "自己修理投影機"
+     ]
+    },
+    {
+     "id": "s24",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7g",
+     "q": "What does Ms. Weber say about the battery?",
+     "opts": [
+      "It does not need to be charged often.",
+      "It takes two hours to charge.",
+      "It stopped working after a month.",
+      "It must be purchased separately."
+     ],
+     "a": 0,
+     "exp": "lasts a full week of commuting on a single charge（充一次電撐一整週）→ 不用常充電。two hours 是頭帶開始不舒服的時間；一個月後鬆脫的是耳墊。",
+     "zh": "題目：韋伯小姐對電池有什麼看法？ ／ 答案：不需要常常充電。",
+     "optsZh": [
+      "不需要常常充電。",
+      "要充兩個小時。",
+      "一個月後就壞了。",
+      "必須另外購買。"
+     ]
+    },
+    {
+     "id": "s25",
+     "tag": "p7-review",
+     "part": "p7",
+     "passage": "p7g",
+     "q": "What disadvantage of the headphones does Ms. Weber mention?",
+     "opts": [
+      "They become uncomfortable when worn for a long time.",
+      "They do not block out much noise.",
+      "They are too heavy to carry on a train.",
+      "Their carrying case is poorly made."
+     ],
+     "a": 0,
+     "exp": "That said 後面是缺點：The headband becomes uncomfortable after about two hours。收納盒是「沒有附」，不是「做得差」，這是心得文常見的陷阱。",
+     "zh": "題目：韋伯小姐提到這副耳機的什麼缺點？ ／ 答案：戴久了會不舒服。",
+     "optsZh": [
+      "戴久了會不舒服。",
+      "隔音效果不好。",
+      "太重，不方便帶上火車。",
+      "收納盒做得很差。"
+     ]
+    },
+    {
+     "id": "s26",
+     "tag": "p7-para",
+     "part": "p7",
+     "passage": "p7g",
+     "q": "What is indicated about Voxa's customer service?",
+     "opts": [
+      "It sent a replacement part at no cost.",
+      "It refunded the cost of the headphones.",
+      "It took several weeks to respond.",
+      "It recommended a different model."
+     ],
+     "a": 0,
+     "exp": "A replacement arrived within three days, and I was not charged anything → 改寫成 sent a replacement part at no cost。",
+     "zh": "題目：關於 Voxa 的客服，文中提到什麼？ ／ 答案：免費寄來替換零件。",
+     "optsZh": [
+      "免費寄來替換零件。",
+      "退還了耳機的錢。",
+      "過了好幾週才回覆。",
+      "推薦了別的型號。"
+     ]
+    },
+    {
+     "id": "s27",
+     "tag": "p7-infer",
+     "part": "p7",
+     "passage": "p7g",
+     "q": "For whom would Ms. Weber most likely recommend the Q7?",
+     "opts": [
+      "People who make short daily trips to work",
+      "People who often take long flights",
+      "People who want a carrying case included",
+      "People who exercise outdoors"
+     ],
+     "a": 0,
+     "exp": "結尾：For commuting, absolutely. For anything longer, I would look at other models → 推薦給通勤族。長途飛行她明確說不推薦。",
+     "zh": "題目：韋伯小姐最可能把 Q7 推薦給誰？ ／ 答案：每天短程通勤上班的人。",
+     "optsZh": [
+      "每天短程通勤上班的人",
+      "常搭長途飛機的人",
+      "希望附收納盒的人",
+      "在戶外運動的人"
      ]
     }
    ]
