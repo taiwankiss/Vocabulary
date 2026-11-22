@@ -363,6 +363,23 @@
         .q-passage .mark { color: var(--yellow); }
         .q-passage .p-title { display: block; color: var(--blue); font-size: 13px; margin-bottom: 6px; }
         .q-text { font-size: 18px; color: var(--cream); margin: 0 0 18px; white-space: pre-line; }
+        /* Part 3/4：一段對話對應多題，題目預覽＋圖表 */
+        .q-talk { white-space: normal; max-height: none; }
+        .q-talk .t-qs { margin: 0; padding-left: 22px; color: var(--text-mute); font-size: 14px; }
+        .q-talk .t-qs li { margin-bottom: 4px; }
+        .q-talk .t-qs li.on { color: var(--yellow); }
+        .q-talk .t-qs li.done { opacity: 0.55; }
+        .q-chart { margin: 0 0 14px; }
+        .q-chart .c-cap { color: var(--cream); font-size: 14px; margin-bottom: 6px; }
+        .q-chart .n-table { margin: 0; }
+        .q-chart .bars { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+        .q-chart .bar-row { display: flex; align-items: center; gap: 8px; }
+        .q-chart .bar-row .lb { width: 8.5em; flex-shrink: 0; color: var(--text); }
+        .q-chart .bar-row .bv { height: 14px; background: var(--blue); }
+        .q-chart .bar-row .nv { font-family: var(--font-pixel); font-size: 10px; color: var(--cream); }
+        .q-exp details { margin-top: 10px; }
+        .q-exp summary { cursor: pointer; color: var(--blue); }
+        .q-exp .tr .sp { color: var(--yellow); }
         .q-play { --p: 3px; --sh: transparent; display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px 3px; padding: 10px 14px; background: var(--blue); color: var(--black); cursor: pointer; font-size: 15px; }
         .opts { display: flex; flex-direction: column; gap: 4px; }
         .opt { --p: 3px; --bd: var(--cream); --sh: transparent; width: calc(100% - 6px); margin: 0 3px 12px; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--black); color: var(--text); text-align: left; cursor: pointer; font-family: var(--font-word); font-size: 17px; line-height: 1.45; }
@@ -2067,6 +2084,22 @@
             u.rate = 0.92;
             return u;
         }
+        // Part 3/4 不同說話者用不同聲音：W/W2 女聲、M/M2 男聲；找不到第二個聲音就用音高區分
+        const FEMALE = /Samantha|Martha|Ava|Zoe|Allison|Susan|Karen|Moira|Serena|Tessa|Victoria|Fiona|Kate|Catherine|Nicky|Joelle|Libby|Sonia|Jenny|Aria|Emma|Michelle|Natasha|Clara|Female|Google US English$/i;
+        const MALE = /Alex\b|Daniel|Tom\b|Evan|Nathan|Aaron|Arthur|Oliver|Gordon|Lee\b|Rishi|Guy|Ryan|William|Christopher|Eric|Brian|Male/i;
+        function speakerVoice(sp) {
+            const fem = /^W/.test(sp), second = /2$/.test(sp);
+            const base = { pitch: fem ? 1.1 : 0.85 };
+            if (!window.speechSynthesis) return base;
+            const vs = speechSynthesis.getVoices().filter(v => /^en[-_](US|GB|AU|CA)/i.test(v.lang) && !NOVELTY.test(v.name));
+            const score = v => { const i = VOICE_RANK.findIndex(r => r.test(v.name)); return (i === -1 ? 99 : i) * 2 + (/en[-_]US/i.test(v.lang) ? 0 : 1); };
+            const pool = vs.filter(v => (fem ? FEMALE : MALE).test(v.name) && !(fem ? MALE : FEMALE).test(v.name)).sort((a, b) => score(a) - score(b));
+            // 第二位同性別說話者：優先挑不同口音（美／英／澳）的聲音
+            let v = pool[0];
+            if (second && pool.length > 1) v = pool.find(x => x.lang.slice(3) !== pool[0].lang.slice(3)) || pool[1];
+            if (!v) return { voice: bestVoice || pickVoice(), pitch: fem ? (second ? 1.3 : 1.12) : (second ? 0.95 : 0.78) };
+            return { voice: v, pitch: second && v === pool[0] ? (fem ? 1.25 : 0.95) : 1 };
+        }
         function playAudio(text) {
             if (!window.speechSynthesis || !text) return;
             window.speechSynthesis.cancel();
@@ -2448,7 +2481,7 @@
 
         function courseAction(go) {
             if (go === 'map') return showMap();
-            if (go === 'chapter') return showChapter(ui.chapter);
+            if (go === 'chapter') { stopQuiz(); return showChapter(ui.chapter); }   // 題目中離開：停掉語音和倒數
             if (go === 'notes') return showNotes();
             if (go === 'notes-done') return finishNotes();
             if (go === 'lesson') return showLesson(0);
@@ -2529,7 +2562,7 @@
         }
 
         /* === 測驗引擎 === */
-        const PART_LIMIT = { p5: 30, p6: 40, p7: 60, p2: 20 };   // 弱點檢測各題型的時限（秒）
+        const PART_LIMIT = { p5: 30, p6: 40, p7: 60, p2: 20, p34: 20 };   // 弱點檢測各題型的時限（秒）
         let timerRaf = 0;
 
         function shuffleOpts(q) {
@@ -2570,7 +2603,17 @@
             quiz.order = shuffleOpts(q);
             const label = { diag: '弱點檢測', practice: '練習', test: '章節測驗', wrong: '錯題本' }[quiz.mode];
             let passage = '';
-            if (q.passage) {
+            const talk = isTalk(q);
+            if (talk) {
+                // Part 3/4：先給圖表和這段的全部題目（實際考試可以先預讀），對話念完才倒數
+                const p = COURSE.passages[q.passage];
+                const group = quiz.qs.filter(x => x.passage === q.passage);
+                const pos = group.indexOf(q);
+                passage = `<div class="q-passage q-talk">${p.title ? `<span class="p-title">${escHtml(p.title)}</span>` : ''}` +
+                    chartHtml(p.chart) +
+                    (group.length > 1 ? `<ol class="t-qs">${group.map((x, k) => `<li class="${k === pos ? 'on' : k < pos ? 'done' : ''}">${escHtml(x.q)}</li>`).join('')}</ol>` : '') +
+                    `</div>`;
+            } else if (q.passage) {
                 const p = COURSE.passages[q.passage];
                 const blankNo = (q.q.match(/^\[(\d)\]/) || [])[1];
                 // Part 6 的 [n] 是空格；Part 7 的 [n] 是插入句的位置標記
@@ -2583,21 +2626,67 @@
             const qText = q.passage && /^\[\d\]$/.test(q.q) ? `空格 ${q.q.slice(1, 2)} 該填哪一個？` : q.q.replace(/^\[\d\]\s*/, '');
             courseScreen(
                 `<div class="q-top"><span class="q-count">${quiz.i + 1}/${quiz.qs.length}</span><span>${label}</span>` +
-                `<div class="q-timer" id="q-timer"><i id="q-timer-fill"></i></div><span class="q-sec" id="q-sec">${q.audio ? '♪' : ''}</span></div>` +
+                `<div class="q-timer" id="q-timer"><i id="q-timer-fill"></i></div><span class="q-sec" id="q-sec">${q.audio || talk ? '♪' : ''}</span></div>` +
                 passage +
                 (q.audio ? `<button class="q-play" id="q-play">🔊 播放題目</button>` : '') +
+                (talk ? `<button class="q-play" id="q-play">🔊 重播音檔</button>` : '') +
                 `<p class="q-text">${escHtml(qText)}</p>` +
                 `<div class="opts">${quiz.order.map((oi, k) => `<button class="opt" data-i="${k}"><span class="k">${keys[k]}</span><span>${q.part === 'p2' ? '回應 ' + escHtml(q.opts[oi]) : escHtml(q.opts[oi])}</span></button>`).join('')}</div>` +
                 `<div id="q-exp"></div>`,
                 `<button class="btn-outline" data-go="${quiz.mode === 'diag' || quiz.mode === 'wrong' ? 'map' : 'chapter'}">‹ 離開</button>`
             );
             quiz.dur = qLimit(q);
-            if (q.audio) playQuestionAudio(); else startTimer();
+            if (q.audio) playQuestionAudio();
+            else if (talk) {
+                const first = quiz.i === 0 || quiz.qs[quiz.i - 1].passage !== q.passage;
+                if (first) playTalk();
+                else if (!(quiz.talk && quiz.talk.key === q.passage && quiz.talk.playing)) startTimer();   // 還在念就等念完
+            } else startTimer();
+        }
+
+        function isTalk(q) { const p = q && q.passage && COURSE.passages[q.passage]; return !!(p && p.lines); }
+        function chartHtml(ch) {
+            if (!ch) return '';
+            const cap = ch.title ? `<div class="c-cap">${escHtml(ch.title)}</div>` : '';
+            if (ch.bars) {
+                const max = Math.max(...ch.bars.map(b => b[1]));
+                return `<div class="q-chart">${cap}<div class="bars">${ch.bars.map(([lb, v]) =>
+                    `<div class="bar-row"><span class="lb">${escHtml(lb)}</span><span class="bv" style="width:${(v / max * 55).toFixed(1)}%"></span><span class="nv">${escHtml(String(v))}${escHtml(ch.unit || '')}</span></div>`).join('')}</div></div>`;
+            }
+            return `<div class="q-chart">${cap}${notesTable(ch)}</div>`;
+        }
+
+        // Part 3/4：整段對話／獨白，每位說話者用自己的聲音；念完才開始倒數
+        let talkSeq = 0;
+        function playTalk() {
+            const q = quiz && quiz.qs[quiz.i];
+            if (!isTalk(q)) return;
+            stopTimer();
+            const sec = $('q-sec'); if (sec) sec.textContent = '♪';
+            if (!window.speechSynthesis) { startTimer(); return; }
+            window.speechSynthesis.cancel();
+            const p = COURSE.passages[q.passage], token = ++talkSeq;
+            quiz.talk = { key: q.passage, playing: true, token, us: [] };   // us：保留 utterance 參考，避免被回收後 onend 不觸發
+            const done = () => {
+                if (!quiz || !quiz.talk || quiz.talk.token !== token) return;
+                quiz.talk.playing = false;
+                const cur = quiz.qs[quiz.i];
+                if (!quiz.answered && cur.passage === q.passage) startTimer();
+            };
+            p.lines.forEach(([sp, text], k) => {
+                const u = new SpeechSynthesisUtterance(text), v = speakerVoice(sp);
+                if (v.voice) { u.voice = v.voice; u.lang = v.voice.lang; } else u.lang = 'en-US';
+                u.pitch = v.pitch; u.rate = 0.95;
+                if (k === p.lines.length - 1) { u.onend = done; u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') done(); }; }
+                quiz.talk.us.push(u);
+                window.speechSynthesis.speak(u);
+            });
         }
 
         // 聽力題：念題目和三個回應，念完才開始倒數
         function playQuestionAudio() {
             const q = quiz && quiz.qs[quiz.i];
+            if (isTalk(q)) { playTalk(); return; }
             if (!q || !q.audio) return;
             stopTimer();
             if (!window.speechSynthesis) { startTimer(); return; }
@@ -2652,7 +2741,13 @@
                 else b.classList.add('dim');
             });
             const head = k < 0 ? '⏱ 超時' : ok ? `✔ 答對了 · ${sec.toFixed(1)} 秒` : '✘ 答錯了';
-            const tr = q.audio ? `<div class="tr">${escHtml(q.audio.join('\n'))}</div>` : '';
+            let tr = q.audio ? `<div class="tr">${escHtml(q.audio.join('\n'))}</div>` : '';
+            if (isTalk(q)) {
+                const p = COURSE.passages[q.passage], base = { W: '女', W2: '女 2', M: '男', M2: '男 2' };
+                const who = sp => (base[sp] || sp) + (p.names && p.names[sp] ? `（${p.names[sp]}）` : '');
+                tr = `<details><summary>看逐字稿和中譯</summary><div class="tr">${p.lines.map(([sp, t]) => `<span class="sp">${escHtml(who(sp))}：</span>${escHtml(t)}`).join('\n')}</div>` +
+                    (p.zh ? `<div class="tr">${escHtml(p.zh)}</div>` : '') + `</details>`;
+            }
             if (q.optsZh) document.querySelectorAll('.opt').forEach((b, i) => {
                 b.lastElementChild.insertAdjacentHTML('beforeend', `<span class="oz">${escHtml(q.optsZh[quiz.order[i]])}</span>`);
             });
@@ -2674,6 +2769,7 @@
 
         function finishQuiz() {
             const { mode, chapterId, results } = quiz;
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
             const total = results.length, score = results.filter(r => r.ok).length, acc = total ? score / total : 0;
             const avg = total ? results.reduce((s, r) => s + r.sec, 0) / total : 0;
             let body = '', foot = '';
@@ -2717,9 +2813,16 @@
                 }
                 saveCourse();
                 const wrongN = results.filter(r => !r.ok).length, toN = results.filter(r => r.timeout).length;
+                // 章節有多種題型時，分開列出各題型的正確率
+                const tagStat = {};
+                results.forEach(r => { const t = tagStat[r.tag] = tagStat[r.tag] || { n: 0, c: 0 }; t.n++; if (r.ok) t.c++; });
+                const tagRows = Object.keys(tagStat).length > 1 ? `<table class="r-table"><tr><th>題型</th><th>正確率</th></tr>${Object.entries(tagStat).map(([t, s]) => {
+                    const pct = Math.round(s.c / s.n * 100), col = pct >= 85 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+                    return `<tr><td>${escHtml((COURSE.tags[t] || {}).name || t)}</td><td class="num"><span class="r-bar"><i style="width:${pct}%;background:${col}"></i></span>${s.c}/${s.n}</td></tr>`;
+                }).join('')}</table>` : '';
                 body = `<div class="c-kicker">${mode === 'test' ? '章節測驗結果' : '練習結果'}</div><div class="r-score">${score}/${total}</div>${badge}` +
                     `<p class="c-text">正確率 ${Math.round(acc * 100)}%，平均每題 ${avg.toFixed(1)} 秒（目標 ${L.limit} 秒內）。` +
-                    `${wrongN ? `答錯 ${wrongN} 題${toN ? `（其中 ${toN} 題超時）` : ''}，已經放進錯題本。` : '全部答對！'}</p>`;
+                    `${wrongN ? `答錯 ${wrongN} 題${toN ? `（其中 ${toN} 題超時）` : ''}，已經放進錯題本。` : '全部答對！'}</p>` + tagRows;
                 foot = mode === 'test'
                     ? `<button class="btn-outline" data-go="test">重考</button><button class="btn-primary" data-go="map">回到地圖 ▶</button>`
                     : `<button class="btn-outline" data-go="practice">再練一次</button><button class="btn-primary" data-go="test">挑戰測驗 ▶</button>`;
@@ -2778,7 +2881,7 @@
                 const k = map[e.key.toLowerCase()];
                 if (!quiz.answered && k != null && k < q.opts.length) { e.preventDefault(); answer(k); return; }
                 if (quiz.answered && (e.code === 'Enter' || e.code === 'Space')) { e.preventDefault(); nextQuestion(); return; }
-                if (q.audio && e.key.toLowerCase() === 'p') { playQuestionAudio(); return; }
+                if ((q.audio || isTalk(q)) && e.key.toLowerCase() === 'p') { playQuestionAudio(); return; }
                 return;
             }
             if (e.code === 'ArrowRight' && document.querySelector('#course-body .c-dots')) showLesson(lessonIdx + 1);

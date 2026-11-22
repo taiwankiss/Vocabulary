@@ -44,6 +44,22 @@
   "p7-infer": {
    "name": "推論與意圖",
    "chapter": "p7s"
+  },
+  "p34-3p": {
+   "name": "3 人對話",
+   "chapter": "p34"
+  },
+  "p34-graphic": {
+   "name": "看圖作答",
+   "chapter": "p34"
+  },
+  "p34-intent": {
+   "name": "說話者意圖",
+   "chapter": "p34"
+  },
+  "p34-detail": {
+   "name": "主旨與細節",
+   "chapter": "p34"
   }
  },
  "regions": [
@@ -142,9 +158,9 @@
   {
    "id": "p34",
    "region": "cave",
-   "kind": "soon",
-   "title": "Part 3/4 圖表與意圖",
-   "sub": "看圖作答、說話者意圖"
+   "kind": "lesson",
+   "title": "Part 3/4 三人對話與圖表",
+   "sub": "3 人對話・看圖作答・說話者意圖"
   },
   {
    "id": "boss",
@@ -190,6 +206,429 @@
   "p7g": {
    "title": "Product Review",
    "text": "Voxa Q7 Wireless Headphones\nPosted by Hannah Weber\n\nI bought the Q7 to use on my daily train commute, and for that purpose they have been excellent. The noise cancellation blocks out almost all background sound, and the battery easily lasts a full week of commuting on a single charge.\n\nThat said, the Q7 is not perfect. The headband becomes uncomfortable after about two hours, so I would not recommend these headphones for long flights. I was also disappointed that a carrying case is not included, considering the price.\n\nWhen one of the ear cushions came loose after a month, I contacted Voxa's customer service. A replacement arrived within three days, and I was not charged anything.\n\nWould I buy them again? For commuting, absolutely. For anything longer, I would look at other models."
+  },
+  "t01": {
+   "title": "Conversation with three speakers",
+   "names": {
+    "W": "Megan",
+    "M": "Kevin",
+    "M2": "Raj"
+   },
+   "lines": [
+    [
+     "W",
+     "Kevin, Raj, do you have a minute? I just got an e-mail from the conference center. They've double-booked the Lakeview Room for our client workshop on the twelfth."
+    ],
+    [
+     "M",
+     "Seriously? We confirmed that reservation back in March. Did they offer us anything else?"
+    ],
+    [
+     "W",
+     "They can give us the Garden Hall instead, but it only seats forty, and we already have fifty-two people registered."
+    ],
+    [
+     "M2",
+     "What if we split the workshop into a morning session and an afternoon session? Twenty-six people each would fit easily. And smaller groups might actually make the hands-on exercises run more smoothly."
+    ],
+    [
+     "M",
+     "Raj, that would mean asking the trainers to stay for the whole day, though."
+    ],
+    [
+     "M2",
+     "I spoke with them last week, and they said their schedules are flexible. I'll call them this afternoon to confirm."
+    ],
+    [
+     "W",
+     "Great. Then I'll let the conference center know we'll take the Garden Hall."
+    ]
+   ],
+   "zh": "梅根：凱文、拉吉，有空嗎？會議中心剛寄信來，說湖景廳在 12 號重複訂給兩組人，跟我們的客戶工作坊撞了。／凱文：真的假的？我們三月就確認了。他們有提供別的選擇嗎？／梅根：可以改給我們花園廳，但只坐得下 40 人，我們已經有 52 人報名。／拉吉：那把工作坊拆成上午場和下午場呢？一場 26 人很容易坐得下，人少一點，實作練習說不定還更順。／凱文：拉吉，不過這樣講師就得待一整天。／拉吉：我上週跟他們談過，他們說時間很彈性。我今天下午打電話跟他們確認。／梅根：太好了。那我就跟會議中心說我們要花園廳。"
+  },
+  "t02": {
+   "title": "Conversation and price list",
+   "chart": {
+    "title": "Brochure Printing — 200 copies",
+    "head": [
+     "Service",
+     "Ready in",
+     "Price"
+    ],
+    "rows": [
+     [
+      "Standard",
+      "7 business days",
+      "$95"
+     ],
+     [
+      "Priority",
+      "4 business days",
+      "$140"
+     ],
+     [
+      "Express",
+      "2 business days",
+      "$185"
+     ],
+     [
+      "Overnight",
+      "1 business day",
+      "$260"
+     ]
+    ]
+   },
+   "lines": [
+    [
+     "W",
+     "Hi. I'd like to order two hundred copies of this product brochure. We're exhibiting at an industry fair in Chicago this week."
+    ],
+    [
+     "M",
+     "Sure. When do you need them by?"
+    ],
+    [
+     "W",
+     "Well, today's Monday, and my flight leaves Wednesday afternoon. So I'd need them before then."
+    ],
+    [
+     "M",
+     "Our two-day service would have them ready by six P.M. on Wednesday."
+    ],
+    [
+     "W",
+     "Hmm, that's too late. I'll be at the airport by then. I'd better go with the faster option, even if it costs more."
+    ],
+    [
+     "M",
+     "No problem. And if you e-mail me the file now, I can send you a proof within the hour, so you can check the colors before we print everything."
+    ]
+   ],
+   "zh": "女：你好，我想印這份產品手冊 200 份。我們這週要在芝加哥的產業展覽會參展。／男：好的，什麼時候要？／女：今天星期一，我的班機是星期三下午，所以要在那之前拿到。／男：我們的兩天服務會在星期三下午六點前印好。／女：嗯，那太晚了，那時候我已經在機場了。還是選更快的吧，貴一點也沒關係。／男：沒問題。如果你現在把檔案 email 給我，我一小時內寄樣張給你，你可以在全部印之前先確認顏色。"
+  },
+  "t03": {
+   "title": "Telephone message",
+   "lines": [
+    [
+     "M",
+     "Hi, Ms. Duarte, this is Leo from Harvest Valley Produce. I'm calling about tomorrow's delivery. Our refrigerated truck broke down this morning, and the repair shop says it won't be ready until Thursday."
+    ],
+    [
+     "M",
+     "Now, I know you're hosting that private banquet tomorrow night. I've arranged to borrow a van from a partner company, but it's quite a bit smaller, so we can bring only about half of your order in the morning. The rest would arrive around four in the afternoon."
+    ],
+    [
+     "M",
+     "Is that cutting it close for your kitchen staff? Let me know."
+    ],
+    [
+     "M",
+     "Oh, and to make up for the trouble, we won't be charging you a delivery fee this month. You can reach me at 555-0148. Thanks."
+    ]
+   ],
+   "zh": "杜阿爾特女士您好，我是豐收谷農產的里歐，打來是為了明天的送貨。我們的冷藏車今天早上故障了，修車廠說要到星期四才修得好。我知道您明天晚上要辦一場私人宴會。我已經跟合作廠商借了一台廂型車，但車子小很多，所以早上只能先送大約一半，其餘的下午四點左右送到。這樣對您的廚房人員來說會不會太趕？再跟我說。喔，還有，為了彌補這次的麻煩，這個月我們不收運費。請打 555-0148 找我，謝謝。"
+  },
+  "t04": {
+   "title": "Conversation with three speakers",
+   "names": {
+    "W": "Ana",
+    "M": "Dr. Brooks",
+    "W2": "Priya"
+   },
+   "lines": [
+    [
+     "W",
+     "Thanks for making time, Dr. Brooks, Priya. I'm here to show you the new booking system before it goes live on Monday. And don't worry, nothing will get lost in the switch this time."
+    ],
+    [
+     "M",
+     "I've heard that before."
+    ],
+    [
+     "W",
+     "Fair enough. But this time all your existing appointments transfer automatically overnight, and I'll personally check every record on Sunday evening."
+    ],
+    [
+     "W2",
+     "What about the text reminders we send patients? Our missed appointments dropped by half after we started using those."
+    ],
+    [
+     "W",
+     "They're built in. And now you can choose when they go out, either two days before the appointment or that morning."
+    ],
+    [
+     "M",
+     "Priya, you're the one at the front desk every day. Would you be able to try it out this weekend?"
+    ],
+    [
+     "W2",
+     "I'm away on Saturday, but I could come in on Sunday for an hour or two."
+    ],
+    [
+     "W",
+     "Perfect. I'll set up a practice account for you this afternoon."
+    ]
+   ],
+   "zh": "安娜：布魯克斯醫師、普莉雅，謝謝撥空。我來示範星期一要上線的新預約系統。放心，這次轉換不會有資料遺失。／布魯克斯醫師：這句話我聽過了。／安娜：可以理解。不過這次所有現有的預約都會在夜裡自動轉過去，星期天晚上我也會親自逐筆檢查。／普莉雅：那我們傳給病人的簡訊提醒呢？開始用之後，爽約的人少了一半。／安娜：系統內建，而且現在可以選發送時間：看診前兩天或當天早上。／布魯克斯醫師：普莉雅，每天在櫃台的是你。這個週末你能試用看看嗎？／普莉雅：我星期六不在，但星期天可以來一兩個小時。／安娜：太好了，我今天下午幫你開一個練習帳號。"
+  },
+  "t05": {
+   "title": "Conversation with three speakers and room list",
+   "names": {
+    "M": "Daniel",
+    "W": "Lena",
+    "M2": "Tom"
+   },
+   "chart": {
+    "title": "Meeting Rooms — Thursday",
+    "head": [
+     "Room",
+     "Seats",
+     "Video conferencing"
+    ],
+    "rows": [
+     [
+      "Maple",
+      "6",
+      "Yes"
+     ],
+     [
+      "Cedar",
+      "10",
+      "No"
+     ],
+     [
+      "Birch",
+      "12",
+      "Yes"
+     ],
+     [
+      "Oak",
+      "20",
+      "Yes"
+     ]
+    ]
+   },
+   "lines": [
+    [
+     "M",
+     "Lena, Tom, we need a room for Thursday's budget review. The Seoul team will be joining us by video."
+    ],
+    [
+     "W",
+     "How many of us will be there in person?"
+    ],
+    [
+     "M",
+     "Nine, including the two new analysts."
+    ],
+    [
+     "M2",
+     "Then Maple's out, and Cedar doesn't have the video equipment. Birch should work."
+    ],
+    [
+     "W",
+     "Hmm, Birch is right next to the break room, and it gets really noisy around lunchtime. Last time, the Seoul team could barely hear us."
+    ],
+    [
+     "M",
+     "Good point. Let's just book the largest one. It's more space than we need, but at least it's quiet."
+    ],
+    [
+     "M2",
+     "I'll reserve it now. And I'll send the Seoul team the meeting link this afternoon."
+    ]
+   ],
+   "zh": "丹尼爾：蕾娜、湯姆，星期四的預算檢討需要一間會議室，首爾團隊會用視訊加入。／蕾娜：我們這邊實際到場幾個人？／丹尼爾：九個，包括兩位新來的分析師。／湯姆：那楓木廳不行，雪松廳又沒有視訊設備。樺木廳應該可以。／蕾娜：嗯，樺木廳就在茶水間旁邊，午餐時間很吵。上次首爾團隊幾乎聽不到我們講話。／丹尼爾：說得對。直接訂最大間吧，空間比需要的大，但至少安靜。／湯姆：我現在就訂。下午我會把會議連結寄給首爾團隊。"
+  },
+  "t06": {
+   "title": "Conversation with three speakers",
+   "names": {
+    "W": "Marisol",
+    "M": "Ken",
+    "W2": "Julia"
+   },
+   "lines": [
+    [
+     "W",
+     "Ken, Julia, the Harlow Group just called. They want three hundred pastries for a company event. On Friday."
+    ],
+    [
+     "M",
+     "This Friday? We normally ask for at least a week's notice for an order that size."
+    ],
+    [
+     "W",
+     "I know. But they've ordered from us every month for two years, so I'd really like to make this work."
+    ],
+    [
+     "W2",
+     "If we push the seasonal menu tasting back to next week, the morning team would have time to handle it."
+    ],
+    [
+     "M",
+     "And I can come in early on Thursday and Friday to help with the baking."
+    ],
+    [
+     "W",
+     "Thank you both. Oh, and they asked if we could deliver the order this time. They've always picked it up themselves."
+    ],
+    [
+     "M",
+     "That's a first. Our van's booked for the farmers market on Friday morning, though."
+    ],
+    [
+     "W2",
+     "My cousin runs a courier service. I'll check whether he's free."
+    ]
+   ],
+   "zh": "瑪莉索：肯、茱莉亞，哈洛集團剛打電話來，公司活動要訂 300 個糕點，星期五要。／肯：這個星期五？這種量我們通常要求至少一週前預訂。／瑪莉索：我知道，但他們兩年來每個月都跟我們訂，我很想接下來。／茱莉亞：如果把季節菜單試吃延到下週，早班就有時間做。／肯：我星期四、星期五也可以早點來幫忙烤。／瑪莉索：謝謝你們。喔，他們還問這次能不能幫忙送貨，以前都是他們自己來拿。／肯：這倒是頭一遭。不過我們的貨車星期五早上要去農夫市集。／茱莉亞：我表哥開快遞公司，我問問他有沒有空。"
+  },
+  "t07": {
+   "title": "Conversation and chart",
+   "chart": {
+    "title": "Reasons for Canceling (% of respondents)",
+    "bars": [
+     [
+      "Price",
+      41
+     ],
+     [
+      "Late deliveries",
+      26
+     ],
+     [
+      "Limited menu",
+      19
+     ],
+     [
+      "Packaging waste",
+      14
+     ]
+    ],
+    "unit": "%"
+   },
+   "lines": [
+    [
+     "M",
+     "Have you had a chance to look at the results of the customer survey?"
+    ],
+    [
+     "W",
+     "Yes, I went through them this morning. Most people who canceled their meal-kit subscriptions mentioned price."
+    ],
+    [
+     "M",
+     "That's not surprising. But pricing decisions come from head office, so there's not much our team can do about that."
+    ],
+    [
+     "W",
+     "Right. So I think we should focus on the next biggest issue instead. If we fix that, we could win back quite a few customers."
+    ],
+    [
+     "M",
+     "Agreed. Could you put together a proposal by next Wednesday? I'd like to present it at the regional managers' meeting."
+    ],
+    [
+     "W",
+     "Sure. I'll need the cancellation data from the last two quarters, though."
+    ],
+    [
+     "M",
+     "I'll ask Hiro in analytics to send it to you today."
+    ]
+   ],
+   "zh": "男：你看過顧客問卷的結果了嗎？／女：看了，今天早上看完。取消訂閱餐盒的人，大多數提到價格。／男：不意外。但價格是總公司決定的，我們團隊能做的不多。／女：對，所以我覺得我們應該改處理第二大的問題。解決了那個，可以挽回不少顧客。／男：同意。你能在下星期三前寫一份提案嗎？我想在區域經理會議上報告。／女：可以，不過我需要最近兩季的取消資料。／男：我今天請分析部的廣志寄給你。"
+  },
+  "t08": {
+   "title": "Conversation with three speakers",
+   "names": {
+    "W": "Ms. Ortiz",
+    "M": "Dev",
+    "M2": "Sam"
+   },
+   "lines": [
+    [
+     "W",
+     "So, Dev, where are we with the renovation of our second floor?"
+    ],
+    [
+     "M",
+     "Mostly on schedule. The new walls are up, and the electrical work was finished yesterday. The one issue is the flooring. Sam from our supplier is here to explain."
+    ],
+    [
+     "M2",
+     "Unfortunately, the manufacturer has stopped producing the oak pattern you chose. I've brought samples of two similar options."
+    ],
+    [
+     "W",
+     "Hmm, these are both a bit lighter than the original. Would either of them be available sooner?"
+    ],
+    [
+     "M2",
+     "This one's in stock at our warehouse. The other would take about three weeks to arrive."
+    ],
+    [
+     "W",
+     "Then let's go with the one in stock. Our staff are supposed to move back in at the start of next month."
+    ],
+    [
+     "M",
+     "In that case, we can have the floors done by the twenty-fifth. I'll update the schedule and e-mail it to you tonight."
+    ]
+   ],
+   "zh": "歐提茲女士：戴夫，我們二樓的裝修進度如何？／戴夫：大致照進度。新的隔間牆都立好了，電路工程昨天完成。唯一的問題是地板，供應商的山姆來說明。／山姆：很遺憾，製造商已經停產您選的那款橡木紋。我帶了兩款類似的樣品。／歐提茲女士：嗯，這兩款都比原本的淺一點。有哪一款可以比較快拿到嗎？／山姆：這款我們倉庫有現貨，另一款大約要三週才到。／歐提茲女士：那就用有現貨的。我們員工預定下個月初搬回來。／戴夫：那我們 25 號前可以把地板完成。我今晚更新時程表再 email 給您。"
+  },
+  "t09": {
+   "title": "Talk and schedule",
+   "chart": {
+    "title": "Afternoon Sessions — Room 3B",
+    "head": [
+     "Time",
+     "Session",
+     "Speaker"
+    ],
+    "rows": [
+     [
+      "1:00",
+      "Digital Marketing Trends",
+      "Grace Liu"
+     ],
+     [
+      "2:00",
+      "Building Customer Loyalty",
+      "Omar Haddad"
+     ],
+     [
+      "3:00",
+      "Data Privacy Basics",
+      "Nadia Petrov"
+     ],
+     [
+      "4:00",
+      "Panel Discussion",
+      "All speakers"
+     ]
+    ]
+   },
+   "lines": [
+    [
+     "W",
+     "Good afternoon, everyone, and welcome back from lunch. Before the sessions begin, I have a quick update on the schedule for this room."
+    ],
+    [
+     "W",
+     "Unfortunately, Omar Haddad's flight was delayed, and he won't get here until about two thirty. So he and Nadia Petrov have kindly agreed to switch time slots. Everything else stays the same."
+    ],
+    [
+     "W",
+     "Now, I know many of you signed up for the panel discussion at four. Fifty people, forty chairs."
+    ],
+    [
+     "W",
+     "Finally, please don't forget to fill out the feedback form in the conference app. Everyone who completes it will be entered in a drawing for a free pass to next year's event."
+    ]
+   ],
+   "zh": "大家午安，歡迎用完午餐回來。在場次開始前，先快速更新這間會議室的時程。很可惜，歐馬．哈達德的班機延誤，大約兩點半才會到，所以他和娜迪亞．佩特洛娃好心答應互換時段，其他都不變。另外，我知道很多人報名了四點的座談。50 個人，40 張椅子。最後，別忘了在大會 App 填寫回饋表，填完的人都可以參加抽獎，獎品是明年大會的免費入場證。"
   }
  },
  "diagnostic": {
@@ -4007,6 +4446,1059 @@
       "常搭長途飛機的人",
       "希望附收納盒的人",
       "在戶外運動的人"
+     ]
+    }
+   ]
+  },
+  "p34": {
+   "limit": 20,
+   "pass": 0.8,
+   "notes": [
+    {
+     "h": "Part 3/4 的作答節奏",
+     "p": [
+      "Part 3 共 39 題（13 段對話，每段 3 題），Part 4 共 30 題（10 段獨白）。你的 Santa 數據 Part 3 是 83、Part 4 是 84，整體不差；真正掉分的是「3 人對話」只有 47.3%（750 分平均 67.5%）。所以這一章的重點是：三人對話怎麼分辨誰是誰，再加上看圖作答和說話者意圖題。",
+      "每段的 3 題有固定的出題位置："
+     ],
+     "table": {
+      "head": [
+       "題目",
+       "常問什麼",
+       "答案大概在"
+      ],
+      "rows": [
+       [
+        "第 1 題",
+        "主旨、目的、地點、說話者的職業（What are the speakers discussing? / Where…? / Who most likely…?）",
+        "前兩三句"
+       ],
+       [
+        "第 2 題",
+        "問題、原因、細節、意圖題（What problem…? / Why…?）",
+        "中段"
+       ],
+       [
+        "第 3 題",
+        "下一步、建議、提議（What will…do next? / What does…suggest / offer?）",
+        "最後兩三句"
+       ]
+      ]
+     },
+     "p2": [
+      "每一段照這個節奏做："
+     ],
+     "steps": [
+      "音檔開始前，先預讀這一段的 3 個題幹（選項掃一眼就好），圈出 the man / the women / 人名、Look at the graphic、引號裡的句子。",
+      "邊聽邊作答：三題的答案大致照對話順序出現。",
+      "聽到答案就先選，不要等全部聽完再回想。",
+      "音檔一結束，馬上把剩下的題目選掉，接著預讀下一段的題目。能不能預讀，比作答速度更重要。"
+     ],
+     "tip": "這個 App 會把同一段的三個題幹列在上方，對話開始時請先把三題看完，養成預讀的習慣。"
+    },
+    {
+     "h": "三人對話：先搞清楚誰是誰",
+     "p": [
+      "三人對話的題目會出現 the men / the women（複數），或直接用人名（What does Raj suggest?）。難的通常不是聽不懂，而是聽懂了卻對錯人。",
+      "對話裡一定會留下分辨說話者的線索："
+     ],
+     "table": {
+      "head": [
+       "線索",
+       "例子",
+       "怎麼用"
+      ],
+      "rows": [
+       [
+        "開頭叫兩個名字",
+        "Kevin, Raj, do you have a minute?",
+        "說這句的人是第三個人，不是被叫的那兩位"
+       ],
+       [
+        "回話時叫名字",
+        "Priya, you're the one at the front desk.",
+        "下一個開口的就是被叫的人"
+       ],
+       [
+        "介紹別人",
+        "Sam from our supplier is here to explain.",
+        "下一個新聲音就是 Sam"
+       ],
+       [
+        "只有一位女性（或男性）",
+        "題目問 the woman",
+        "不用分辨，直接聽她說的話"
+       ],
+       [
+        "題目用複數",
+        "What do the men agree to do?",
+        "兩人一前一後接話、都同意的事"
+       ]
+      ]
+     },
+     "p2": [
+      "三人對話很常見的結構："
+     ],
+     "steps": [
+      "第一個人帶出問題或消息。",
+      "第二個人提出疑慮或補充，常用 But… / …though / That would mean…。",
+      "第三個人提出解決辦法，What if… / If we… 後面常是 suggest 題的答案。",
+      "最後誰說 I'll…，就是「誰會做什麼」題的答案，一定要對到人名。"
+     ],
+     "tip": "答完看逐字稿，確認每一句是誰說的。三人題答錯，多半是把 A 說的話當成 B 說的。"
+    },
+    {
+     "h": "接話信號與代名詞",
+     "p": [
+      "三人對話裡，一個人說完，另一個人馬上接話。代名詞 it / them / that 指的常是上一位說話者提到的東西，要往回對。"
+     ],
+     "table": {
+      "head": [
+       "接話信號",
+       "意思",
+       "對應題型"
+      ],
+      "rows": [
+       [
+        "That would mean… / The thing is… / …though",
+        "指出問題、反對",
+        "What concern / problem…?"
+       ],
+       [
+        "What if… / Why don't we… / How about…",
+        "提出建議",
+        "What does…suggest?"
+       ],
+       [
+        "I'll… / Let me… / I can…",
+        "自己要去做",
+        "What will…do? / offer"
+       ],
+       [
+        "Good point. / Fair enough.",
+        "接受對方的反對",
+        "決定改變了"
+       ],
+       [
+        "In that case… / Then…",
+        "根據新資訊改變決定",
+        "最後的決定"
+       ]
+      ]
+     },
+     "ex": [
+      [
+       "Raj, that would mean asking the trainers to stay for the whole day, though. — I'll call them this afternoon.",
+       "them 指上一句的 trainers；被叫名字的拉吉接話，所以是拉吉要聯絡講師。"
+      ],
+      [
+       "I'll need the cancellation data from the last two quarters. — I'll ask Hiro to send it to you today.",
+       "it 指 the cancellation data，男子要請廣志寄資料。"
+      ]
+     ],
+     "tip": "聽到 But、though、Actually，後面幾乎都是考點：原本的計畫被推翻，答案在後面。"
+    },
+    {
+     "h": "看圖作答（Look at the graphic）",
+     "p": [
+      "每份考卷約有 5 題（Part 3 約 3 題、Part 4 約 2 題）。圖表可能是時刻表、價目表、樓層指南、地圖、長條圖、天氣預報或優惠券。",
+      "最重要的規則：選項列的是圖表上的「某一欄」，對話講的卻是「另一欄」。例如選項是會議室名稱，對話只說「最大間」「有視訊的那間」。"
+     ],
+     "table": {
+      "head": [
+       "選項是",
+       "對話會講"
+      ],
+      "rows": [
+       [
+        "價錢",
+        "幾天完成、要更快的（faster option）"
+       ],
+       [
+        "會議室名稱",
+        "人數、設備、位置"
+       ],
+       [
+        "時段",
+        "誰遲到、和誰互換"
+       ],
+       [
+        "長條圖的項目",
+        "第幾大、比例、能不能改變"
+       ],
+       [
+        "樓層或店名",
+        "在什麼旁邊、要往哪走"
+       ]
+      ]
+     },
+     "p2": [
+      "預讀時照這個步驟："
+     ],
+     "steps": [
+      "看選項是圖表的哪一欄（名稱？價格？時間？）。",
+      "找圖表的其他欄位，那就是對話會講的線索。",
+      "聽到被否定的就劃掉：too late、that's out、doesn't have…。",
+      "遇到互換、延後、取消、第二名（next biggest），先在圖上自己調整再選。"
+     ],
+     "tip": "圖表題最常見的陷阱：最先被提到、後來被推翻的那一格。聽到 Hmm / Actually / that's too late，就要換答案了。"
+    },
+    {
+     "h": "說話者意圖題（Why does the man say \"…\"?）",
+     "p": [
+      "Part 3 約 2 題、Part 4 約 3 題。引號裡的句子單看字面常有兩三種解釋，答案取決於前一句在講什麼。"
+     ],
+     "table": {
+      "head": [
+       "句子",
+       "字面",
+       "常見的真正意思"
+      ],
+      "rows": [
+       [
+        "I've heard that before.",
+        "我聽過這句",
+        "懷疑對方的保證"
+       ],
+       [
+        "That's a first.",
+        "這是第一次",
+        "對不尋常的事感到意外"
+       ],
+       [
+        "Is that cutting it close?",
+        "會不會很勉強",
+        "擔心時間不夠"
+       ],
+       [
+        "Fifty people, forty chairs.",
+        "只講數字",
+        "暗示不夠，要早點來"
+       ],
+       [
+        "You're telling me.",
+        "你在告訴我",
+        "我完全同意，深有同感"
+       ],
+       [
+        "I wouldn't count on it.",
+        "我不會指望",
+        "那不太可能發生"
+       ],
+       [
+        "It's not my call.",
+        "不是我的決定",
+        "要問別人，我做不了主"
+       ],
+       [
+        "That's the least of our worries.",
+        "最不擔心的事",
+        "那不是重點，有更大的問題"
+       ]
+      ]
+     },
+     "p2": [
+      "作答步驟："
+     ],
+     "steps": [
+      "預讀時把引號裡的句子先讀一遍，想好兩種可能的意思。",
+      "聽到那句時，注意前一句對方說了什麼。",
+      "再聽後一句怎麼接，常是最好的證據。",
+      "照字面翻譯的選項通常是錯的（例如 He wants to be the first to deliver）。"
+     ],
+     "tip": "I've heard that before 之後對方說 Fair enough（可以理解），就證明那句是在質疑。"
+    },
+    {
+     "h": "Part 4 獨白的類型",
+     "p": [
+      "獨白只有一個人，不用分辨誰是誰，但資訊比較密。先從開頭認出類型："
+     ],
+     "table": {
+      "head": [
+       "類型",
+       "開頭",
+       "常考"
+      ],
+      "rows": [
+       [
+        "電話留言",
+        "Hi, this is … I'm calling about …",
+        "打來的目的、出了什麼問題、要聽者做什麼"
+       ],
+       [
+        "公告、廣播",
+        "Attention, passengers / shoppers",
+        "變更（延誤、換登機門）、聽者該怎麼做"
+       ],
+       [
+        "會議或活動開場",
+        "Welcome back… a quick update",
+        "議程變更、提醒事項、抽獎或優惠"
+       ],
+       [
+        "廣告",
+        "Are you looking for…?",
+        "賣什麼、優惠條件、怎麼取得"
+       ],
+       [
+        "導覽",
+        "Welcome to the … tour",
+        "地點、注意事項、下一站"
+       ],
+       [
+        "新聞、交通報導",
+        "In local news…",
+        "主題、原因、接下來會怎樣"
+       ]
+      ]
+     },
+     "p2": [
+      "第 3 題常問「聽眾被要求做什麼」，答案在 please / don't forget / be sure to 的後面。"
+     ],
+     "tip": "你的 Part 4 是 84 分，比 750 分平均（57）高很多，這部分以維持手感為主。"
+    },
+    {
+     "h": "換句話說：正確選項不會照抄",
+     "p": [
+      "跟 Part 7 一樣，正確選項幾乎都改寫過；照抄對話字詞的選項常是陷阱。這一章題目裡出現過的改寫："
+     ],
+     "table": {
+      "head": [
+       "聽到",
+       "選項寫"
+      ],
+      "rows": [
+       [
+        "double-booked",
+        "reserved for two groups at once"
+       ],
+       [
+        "exhibiting at an industry fair",
+        "display them at an industry event"
+       ],
+       [
+        "send you a proof",
+        "send a sample for approval"
+       ],
+       [
+        "we won't be charging you a delivery fee",
+        "waive a charge"
+       ],
+       [
+        "push the tasting back to next week",
+        "reschedule a tasting"
+       ],
+       [
+        "stopped producing / discontinued",
+        "no longer being made"
+       ],
+       [
+        "in stock",
+        "available right away"
+       ],
+       [
+        "ordered from us every month for two years",
+        "a long-standing customer"
+       ],
+       [
+        "the schedule",
+        "the timeline"
+       ]
+      ]
+     },
+     "tip": "聽到的字在選項裡原封不動出現時，先懷疑它是干擾，再確認意思對不對。"
+    },
+    {
+     "h": "練習方法（針對 3 人對話 47.3%）",
+     "p": [
+      "這一章每段對話只自動播一次，第一題念完才開始倒數，後兩題直接倒數（每題 20 秒）。答完可以按「重播音檔」再聽，打開「看逐字稿和中譯」核對每一句是誰說的。"
+     ],
+     "p2": [
+      "建議這樣練："
+     ],
+     "steps": [
+      "第一輪：正常作答，不看逐字稿。",
+      "答錯的那一段：打開逐字稿，在每一句前面標出說話者的名字，再重播一次。",
+      "第二輪：只聽不看題目，聽完說出「三個人各想要什麼、最後誰要做什麼」。",
+      "每天 1–2 段三人對話，連續兩週，再回 Santa 看 3 人對話的正確率有沒有上來。"
+     ],
+     "tip": "不同說話者會用不同聲音念：女聲、男聲；同性別的第二位會換口音或音高。如果裝置上的英文語音很少，聲音會比較像，這時更要靠叫名字的線索。"
+    }
+   ],
+   "cards": [
+    {
+     "title": "Part 3/4 作答節奏",
+     "points": [
+      "音檔開始前，先預讀三個題幹",
+      "答案照對話順序出現：第 1 題前段、第 3 題最後",
+      "聽到答案就先選，不要等聽完再回想",
+      "一段結束，馬上預讀下一段"
+     ],
+     "ex": [
+      "Q1 主旨・地點 → Q2 問題・細節 → Q3 下一步・建議",
+      "第 3 題的答案多在最後兩三句"
+     ]
+    },
+    {
+     "title": "三人對話：誰是誰",
+     "points": [
+      "開頭叫兩個名字的人，是第三個人",
+      "回話時叫名字，下一個開口的就是他",
+      "介紹別人之後，下一個新聲音就是被介紹的人",
+      "I'll… 是誰說的，一定要對到人名"
+     ],
+     "ex": [
+      "Kevin, Raj, do you have a minute?",
+      "說這句的是梅根；Kevin 和 Raj 是另外兩人"
+     ]
+    },
+    {
+     "title": "接話信號",
+     "points": [
+      "though / That would mean… → 反對、指出問題",
+      "What if… / Why don't we… → 建議",
+      "I'll… / Let me… → 這個人要去做",
+      "Good point / In that case → 決定改變了"
+     ],
+     "ex": [
+      "Raj, that would mean asking the trainers to stay all day, though.",
+      "though＝提出問題；被叫名字的拉吉才是提議的人"
+     ]
+    },
+    {
+     "title": "看圖作答",
+     "points": [
+      "選項是圖表的一欄，對話講的是另一欄",
+      "聽到被否定的（too late / that's out）就劃掉",
+      "互換、延後、第二名：先在圖上自己調整",
+      "陷阱＝先被提到、後來被推翻的那一格"
+     ],
+     "ex": [
+      "Let's just book the largest one.",
+      "對話沒說 Oak，要用「最大間」去圖上找"
+     ]
+    },
+    {
+     "title": "說話者意圖",
+     "points": [
+      "看引號句的前一句，對方剛說了什麼",
+      "再聽後一句怎麼接，最好的證據",
+      "照字面翻譯的選項通常是錯的",
+      "常考：I've heard that before / That's a first / It's not my call"
+     ],
+     "ex": [
+      "I've heard that before.",
+      "對方剛保證不會出錯 → 表示懷疑"
+     ]
+    },
+    {
+     "title": "換句話說",
+     "points": [
+      "discontinued → no longer being made",
+      "in stock → available right away",
+      "push back → reschedule / postpone",
+      "won't charge → waive a fee"
+     ],
+     "ex": [
+      "Option: \"A product is no longer being made.\"",
+      "原文是 the manufacturer has stopped producing the oak pattern"
+     ]
+    }
+   ],
+   "practice": [
+    {
+     "id": "l01",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t01",
+     "q": "What problem does the woman mention?",
+     "opts": [
+      "A room has been reserved for two groups at once.",
+      "A registration deadline has been missed.",
+      "The conference center will be closed for repairs.",
+      "The cost of a venue has increased."
+     ],
+     "a": 0,
+     "exp": "double-booked → reserved for two groups at once。三人對話的第一題通常在第一位說話者的前兩句就給答案，邊聽邊選。",
+     "zh": "題目：女子提到什麼問題？ ／ 答案：一間會議室同時訂給了兩組人。",
+     "optsZh": [
+      "一間會議室同時訂給了兩組人。",
+      "錯過了報名截止日。",
+      "會議中心要關閉整修。",
+      "場地費用漲價了。"
+     ]
+    },
+    {
+     "id": "l02",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t01",
+     "q": "What does Raj suggest?",
+     "opts": [
+      "Holding two smaller sessions",
+      "Postponing the workshop",
+      "Limiting the number of participants",
+      "Looking for a different venue"
+     ],
+     "a": 0,
+     "exp": "提議的人是誰？下一位男聲回應時叫了 Raj，所以提出拆場次的是拉吉。他說 split the workshop into a morning session and an afternoon session → two smaller sessions。注意凱文只是提出疑慮，不是建議。",
+     "zh": "題目：拉吉建議什麼？ ／ 答案：分成兩個人數較少的場次。",
+     "optsZh": [
+      "分成兩個人數較少的場次",
+      "把工作坊延期",
+      "限制參加人數",
+      "另找別的場地"
+     ]
+    },
+    {
+     "id": "l03",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t01",
+     "q": "What does Raj say he will do this afternoon?",
+     "opts": [
+      "Contact the trainers",
+      "E-mail the participants",
+      "Visit the Garden Hall",
+      "Revise the workshop materials"
+     ],
+     "a": 0,
+     "exp": "I'll call them this afternoon → them 指上一句的 trainers（凱文提到 asking the trainers）。代名詞要往回對到前一位說話者講的名詞，這是三人對話最常出錯的地方。打給會議中心的是梅根。",
+     "zh": "題目：拉吉說他今天下午會做什麼？ ／ 答案：聯絡講師。",
+     "optsZh": [
+      "聯絡講師",
+      "寄 email 給參加者",
+      "去看花園廳",
+      "修改工作坊教材"
+     ]
+    },
+    {
+     "id": "l04",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t02",
+     "q": "Why does the woman need the brochures?",
+     "opts": [
+      "She will display them at an industry event.",
+      "She will mail them to new clients.",
+      "She will hand them out at a training session.",
+      "She will include them in a product package."
+     ],
+     "a": 0,
+     "exp": "exhibiting at an industry fair → display them at an industry event。fair、exhibition、trade show、expo 都是同一類，選項常換成更抽象的 event。",
+     "zh": "題目：女子為什麼需要這些手冊？ ／ 答案：她要在一場產業活動上展示。",
+     "optsZh": [
+      "她要在一場產業活動上展示。",
+      "她要寄給新客戶。",
+      "她要在訓練課程上發放。",
+      "她要放進產品包裝裡。"
+     ]
+    },
+    {
+     "id": "l05",
+     "tag": "p34-graphic",
+     "part": "p34",
+     "passage": "t02",
+     "q": "Look at the graphic. How much will the woman most likely pay?",
+     "opts": [
+      "$260",
+      "$185",
+      "$140",
+      "$95"
+     ],
+     "a": 0,
+     "exp": "男子先提兩天的 Express（星期三下午六點），女子說 too late、go with the faster option → 比兩天更快的只有 Overnight，$260。圖表題的陷阱就是「先被提到、後來被否定」的那一格（$185）。",
+     "zh": "題目：看圖表。女子最可能付多少錢？ ／ 答案：260 美元。",
+     "optsZh": [
+      "260 美元（隔夜）",
+      "185 美元（兩天）",
+      "140 美元（四天）",
+      "95 美元（七天）"
+     ]
+    },
+    {
+     "id": "l06",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t02",
+     "q": "What does the man offer to do?",
+     "opts": [
+      "Send a sample for the woman to approve",
+      "Deliver the order to the airport",
+      "Give the woman a discount on a future order",
+      "Print some extra copies at no charge"
+     ],
+     "a": 0,
+     "exp": "send you a proof … so you can check the colors → a sample for the woman to approve。proof（樣張、校稿）是多益常考字。最後一題常問 offer / suggest / will do，答案在最後兩句。",
+     "zh": "題目：男子提議做什麼？ ／ 答案：寄樣張給女子確認。",
+     "optsZh": [
+      "寄樣張給女子確認",
+      "把訂單送到機場",
+      "下次訂購給女子折扣",
+      "免費多印幾份"
+     ]
+    },
+    {
+     "id": "l07",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t03",
+     "q": "Why is the speaker calling?",
+     "opts": [
+      "To explain a change to a delivery",
+      "To confirm a banquet reservation",
+      "To ask for a payment",
+      "To recommend a repair shop"
+     ],
+     "a": 0,
+     "exp": "I'm calling about tomorrow's delivery，接著說冷藏車壞了、改成分兩批送 → explain a change to a delivery。電話留言的第一題（目的）答案幾乎都在 I'm calling about / I'm calling to 這句之後。",
+     "zh": "題目：說話者為什麼打電話？ ／ 答案：說明送貨的變動。",
+     "optsZh": [
+      "說明送貨的變動",
+      "確認宴會訂位",
+      "要求付款",
+      "推薦修車廠"
+     ]
+    },
+    {
+     "id": "l08",
+     "tag": "p34-intent",
+     "part": "p34",
+     "passage": "t03",
+     "q": "Why does the speaker say, \"Is that cutting it close for your kitchen staff\"?",
+     "opts": [
+      "To check whether the staff would still have enough time to prepare",
+      "To suggest that the staff work later than usual",
+      "To complain that the staff arrived late",
+      "To recommend hiring additional cooks"
+     ],
+     "a": 0,
+     "exp": "前一句：剩下的食材下午四點才到，而宴會在晚上 → cutting it close（時間很趕）是在問這樣準備時間夠不夠。意圖題要看引號前後在講什麼，不要只翻字面。",
+     "zh": "題目：說話者為什麼說「這樣對您的廚房人員會不會太趕」？ ／ 答案：確認員工是否還有足夠時間準備。",
+     "optsZh": [
+      "確認員工是否還有足夠時間準備",
+      "建議員工比平常晚下班",
+      "抱怨員工遲到",
+      "建議多請幾位廚師"
+     ]
+    },
+    {
+     "id": "l09",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t03",
+     "q": "What does the speaker offer?",
+     "opts": [
+      "To waive a charge",
+      "To lend the listener a vehicle",
+      "To add extra items at no cost",
+      "To provide staff for the banquet"
+     ],
+     "a": 0,
+     "exp": "we won't be charging you a delivery fee this month → waive a charge。waive（免除）是同義改寫的常客：waive a fee = not charge = free of charge。借車是說話者向別人借，不是借給聽者。",
+     "zh": "題目：說話者提供什麼補償？ ／ 答案：免除一筆費用。",
+     "optsZh": [
+      "免除一筆費用",
+      "借聽者一台車",
+      "免費多送一些品項",
+      "派人手支援宴會"
+     ]
+    },
+    {
+     "id": "l10",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t04",
+     "q": "What is the purpose of Ana's visit?",
+     "opts": [
+      "To demonstrate a new system",
+      "To repair some computers",
+      "To schedule a checkup",
+      "To interview a job candidate"
+     ],
+     "a": 0,
+     "exp": "show you the new booking system before it goes live → demonstrate a new system。go live（正式上線）是常考片語。第一位說話者叫了兩個名字，代表她不是那兩人，聽到 Thanks…Dr. Brooks, Priya 就知道她是安娜。",
+     "zh": "題目：安娜來訪的目的是什麼？ ／ 答案：示範一套新系統。",
+     "optsZh": [
+      "示範一套新系統",
+      "修理電腦",
+      "安排健康檢查",
+      "面試應徵者"
+     ]
+    },
+    {
+     "id": "l11",
+     "tag": "p34-intent",
+     "part": "p34",
+     "passage": "t04",
+     "q": "Why does Dr. Brooks say, \"I've heard that before\"?",
+     "opts": [
+      "He doubts that a promise will be kept.",
+      "He wants Ana to repeat her explanation.",
+      "He has already used the new system.",
+      "He agrees that the system is easy to learn."
+     ],
+     "a": 0,
+     "exp": "安娜說 nothing will get lost this time，醫師回 I've heard that before → 以前也有人這樣保證，結果沒做到，表示懷疑。安娜接著 Fair enough（可以理解）也證明他是在質疑。",
+     "zh": "題目：布魯克斯醫師為什麼說「這句話我聽過了」？ ／ 答案：他懷疑這個承諾會兌現。",
+     "optsZh": [
+      "他懷疑這個承諾會兌現。",
+      "他想要安娜再說明一次。",
+      "他已經用過這套新系統。",
+      "他同意這套系統很好學。"
+     ]
+    },
+    {
+     "id": "l12",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t04",
+     "q": "What does Priya agree to do?",
+     "opts": [
+      "Practice using the system on Sunday",
+      "Work an extra shift on Saturday",
+      "Call patients to remind them of appointments",
+      "Set up an account for Dr. Brooks"
+     ],
+     "a": 0,
+     "exp": "I'm away on Saturday, but I could come in on Sunday → 星期天來試用。Saturday 是故意的干擾；開練習帳號的是安娜，不是普莉雅。",
+     "zh": "題目：普莉雅同意做什麼？ ／ 答案：星期天來練習使用系統。",
+     "optsZh": [
+      "星期天來練習使用系統",
+      "星期六多值一班",
+      "打電話提醒病人看診",
+      "幫布魯克斯醫師開帳號"
+     ]
+    }
+   ],
+   "test": [
+    {
+     "id": "m01",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t05",
+     "q": "Why does the woman object to a suggestion?",
+     "opts": [
+      "The room is located near a noisy area.",
+      "The room is too small for the group.",
+      "The room has already been reserved.",
+      "The room's equipment is outdated."
+     ],
+     "a": 0,
+     "exp": "Birch is right next to the break room, and it gets really noisy → located near a noisy area。湯姆提議樺木廳，蕾娜反對。",
+     "zh": "題目：女子為什麼反對一項提議？ ／ 答案：那間會議室在吵雜的區域旁邊。",
+     "optsZh": [
+      "那間會議室在吵雜的區域旁邊。",
+      "那間會議室對這群人來說太小。",
+      "那間會議室已經被訂走。",
+      "那間會議室的設備太舊。"
+     ]
+    },
+    {
+     "id": "m02",
+     "tag": "p34-graphic",
+     "part": "p34",
+     "passage": "t05",
+     "q": "Look at the graphic. Which room will the speakers most likely use?",
+     "opts": [
+      "Oak",
+      "Birch",
+      "Cedar",
+      "Maple"
+     ],
+     "a": 0,
+     "exp": "九人＋視訊：楓木太小、雪松沒視訊、樺木太吵 → book the largest one = 20 人的 Oak。答案在圖表上，但對話裡從沒說 Oak 這個字，要用「最大的」去對照。",
+     "zh": "題目：看圖表。說話者最可能用哪間會議室？ ／ 答案：橡木廳。",
+     "optsZh": [
+      "橡木廳（20 人、有視訊）",
+      "樺木廳（12 人、有視訊）",
+      "雪松廳（10 人、無視訊）",
+      "楓木廳（6 人、有視訊）"
+     ]
+    },
+    {
+     "id": "m03",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t05",
+     "q": "What does Tom say he will do this afternoon?",
+     "opts": [
+      "Send a link to colleagues overseas",
+      "Introduce the new analysts",
+      "Prepare the budget figures",
+      "Test the video equipment"
+     ],
+     "a": 0,
+     "exp": "湯姆是第二位男聲（丹尼爾開頭叫了 Lena, Tom）。I'll send the Seoul team the meeting link → colleagues overseas。",
+     "zh": "題目：湯姆說他今天下午會做什麼？ ／ 答案：把連結寄給海外的同事。",
+     "optsZh": [
+      "把連結寄給海外的同事",
+      "介紹新來的分析師",
+      "準備預算數字",
+      "測試視訊設備"
+     ]
+    },
+    {
+     "id": "m04",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t06",
+     "q": "Why does the woman want to accept the order?",
+     "opts": [
+      "The client is a long-standing customer.",
+      "The client has offered to pay in advance.",
+      "The bakery has had few orders recently.",
+      "The event will promote the bakery's products."
+     ],
+     "a": 0,
+     "exp": "they've ordered from us every month for two years → long-standing customer（老客戶）。regular / loyal / long-standing customer 都是同一個意思。",
+     "zh": "題目：女子為什麼想接這筆訂單？ ／ 答案：對方是長期往來的客戶。",
+     "optsZh": [
+      "對方是長期往來的客戶。",
+      "對方願意預先付款。",
+      "麵包店最近訂單很少。",
+      "這場活動會幫麵包店宣傳產品。"
+     ]
+    },
+    {
+     "id": "m05",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t06",
+     "q": "What does Julia suggest?",
+     "opts": [
+      "Rescheduling a tasting event",
+      "Hiring temporary workers",
+      "Reducing the size of the order",
+      "Asking the client for more time"
+     ],
+     "a": 0,
+     "exp": "push the seasonal menu tasting back to next week → rescheduling a tasting。push back = postpone = reschedule。茱莉亞是第二位女聲；提早來幫忙的是肯。",
+     "zh": "題目：茱莉亞建議什麼？ ／ 答案：把一場試吃活動改期。",
+     "optsZh": [
+      "把一場試吃活動改期",
+      "雇用臨時人員",
+      "減少訂單數量",
+      "請客戶多給一點時間"
+     ]
+    },
+    {
+     "id": "m06",
+     "tag": "p34-intent",
+     "part": "p34",
+     "passage": "t06",
+     "q": "Why does Ken say, \"That's a first\"?",
+     "opts": [
+      "He is surprised by an unusual request.",
+      "He is proud of a recent achievement.",
+      "He wants to be the first to make the delivery.",
+      "He is confirming that it is the first order of the month."
+     ],
+     "a": 0,
+     "exp": "前一句：他們以前都自己來拿，這次卻要求送貨 → That's a first（這還是第一次）表示這個要求不尋常。接著 though 帶出貨車沒空的問題。",
+     "zh": "題目：肯為什麼說「這倒是頭一遭」？ ／ 答案：他對一個不尋常的要求感到意外。",
+     "optsZh": [
+      "他對一個不尋常的要求感到意外。",
+      "他對最近的成就感到驕傲。",
+      "他想第一個去送貨。",
+      "他在確認這是本月第一筆訂單。"
+     ]
+    },
+    {
+     "id": "m07",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t07",
+     "q": "What are the speakers mainly discussing?",
+     "opts": [
+      "The results of a customer survey",
+      "Changes to a delivery schedule",
+      "A plan to expand a menu",
+      "The hiring of a data analyst"
+     ],
+     "a": 0,
+     "exp": "第一句就是主題：the results of the customer survey。delivery、menu、analytics 都在對話或圖表裡出現過，是故意的干擾。",
+     "zh": "題目：說話者主要在討論什麼？ ／ 答案：一份顧客問卷的結果。",
+     "optsZh": [
+      "一份顧客問卷的結果",
+      "送貨時程的變更",
+      "擴充菜單的計畫",
+      "雇用資料分析師"
+     ]
+    },
+    {
+     "id": "m08",
+     "tag": "p34-graphic",
+     "part": "p34",
+     "passage": "t07",
+     "q": "Look at the graphic. Which issue does the woman want to address?",
+     "opts": [
+      "Late deliveries",
+      "Price",
+      "Limited menu",
+      "Packaging waste"
+     ],
+     "a": 0,
+     "exp": "價格（41%）是總公司決定的，女子說 focus on the next biggest issue → 第二高的 Late deliveries（26%）。題目問「排第幾」時，圖表要看順序，不是看最大值。",
+     "zh": "題目：看圖表。女子想處理哪個問題？ ／ 答案：送貨延遲。",
+     "optsZh": [
+      "送貨延遲（26%）",
+      "價格（41%）",
+      "菜色選擇少（19%）",
+      "包裝浪費（14%）"
+     ]
+    },
+    {
+     "id": "m09",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t07",
+     "q": "What does the man say he will do?",
+     "opts": [
+      "Ask a colleague to provide some data",
+      "Contact head office about pricing",
+      "Conduct another survey",
+      "Reschedule a managers' meeting"
+     ],
+     "a": 0,
+     "exp": "I'll ask Hiro in analytics to send it to you → ask a colleague to provide data。it 指上一句的 cancellation data。",
+     "zh": "題目：男子說他會做什麼？ ／ 答案：請一位同事提供資料。",
+     "optsZh": [
+      "請一位同事提供資料",
+      "就價格問題聯絡總公司",
+      "再做一次問卷",
+      "把經理會議改期"
+     ]
+    },
+    {
+     "id": "m10",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t08",
+     "q": "What problem does Sam mention?",
+     "opts": [
+      "A product is no longer being made.",
+      "Some electrical work failed an inspection.",
+      "A shipment went to the wrong address.",
+      "The walls need to be repainted."
+     ],
+     "a": 0,
+     "exp": "the manufacturer has stopped producing the oak pattern → no longer being made（停產）。discontinued 也是同一個意思。電路工程是戴夫說的，而且已經完成。",
+     "zh": "題目：山姆提到什麼問題？ ／ 答案：某個產品已經停產。",
+     "optsZh": [
+      "某個產品已經停產。",
+      "部分電路工程沒通過檢查。",
+      "一批貨送錯地址。",
+      "牆壁需要重新上漆。"
+     ]
+    },
+    {
+     "id": "m11",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t08",
+     "q": "Why does Ms. Ortiz choose one of the samples?",
+     "opts": [
+      "It is available right away.",
+      "It is the least expensive.",
+      "It matches the original color.",
+      "It is more durable."
+     ],
+     "a": 0,
+     "exp": "This one's in stock → let's go with the one in stock，因為員工下個月初要搬回來 → available right away。她說兩款都比原本淺，所以 C 錯。",
+     "zh": "題目：歐提茲女士為什麼選其中一款樣品？ ／ 答案：可以馬上拿到。",
+     "optsZh": [
+      "可以馬上拿到。",
+      "價格最便宜。",
+      "跟原本的顏色一樣。",
+      "比較耐用。"
+     ]
+    },
+    {
+     "id": "m12",
+     "tag": "p34-3p",
+     "part": "p34",
+     "passage": "t08",
+     "q": "What does Dev say he will do tonight?",
+     "opts": [
+      "Send an updated timeline",
+      "Pick up some flooring samples",
+      "Visit the supplier's warehouse",
+      "Call the manufacturer"
+     ],
+     "a": 0,
+     "exp": "I'll update the schedule and e-mail it to you tonight → send an updated timeline。schedule ↔ timeline 是常見改寫。",
+     "zh": "題目：戴夫說他今晚會做什麼？ ／ 答案：寄出更新後的時程表。",
+     "optsZh": [
+      "寄出更新後的時程表",
+      "去拿地板樣品",
+      "去供應商的倉庫",
+      "打電話給製造商"
+     ]
+    },
+    {
+     "id": "m13",
+     "tag": "p34-graphic",
+     "part": "p34",
+     "passage": "t09",
+     "q": "Look at the graphic. Which session will now begin at two o'clock?",
+     "opts": [
+      "Data Privacy Basics",
+      "Building Customer Loyalty",
+      "Digital Marketing Trends",
+      "Panel Discussion"
+     ],
+     "a": 0,
+     "exp": "哈達德原本兩點，兩點半才到，所以和三點的佩特洛娃互換 → 兩點改成 Data Privacy Basics。圖表題遇到「互換、延後、取消」，要在圖上自己把格子對調。",
+     "zh": "題目：看圖表。現在哪一場會在兩點開始？ ／ 答案：資料隱私入門。",
+     "optsZh": [
+      "資料隱私入門",
+      "建立顧客忠誠度",
+      "數位行銷趨勢",
+      "座談會"
+     ]
+    },
+    {
+     "id": "m14",
+     "tag": "p34-intent",
+     "part": "p34",
+     "passage": "t09",
+     "q": "Why does the speaker say, \"Fifty people, forty chairs\"?",
+     "opts": [
+      "To suggest that listeners arrive early for a session",
+      "To ask for help setting up more chairs",
+      "To announce that registration has closed",
+      "To correct an error in the program"
+     ],
+     "a": 0,
+     "exp": "很多人報名四點的座談，人比椅子多 → 暗示想要座位就早點來。意圖題常是這種「只講事實、不講結論」的短句，要自己補出言外之意。",
+     "zh": "題目：說話者為什麼說「50 個人，40 張椅子」？ ／ 答案：暗示聽眾某個場次要早點到。",
+     "optsZh": [
+      "暗示聽眾某個場次要早點到",
+      "請人幫忙多擺椅子",
+      "宣布報名已經截止",
+      "更正議程上的錯誤"
+     ]
+    },
+    {
+     "id": "m15",
+     "tag": "p34-detail",
+     "part": "p34",
+     "passage": "t09",
+     "q": "According to the speaker, how can listeners win a prize?",
+     "opts": [
+      "By submitting feedback through an app",
+      "By attending every session",
+      "By registering for next year's event",
+      "By asking a question at the panel"
+     ],
+     "a": 0,
+     "exp": "fill out the feedback form in the conference app → entered in a drawing。next year's event 是獎品內容，不是參加方式。",
+     "zh": "題目：根據說話者，聽眾要怎麼得獎？ ／ 答案：透過 App 提交回饋。",
+     "optsZh": [
+      "透過 App 提交回饋",
+      "參加每一個場次",
+      "報名明年的大會",
+      "在座談會上提問"
      ]
     }
    ]
